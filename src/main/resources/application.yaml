@@ -1,0 +1,25 @@
+server:
+  port: ${COURSE_PORT:8080}
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: course
+  datasource:
+    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/course}
+    username: ${DB_POSTGRES_USERNAME:postgres}
+    password: ${DB_POSTGRES_PASSWORD:postgres123}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+jwt:
+  secret: ${JWT_SECRET:JWT_SECRET_KEY_MUST_BE_32_DIGITS}
+  expiration-minutes: 30
+  expiration-day: 90
+config:
+  admin:
+    name: ${ADMIN_NAME:adminadmin}
+    password: ${ADMIN_PASSWORD:adminadmin123}
+    email: ${ADMIN_EMAIL:adminadmin@blwsmartware.net}
+    username: ${ADMIN_USERNAME:adminadmin}
