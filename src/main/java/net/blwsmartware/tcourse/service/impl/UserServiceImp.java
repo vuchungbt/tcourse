@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import net.blwsmartware.tcourse.constant.PredefinedRole;
 import net.blwsmartware.tcourse.dto.request.account.*;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
+import net.blwsmartware.tcourse.dto.response.role.RoleResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
 import net.blwsmartware.tcourse.entity.Role;
 import net.blwsmartware.tcourse.entity.User;
@@ -23,7 +24,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,15 +39,15 @@ public class UserServiceImp implements UserService {
     UserRepository userRepository;
     RoleRepository roleRepository;
     UserMapper userMapper;
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public UserResponse createUser(UserRequest request) {
 
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepository.save(user);
-
 
         Role roleUserDefault = roleRepository.findByName(PredefinedRole.USER_ROLE)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.ROLE_NOT_EXISTED) );
@@ -60,8 +63,15 @@ public class UserServiceImp implements UserService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         Page<User> pageOfUsers = userRepository.findAll(pageable);
         List<User> userList = pageOfUsers.getContent();
-        List<UserResponse>  userResponses = userList.stream().map(userMapper::toUserResponse).toList();
+
+        List<UserResponse> userResponses = userList.stream().map(userMapper::toUserResponse).toList();
+
         return DataResponseUtils.convertPageInfo(pageOfUsers,userResponses);
+    }
+
+    @Override
+    public List<UserResponse> getAll() {
+        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 
     @Override
@@ -78,8 +88,16 @@ public class UserServiceImp implements UserService {
         );
     }
 
+    @Override
+    public UserResponse getUserByUsername(String username) {
+        return userMapper.toUserResponse(userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND))
+        );
+    }
+
 
     @Override
+    @Transactional
     public UserResponse updateUser(long id, UserUpdate request) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
@@ -90,6 +108,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse updateRoleOfUser(long id, RoleOfUpdate request) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
@@ -99,6 +118,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse updateEmail(long id, EmailUserUpdate request) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
@@ -108,6 +128,7 @@ public class UserServiceImp implements UserService {
 
 
     @Override
+    @Transactional
     public UserResponse updatePassword(long id, PasswordUserUpdate request) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));

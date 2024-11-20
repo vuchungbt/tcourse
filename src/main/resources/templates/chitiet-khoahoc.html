@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết khóa học</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customize.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #003553;
+            color: white;
+        }
+        
+        .breadcrumb-item a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: white;
+        }
+        
+        .rating {
+            color: #ffc107;
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .discount {
+            color: #28a745;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-list i {
+            color: #28a745;
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+        
+        .btn-primary {
+            background-color: #e67e22;
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-outline-primary {
+            border-color: #e67e22;
+            color: #e67e22;
+            padding: 0.8rem;
+            width: 100%;
+        }
+        
+        .course-info {
+            color: #666;
+            margin-top: 2rem;
+        }
+        
+        .course-info i {
+            margin-right: 0.5rem;
+        }
+        
+        .video-preview {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .video-preview img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .info-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+            color: #333;
+        }
+
+        .course-header {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .course-stats {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        .accordion-button {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #e7f1ff;
+            color: #0c63e4;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .lesson-icon {
+            color: #666;
+            margin-right: 15px;
+        }
+
+        .lesson-title {
+            flex-grow: 1;
+        }
+
+        .lesson-duration {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .section-info {
+            color: #666;
+            font-size: 0.9rem;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-color" aria-label="Eighth navbar example">
+    <div class="container py-1">
+        <a class="navbar-brand fw-bold" href="/">T-Course</a>
+
+        <div class="flex-shrink-0">
+            <a href="/" class="position-relative mx-2 h4 text-white">
+                <i class="bi bi-cart"></i>
+                <!-- Số đếm trong vòng tròn màu đỏ -->
+                <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
+                      style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span>
+            </a>
+            <a href="/notifications" class="position-relative mx-2 h4 text-white"><i class="bi bi-envelope"></i>
+                <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
+                      style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span></a>
+
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse fw-bold" id="navbarsExample07">
+            <ul class="navbar-nav me-auto mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap
+
+
+
+                " aria-current="page" href="/">Trang chủ</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Danh mục</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown07">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap
+
+
+                            active
+
+
+                " href="/trending">Xu hướng</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Dịch vụ
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Bảo hành</a></li>
+                        <li class="dropdown-submenu dropend">
+                            <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                Sửa chữa
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Điện thoại</a></li>
+                                <li><a class="dropdown-item" href="#">Máy tính</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap
+
+
+
+                " href="/ask">Câu hỏi</a>
+                </li>
+
+            </ul>
+
+
+
+
+
+
+
+
+
+            <a style="margin-right:15px;" id="login-link"
+               class="login-link btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#loginModal" href="?send-direction=trending">Đăng nhập</a>
+
+
+            <div class="search">
+                <form class="w-100 position-relative">
+                    <textarea data-autoresize="" class="form-control pe-5 bg-light" rows="1" placeholder="Search..."></textarea>
+                    <button class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+</nav>
+
+    <div class="container mt-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">F-Course</a></li>
+                <li class="breadcrumb-item"><a href="#">Kinh Doanh</a></li>
+                <li class="breadcrumb-item active">Kinh doanh Online</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                <h1 class="mb-4">Kinh doanh theo mạng từ A đến Z</h1>
+                <p class="lead">Trang bị đủ kỹ năng, phương pháp để bạn hiểu rõ về giá trị của ngành kinh doanh theo mạng hiện đại. Hiểu được bí mật công thức thành công trong kinh doanh theo mạng và ứng dụng nhanh chóng vào doanh nghiệp</p>
+                
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rating me-2">
+                        <span>4.7</span>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span>(20 đánh giá)</span>
+                    <span class="ms-3">239 Học viên</span>
+                </div>
+                
+                <p>Giảng viên: <a href="#" class="text-info">Nguyễn Minh Cường</a></p>
+
+                <!-- What you'll learn section -->
+                <div class="info-box">
+                    <h3 class="mb-4">Bạn sẽ học được</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="feature-list">
+                                <li>
+                                    <i class="bi bi-check-lg"></i>
+                                    <span>Có được kỹ năng phát triển hệ thống hiệu quả và kỹ năng bán hàng đỉnh cao trong MLM.</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-lg"></i>
+                                    <span>Có phương pháp để đánh giá và lựa chọn nhà lãnh đạo chủ chốt.</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-lg"></i>
+                                    <span>Hiểu được công thức thành công trong kinh doanh theo mạng.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="feature-list">
+                                <li>
+                                    <i class="bi bi-check-lg"></i>
+                                    <span>Xây dựng được văn hóa riêng cho đội ngũ kinh doanh của hệ thống.</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-lg"></i>
+                                    <span>Tránh được những sai lầm cơ bản trong việc vận hành hệ thống.</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-lg"></i>
+                                    <span>Học được công thức để thành công trong kinh doanh theo mạng cũng như 6 điều cấm kỵ trong kinh doanh MLM.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What you'll learn section -->
+                <div class="info-box">
+                    <h3 class="mb-4">Nội dung</h3>
+                    <div class="course-stats">4 phần - 53 bài giảng - 03 giờ 03 phút</div>
+
+                    <div class="accordion" id="courseContent">
+                        <!-- Phần 1 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                    Phần 1: Giới thiệu về Landing Page (trang đích/ web 1 trang)
+                                    <span class="section-info">4 bài giảng - 0 giờ 11 phút</span>
+                                </button>
+                            </h2>
+                            <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                                <div class="accordion-body p-0">
+                                    <a href="#" class="lesson-item">
+                                        <i class="fas fa-play-circle lesson-icon"></i>
+                                        <span class="lesson-title">Bài 1: Landing page (trang đích) là gì?</span>
+                                        <span class="lesson-duration">00:02:22</span>
+                                    </a>
+                                    <a href="#" class="lesson-item">
+                                        <i class="fas fa-play-circle lesson-icon"></i>
+                                        <span class="lesson-title">Bài 2: 2 loại Landing page phổ biến</span>
+                                        <span class="lesson-duration">00:02:41</span>
+                                    </a>
+                                    <a href="#" class="lesson-item">
+                                        <i class="fas fa-play-circle lesson-icon"></i>
+                                        <span class="lesson-title">Bài 3: Trang chủ và trang đích (landing page)</span>
+                                        <span class="lesson-duration">00:03:43</span>
+                                    </a>
+                                    <a href="#" class="lesson-item">
+                                        <i class="fas fa-play-circle lesson-icon"></i>
+                                        <span class="lesson-title">Bài 4: Tại sao cần trang đích trong quảng cáo bán hàng (Tiktok)</span>
+                                        <span class="lesson-duration">00:02:50</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần 2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                    Phần 2: 10 bước tạo trang đích tăng tỷ lệ mua hàng
+                                    <span class="section-info">10 bài giảng - 0 giờ 45 phút</span>
+                                </button>
+                            </h2>
+                            <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                <div class="accordion-body">
+                                    <!-- Thêm nội dung bài học phần 2 tương tự như phần 1 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần 3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                    Phần 3: Từng bước thực hành tạo trang đích từ con số 0
+                                    <span class="section-info">25 bài giảng - 1 giờ 37 phút</span>
+                                </button>
+                            </h2>
+                            <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                <div class="accordion-body">
+                                    <!-- Thêm nội dung bài học phần 3 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần 4 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                    Phần 4: Tặng thêm - 12 tư duy marketing quan trọng cần biết khi học bán hàng online
+                                    <span class="section-info">14 bài giảng - 0 giờ 28 phút</span>
+                                </button>
+                            </h2>
+                            <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                <div class="accordion-body">
+                                    <!-- Thêm nội dung bài học phần 4 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What you'll learn section -->
+                <div class="info-box">
+                    <h3 class="mb-4">Các khóa học khác</h3>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <!-- Product Item 1 -->
+                        <div class="col">
+                            <div class="card h-100 text-center position-relative">
+                                <div class="badge bg-danger position-absolute top-0 start-0">-20%</div>
+                                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2" style="padding: 0.375rem 0.75rem;width: 47px;">
+                                    <i class="bi bi-cart"></i>
+                                </button>
+                                <img src="https://via.placeholder.com/150" class="card-img-top" height="200px" alt="Product 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sản phẩm 1</h5>
+                                    <p class="card-text">Mô tả ngắn gọn về sản phẩm 1.</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">$150</span>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Repeat Product Items -->
+                        <div class="col">
+                            <div class="card h-100 text-center position-relative">
+                                <div class="badge bg-danger position-absolute top-0 start-0">-30%</div>
+                                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2"  style="padding: 0.375rem 0.75rem;width: 47px;">
+                                    <i class="bi bi-cart"></i>
+                                </button>
+                                <img src="https://via.placeholder.com/150" class="card-img-top" height="200px" alt="Product 2">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sản phẩm 2</h5>
+                                    <p class="card-text">Mô tả ngắn gọn về sản phẩm 2.</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">$150</span>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100 text-center position-relative">
+                                <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+                                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2"  style="padding: 0.375rem 0.75rem;width: 47px;">
+                                    <i class="bi bi-cart"></i>
+                                </button>
+                                <img src="https://via.placeholder.com/150" class="card-img-top" height="200px" alt="Product 3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sản phẩm 3</h5>
+                                    <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">$150</span>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100 text-center position-relative">
+                                <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+                                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2"  style="padding: 0.375rem 0.75rem;width: 47px;">
+                                    <i class="bi bi-cart"></i>
+                                </button>
+                                <img src="https://via.placeholder.com/150" class="card-img-top"  height="200px" alt="Product 3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sản phẩm 3</h5>
+                                    <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">$150</span>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100 text-center position-relative">
+                                <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+                                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2"  style="padding: 0.375rem 0.75rem;width: 47px;">
+                                    <i class="bi bi-cart"></i>
+                                </button>
+                                <img src="https://via.placeholder.com/150" class="card-img-top" height="200px" alt="Product 3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sản phẩm 3</h5>
+                                    <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">$150</span>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100 text-center position-relative">
+                                <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+                                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2"  style="padding: 0.375rem 0.75rem;width: 47px;">
+                                    <i class="bi bi-cart"></i>
+                                </button>
+                                <img src="https://via.placeholder.com/150" class="card-img-top" height="200px" alt="Product 3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sản phẩm 3</h5>
+                                    <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">$150</span>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Repeat additional items if needed -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <div class="card  position-relative">
+                    <img src="https://via.placeholder.com/150" class="" height="200px" alt="Product 1">
+
+                    <div class="price-box bg-white p-4 rounded">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="price text-dark">199.000đ</span>
+                            <div>
+                                <span class="original-price">950.000đ</span>
+                                <span class="badge bg-danger discount ms-2 p-2 text-white">Giảm 30%</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary mb-2">THÊM VÀO GIỎ HÀNG</button>
+                        <button class="btn btn-outline-primary">MUA NGAY</button>
+
+                        <div class="course-info mt-4">
+                            <p><i class="bi bi-alarm"></i> Thời lượng: 04 giờ 27 phút</p>
+                            <p><i class="bi bi-play-circle"></i> Giáo trình: 37 Bài giảng</p>
+                            <p><i class="bi bi-archive"></i></i> Sở hữu khóa học trọn đời</p>
+                            <p><i class="bi bi-patch-check"></i></i> Cấp chứng nhận hoàn thành</p>
+                        </div>
+
+                        <div class="coupon mt-4">
+                            <input type="text" class="form-control" placeholder="Nhập mã giảm giá">
+                            <button class="btn btn-outline-primary mt-2">Áp dụng</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<!-- Icon library for stars -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        document.querySelectorAll('.dropdown-submenu > a').forEach(function(element) {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var submenu = this.nextElementSibling;
+
+                var allSubmenus = document.querySelectorAll('.dropdown-submenu .dropdown-menu');
+                allSubmenus.forEach(function(menu) {
+                    if (menu !== submenu) {
+                        menu.style.display = 'none';
+                    }
+                });
+
+                if (submenu.style.display === 'block') {
+                    submenu.style.display = 'none';
+                } else {
+                    submenu.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <title>Product Grid</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customize.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body class="background-radial-gradient overflow-hidden">
+<div class="login-container">
+    <div class="login-header">
+        <h3>Đăng ký</h3>
+        <div th:if="${message}" class="alert alert-danger">
+            <span th:text="${message}"></span>
+        </div>
+    </div>
+
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <div class="form-floating">
+            <input type="name" class="form-control" id="name"  name="name" placeholder="Tên">
+            <label for="name">Tên</label>
+        </div>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            <label for="email">Email</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+            <label for="username">Username</label>
+        </div>
+
+        <div class="form-floating password-container">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
+            <label for="password">Mật khẩu</label>
+            <span class="position-absolute top-50 end-0 translate-middle-y pe-3" style="cursor: pointer;">
+                    <i class="fas fa-eye-slash toggle-password"></i>
+                </span>
+        </div>
+        <div class="form-floating">
+            <input type="tel" class="form-control" id="tel" name="tel"  placeholder="Số điện thoại">
+            <label for="tel">Số điện thoại</label>
+        </div>
+
+        <button type="submit" class="btn btn-login">
+            Đăng ký
+        </button>
+
+
+        <div class="forgot-password">
+            <a href="/dang-nhap">Đăng nhập</a>
+        </div>
+    </form>
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
+<!-- Icon library for stars -->
+<link href="css/font/bootstrap-icons.css" rel="stylesheet">
+<script>
+    // Toggle password visibility
+    document.querySelector('.toggle-password').addEventListener('click', function() {
+        const passwordInput = document.querySelector('#password');
+        const icon = this;
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        }
+    });
+</script>
+</body>
+</html>

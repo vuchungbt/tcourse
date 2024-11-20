@@ -21,6 +21,9 @@ public class UserRequest {
     @NotNull(message = "NAME_NOT_NULL")
     String name;
 
+    @NotNull(message = "USERNAME_NOT_NULL")
+    String username;
+
     @Email(message = "EMAIL_INVALID")
     String email;
 

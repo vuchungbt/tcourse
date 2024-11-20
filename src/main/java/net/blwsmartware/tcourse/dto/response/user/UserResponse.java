@@ -25,6 +25,5 @@ public class UserResponse {
     String avatar, title, description;
     String tel;
     LocalDate dob;
-
     Set<Role> roles;
 }

@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
@@ -37,6 +36,12 @@ public class InitialApplicationConfig {
     @NonFinal
     String adminEmail;
 
+    @Value("${config.admin.username}")
+    @NonFinal
+    String username;
+
+    PasswordEncoder passwordEncoder  ;
+
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository , RoleRepository roleRepository){
         log.info("********** Initializing application...");
@@ -45,7 +50,7 @@ public class InitialApplicationConfig {
             log.info("********** adminEmail ... {}", adminEmail);
             log.info("********** adminPassword ... {}", adminPassword);
             log.info("********** adminName ... {}", adminName);
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
             if (userRepository.findByEmail(adminEmail).isEmpty()) {
                 Role admin = roleRepository.save(Role.builder()
                                 .name(PredefinedRole.ADMIN_ROLE)
@@ -55,15 +60,19 @@ public class InitialApplicationConfig {
                         .name(PredefinedRole.USER_ROLE)
                         .description("User default")
                         .build());
+
                 Set<Role> roles = new HashSet<>();
                 roles.add(admin);
                 roles.add(user);
+
                 User userAdmin = User.builder()
                         .email(adminEmail)
                         .name(adminName)
+                        .username(username)
                         .password(passwordEncoder.encode(adminPassword))
                         .roles(roles)
                         .build();
+
                 userRepository.save(userAdmin);
                 log.info("********** Application init successfully for admin...");
             }

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang chủ</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/customize.css" rel="stylesheet">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-color fixed-top shadow-minor" aria-label="Eighth navbar example">
+  <div class="container py-1">
+    <a class="navbar-brand fw-bold" href="/">T-Course</a>
+
+    <div class="flex-shrink-0">
+      <a href="/" class="position-relative mx-2 h4 text-white">
+        <i class="bi bi-cart"></i>
+        <!-- Số đếm trong vòng tròn màu đỏ -->
+        <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
+              style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span>
+      </a>
+      <a href="/notifications" class="position-relative mx-2 h4 text-white"><i class="bi bi-envelope"></i>
+        <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
+              style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span></a>
+
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse fw-bold" id="navbarsExample07">
+      <ul class="navbar-nav me-auto mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-nowrap
+
+
+
+                " aria-current="page" href="/">Trang chủ</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Danh mục</a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown07">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-nowrap  active " href="/trending">Xu hướng</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            Dịch vụ
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Bảo hành</a></li>
+            <li class="dropdown-submenu dropend">
+              <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                Sửa chữa
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Điện thoại</a></li>
+                <li><a class="dropdown-item" href="#">Máy tính</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-nowrap " href="/ask">Câu hỏi</a>
+        </li>
+
+      </ul>
+      <div class="flex-shrink-0">
+        <a style="margin-right:15px;" id="login-link" class="login-link btn btn-primary" href="/dang-nhap">Đăng nhập</a>
+      </div>
+      <div class="search">
+        <form class="w-100 position-relative">
+          <textarea data-autoresize="" class="form-control pe-5 bg-light" rows="1" placeholder="Search..."></textarea>
+          <button class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</nav>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Expand at sm</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample03">
+      <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown03">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form>
+        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container" >
+
+  <!-- Carousel -->
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+
+    <!-- Carousel Items -->
+    <div class="carousel-inner">
+      <!-- Slide 1 -->
+      <div class="carousel-item active">
+        <img src="img/template1.jpg" class="d-block w-100" alt="Image 1">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Tiêu đề 1</h5>
+          <p>Đây là mô tả cho ảnh 1.</p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-item">
+        <img src="img/template2.jpg" class="d-block w-100" alt="Image 2">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Tiêu đề 2</h5>
+          <p>Đây là mô tả cho ảnh 2.</p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-item">
+        <img src="img/template3.jpg" class="d-block w-100" alt="Image 3">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Tiêu đề 3</h5>
+          <p>Đây là mô tả cho ảnh 3.</p>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="carousel-item">
+        <img src="img/template4.jpg" class="d-block w-100" alt="Image 4">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Tiêu đề 4</h5>
+          <p>Đây là mô tả cho ảnh 4.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="pt-4">
+    <button type="button" class="btn btn-primary">Primary</button>
+    <button type="button" class="btn btn-secondary">Secondary</button>
+    <button type="button" class="btn btn-success">Success</button>
+    <button type="button" class="btn btn-danger">Danger</button>
+    <button type="button" class="btn btn-warning">Warning</button>
+    <button type="button" class="btn btn-info">Info</button>
+    <button type="button" class="btn btn-outline-primary">Primary</button>
+    <button type="button" class="btn btn-outline-secondary">Secondary</button>
+    <button type="button" class="btn btn-outline-success">Success</button>
+    <button type="button" class="btn btn-outline-danger">Danger</button>
+    <button type="button" class="btn btn-outline-warning">Warning</button>
+    <button type="button" class="btn btn-outline-info">Info</button>
+  </div>
+
+
+  <h4 class="mt-4">Phổ biến</h4>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Product Item 1 -->
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-20%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/1.webp" class="card-img-top" height="200px" alt="Product 1">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 1</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 1.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Repeat Product Items -->
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-30%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/2.webp" class="card-img-top" height="200px" alt="Product 2">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 2</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 2.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/3.webp" class="card-img-top" height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/1.webp" class="card-img-top"  height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/2.webp" class="card-img-top" height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/3.webp" class="card-img-top" height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repeat additional items if needed -->
+  </div>
+
+  <h4 class="mt-4">Bán chạy</h4>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Product Item 1 -->
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-20%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/1.webp" class="card-img-top" height="200px" alt="Product 1">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 1</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 1.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Repeat Product Items -->
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-30%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/2.webp" class="card-img-top" height="200px" alt="Product 2">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 2</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 2.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/3.webp" class="card-img-top" height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/1.webp" class="card-img-top"  height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/2.webp" class="card-img-top" height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative">
+        <div class="badge bg-danger position-absolute top-0 start-0">-10%</div>
+        <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+          <i class="bi bi-cart"></i>
+        </button>
+        <img src="img/3.webp" class="card-img-top" height="200px" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="fw-bold text-primary">$150</span>
+          <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repeat additional items if needed -->
+  </div>
+
+
+  <h4 class="mt-4">Top giảng viên</h4>
+  <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+    <!-- Product Item -->
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="img/a2.jpg"  class="container-fluid card-img-top  rounded-circle w-75" alt="Product 1">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 1</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 1.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Repeat Product Items -->
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="img/a1.jpg"  class="container-fluid card-img-top  rounded-circle w-75" alt="Product 2">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 2</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 2.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="img/a2.jpg"   class="container-fluid card-img-top   rounded-circle w-75" alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="img/a2.jpg"    class="container-fluid card-img-top  rounded-circle w-75 " alt="Product 4">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 4</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 4.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="img/a1.jpg"   class="container-fluid card-img-top  rounded-circle w-75" alt="Product 1">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 1</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 1.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Repeat Product Items -->
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="img/a2.jpg" class="container-fluid card-img-top  rounded-circle w-75"    alt="Product 2">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 2</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 2.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="https://via.placeholder.com/150" class="container-fluid card-img-top   rounded-circle w-75"  alt="Product 3">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 3</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 3.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 text-center position-relative pt-1">
+        <img src="https://via.placeholder.com/150" class="container-fluid card-img-top   rounded-circle w-75 "  alt="Product 4">
+        <div class="card-body">
+          <h5 class="card-title">Sản phẩm 4</h5>
+          <p class="card-text">Mô tả ngắn gọn về sản phẩm 4.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer class="bg-dark text-white text-center pt-4 mt-auto">
+  <div class="container">
+    <div class="row">
+      <!-- Hàng 1 -->
+      <div class="col-md-4">
+        <h5>Thông tin</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Về chúng tôi</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Liên hệ</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Chính sách bảo mật</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Dịch vụ</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Hỗ trợ khách hàng</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Giao hàng</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Hoàn trả</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Kết nối</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Facebook</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Instagram</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="bg-light">
+    <div class="row">
+      <!-- Hàng 2 -->
+      <div class="col-md-4">
+        <p class="mb-0">© 2024 Your Website</p>
+      </div>
+      <div class="col-md-4">
+        <p class="mb-0">Điều khoản sử dụng</p>
+      </div>
+      <div class="col-md-4">
+        <p class="mb-0">Hỗ trợ 24/7</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="js/bootstrap.bundle.min.js"></script>
+<link href="css/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+      document.querySelectorAll('.dropdown-submenu > a').forEach(function(element) {
+          element.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              var submenu = this.nextElementSibling;
+
+              var allSubmenus = document.querySelectorAll('.dropdown-submenu .dropdown-menu');
+              allSubmenus.forEach(function(menu) {
+                  if (menu !== submenu) {
+                      menu.style.display = 'none';
+                  }
+              });
+
+              if (submenu.style.display === 'block') {
+                  submenu.style.display = 'none';
+              } else {
+                  submenu.style.display = 'block';
+              }
+          });
+      });
+  });
+</script>
+
+</body>
+</html>

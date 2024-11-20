@@ -45,13 +45,13 @@ public class Post {
     @ManyToOne
     User created;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     Set<Tag> tag ;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     Set<Category> categories ;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     List<Comment> comments ;
 
     @OneToMany
