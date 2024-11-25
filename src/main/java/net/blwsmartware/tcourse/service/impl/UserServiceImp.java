@@ -7,8 +7,11 @@ import net.blwsmartware.tcourse.constant.PagePrepare;
 import net.blwsmartware.tcourse.constant.PredefinedRole;
 import net.blwsmartware.tcourse.dto.request.account.*;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
+import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.dto.response.role.RoleResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
+import net.blwsmartware.tcourse.entity.Category;
+import net.blwsmartware.tcourse.entity.Post;
 import net.blwsmartware.tcourse.entity.Role;
 import net.blwsmartware.tcourse.entity.User;
 import net.blwsmartware.tcourse.enums.ErrorResponse;
@@ -80,6 +83,15 @@ public class UserServiceImp implements UserService {
             return userRepository.findByRoles_NameIn(category).stream().map(userMapper::toUserResponse).toList();
         }
         return null;
+    }
+
+    @Override
+    public DataResponse<UserResponse> getAllPageByRoleName(Integer pageNumber, Integer pageSize, String sortBy, List<String> category) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        Page<User> pageOfPost = userRepository.findByRoles_NameIn(category,pageable);
+        List<User> userList = pageOfPost.getContent();
+        List<UserResponse> userResponses = userList.stream().map(userMapper::toUserResponse).toList();
+        return DataResponseUtils.convertPageInfo(pageOfPost,userResponses);
     }
 
     @Override

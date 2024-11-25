@@ -99,7 +99,7 @@
   <div th:replace="~{fragments/post :: list_post_all}"></div>
 
   <!--Phổ biến-->
-  <div class="row">
+  <div class="row pb-3">
     <a type="button"
        class="btn btn-primary btn-lg btn-block mt-3"
        th:if="${list_post_all.pageNumber + 1 < list_post_all.totalPages}"

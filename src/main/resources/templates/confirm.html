@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập</title>
+    <title>Xác nhận email</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/customize.css" rel="stylesheet">
     <style>
@@ -21,11 +19,11 @@
 </head>
 <body class="background-radial-gradient overflow-hidden">
 
-<div th:replace="~{fragments/login :: login}"></div>
+<div th:replace="~{fragments/login :: code}"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 <!-- Icon library for stars -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="css/font/bootstrap-icons.css" rel="stylesheet">
 <script>
     // Toggle password visibility
     document.querySelector('.toggle-password').addEventListener('click', function() {

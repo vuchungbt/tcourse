@@ -66,10 +66,15 @@ public class InitialApplicationConfig {
                         .name(PredefinedRole.USER_ROLE)
                         .description("User default")
                         .build());
+                Role teacher = roleRepository.save(Role.builder()
+                        .name(PredefinedRole.TEACHER_ROLE)
+                        .description("Techer default")
+                        .build());
 
                 Set<Role> roles = new HashSet<>();
                 roles.add(admin);
                 roles.add(user);
+                roles.add(teacher);
 
                 User userAdmin = User.builder()
                         .email(adminEmail)

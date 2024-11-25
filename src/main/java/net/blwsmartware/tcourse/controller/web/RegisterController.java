@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 public class RegisterController {
 
     UserService userService;
-    StorageService storageService;
 
     @GetMapping({"/dang-ky" , "/register"})
     public String register(){
@@ -51,5 +50,10 @@ public class RegisterController {
         }
 
         return "login";
+    }
+
+    @GetMapping("/confirm")
+    public String confirm(){
+        return "confirm";
     }
 }

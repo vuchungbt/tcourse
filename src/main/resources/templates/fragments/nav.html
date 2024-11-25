@@ -86,9 +86,9 @@
 
                     </a>
                     <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="/profile" th:text="${username}">Username</a></li>
-                        <li><a class="dropdown-item" href="/create-post"> Đăng ký bán</a></li>
-                        <li><a class="dropdown-item" href="/settings">Cài đặt</a></li>
+                        <li><a class="dropdown-item" th:href="@{/profile}">Trang cá nhân</a></li>
+                        <li><a class="dropdown-item" th:href="@{/profile/post}"> Đăng ký bán</a></li>
+                        <li><a class="dropdown-item" th:href="@{/profile/setting}">Cài đặt</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

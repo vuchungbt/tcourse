@@ -27,7 +27,7 @@ public class SecurityConfig  {
 
             "css/**", "js/**", "admin/css/**", "admin/js/**", "img/**","image/**",
             // "/login","admin/login",
-            "trang-chu","register","dang-ky","home/all/**","/",
+            "trang-chu","register","dang-ky","home/**","/",
             "categories/**","api/course/upload-videos"
     };
 

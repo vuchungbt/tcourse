@@ -52,10 +52,24 @@
         </div>
         <div class="col-lg-4 order-last">
           <ul class="list-unstyled d-flex align-items-center justify-content-center justify-content-lg-start my-3 gap-3">
-
-            <li><button class="btn btn-primary">Đổi ảnh đại diện</button></li>
-            <li><button class="btn btn-primary">Đổi ảnh nền</button></li>
+            <li>
+              <!-- Đổi ảnh đại diện -->
+              <label for="upload-avatar" class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="bi bi-person-circle"></i>
+                Đổi ảnh đại diện
+              </label>
+              <input type="file" id="upload-avatar" class="d-none" accept="image/*">
+            </li>
+            <li>
+              <!-- Đổi ảnh nền -->
+              <label for="upload-background" class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="bi bi-image"></i>
+                Đổi ảnh nền
+              </label>
+              <input type="file" id="upload-background" class="d-none" accept="image/*">
+            </li>
           </ul>
+
         </div>
       </div>
     </div>

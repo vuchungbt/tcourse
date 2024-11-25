@@ -57,4 +57,14 @@ public class ProfileController {
         }
         return "create-step1-post";
     }
+    @GetMapping("/setting")
+    public String setting(Authentication authentication, Model model){
+        if(authentication!=null) {
+
+            String username = authentication.getName();
+            model.addAttribute("username", username);
+            model.addAttribute("user", userService.getUserByUsername(username));
+        }
+        return "setting-profile";
+    }
 }

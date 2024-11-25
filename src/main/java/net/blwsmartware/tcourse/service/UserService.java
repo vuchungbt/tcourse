@@ -10,6 +10,7 @@ public interface UserService {
     UserResponse createUser(UserRequest request);
     DataResponse<UserResponse> getAll(Integer pageNumber, Integer pageSize, String sortBy);
     List<UserResponse> getAllByRoleName(Integer pageNumber, Integer pageSize, String sortBy,List<String> category);
+    DataResponse<UserResponse> getAllPageByRoleName(Integer pageNumber, Integer pageSize, String sortBy,List<String> category);
     List<UserResponse> getAll();
     UserResponse getUserByID(long id);
     UserResponse getUserByEmail(String email);
