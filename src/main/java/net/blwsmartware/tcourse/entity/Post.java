@@ -31,6 +31,8 @@ public class Post {
     @Column(name = "update_at")
     Instant updateAt;
 
+    double price, discount;
+
     Instant publishedAt;
 
     @Column(name = "cover_photo")
@@ -56,4 +58,7 @@ public class Post {
 
     @OneToMany
     Set<Section> sections ;
+
+    @OneToMany
+    Set<Skill> skills ;
 }

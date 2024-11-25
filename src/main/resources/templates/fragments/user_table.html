@@ -1,0 +1,366 @@
+<div th:fragment="users" class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-table me-1"></i>
+            Tài khoản
+        </div>
+        <div class="d-flex justify-content-between align-items-center ">
+            <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                <i class="fa-solid fa-plus"></i> Thêm
+            </a>
+
+            <!--            <select class="form-select w-auto" name="filter" id="filter">-->
+<!--                <option value="all">All</option>-->
+<!--                <option value="active">Active</option>-->
+<!--                <option value="inactive">Inactive</option>-->
+<!--                <option value="banned">Banned</option>-->
+<!--                <option value="verified">Email verified</option>-->
+<!--                <option value="no_verified">Email not verified</option>-->
+<!--            </select>-->
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Xác minh email</th>
+                <th>Kích hoạt</th>
+                <th>Ngày tạo</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${users}">
+
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.emailVerified ? 'Yes' : 'No'}"></td>
+                <td>
+                    <button class="btn btn-sm btn-success" th:if="${user.isActive}">
+                        <i class="fa-solid fa-check"></i></button>
+                    <button class="btn btn-sm btn-danger" th:unless="${user.isActive}">
+                        <i class="fa-solid fa-check"></i> </button>
+
+                    <i class="fa-solid fa-ban" th:unless="${user.isActive}"></i>
+                </td>
+                <td th:text="${user.createAt}"></td>
+                <td >
+                        <a href="#" class="mx-2 text-primary text-decoration-none"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editUserModal"
+                            th:data-user-id="${user.id}">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+
+                        <a href="#" class="mx-2 text-danger text-decoration-none"
+                           data-bs-toggle="modal"
+                           data-bs-target="#deleteUserModal"
+                           th:data-user-id="${user.id}"
+                           th:data-user-name="${user.username}">
+                            <i class="fa-solid fa-xmark"></i> </a>
+                        <a href="#" class="mx-2 text-secondary text-decoration-none"><i class="fa-solid fa-ellipsis"></i> </a>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal Thêm Người Dùng -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">Thêm người dùng mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/register}" th:method="post">
+                    <div class="modal-body">
+                        <!-- Tên người dùng -->
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Tên người dùng</label>
+                            <input type="text" class="form-control" id="fullName" name="name" placeholder="Nhập tên người dùng" required>
+                        </div>
+                        <!-- Số điện thoại và Email (trong cùng một hàng ngang) -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Số điện thoại</label>
+                                <input type="text" class="form-control" id="phone" name="tel" placeholder="Nhập số điện thoại" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+                            </div>
+                        </div>
+                        <!-- Tên đăng nhập -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Tên đăng nhập</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
+                        </div>
+                        <!-- Mật khẩu -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Xóa Người Dùng -->
+    <div class="modal fade" id="deleteUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deleteUserForm" th:action="@{/admin/account/delete}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <input type="hidden" id="userId" name="userId" />
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Delete User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete user ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm" th:action="@{/api/users/update}" method="post">
+                    <input type="hidden" id="editUserId" name="id" />
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit User Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- Loading spinner -->
+                        <div id="loadingSpinner" class="text-center d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="editForm">
+                            <div class="row align-items-center">
+                                <!-- Cột chứa avatar -->
+                                <div id="avatarPreview" class="col-md-3 text-center">
+                                    <input type="hidden" class="form-control" id="editAvatar"
+                                           name="avatar">
+                                    <img src="" alt="Avatar" class="img-fluid rounded" style="width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+
+                                <!-- Cột chứa form -->
+                                <div class="col-md-9">
+                                    <div class="mb-3">
+                                        <label for="editName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="editName" name="name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editTel" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="editTel"
+                                               name="tel">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label for="editTitle" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="editTitle" name="title">
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-md-9">
+                                        <label for="editEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="editEmail"
+                                               name="email" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="emailVerified" class="form-label">Email</label>
+                                        <select class="form-control" id="emailVerified"
+                                                name="emailVerified">
+                                            <option value="false">Verified</option>
+                                            <option value="true">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editDob" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="editDob"
+                                       name="dob">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="editDescription"
+                                          name="description" rows="3"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script >
+        document.getElementById('deleteUserModal').addEventListener('show.bs.modal', function (event) {
+
+            const button = event.relatedTarget;
+
+            const userId = button.getAttribute('data-user-id');
+
+            document.getElementById('userId').value = userId;
+        });
+    </script>
+
+    <!-- JavaScript for handling the edit modal -->
+    <script th:inline="javascript">
+        document.getElementById('editUserModal').addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const userId = button.getAttribute('data-user-id');
+            document.getElementById('editUserId').value = userId;
+
+            // Show loading spinner and hide form
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const editForm = document.getElementById('editForm');
+            loadingSpinner.classList.remove('d-none');
+            editForm.classList.add('d-none');
+
+            // Fetch user data
+            fetch(`/api/users/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(user => {
+                    // Fill form with user data
+                    document.getElementById('editName').value = user.name || '';
+                    document.getElementById('editTitle').value = user.title || '';
+                    document.getElementById('editEmail').value = user.email || '';
+                    document.getElementById('editTel').value = user.tel || '';
+                    document.getElementById('editDob').value = user.dob || '';
+                    document.getElementById('editDescription').value = user.description || '';
+                    document.getElementById('editAvatar').value = user.avatar || '';
+
+                    // Show avatar preview if exists
+                    const avatarPreview = document.getElementById('avatarPreview');
+                    if (user.avatar) {
+                        const previewImg = avatarPreview.querySelector('img');
+                        previewImg.src = '/image/'+user.avatar;
+                        avatarPreview.classList.remove('d-none');
+                    } else {
+                        avatarPreview.classList.add('d-none');
+                    }
+
+                    // Hide loading spinner and show form
+                    loadingSpinner.classList.add('d-none');
+                    editForm.classList.remove('d-none');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading user data');
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+                    modal.hide();
+                });
+        });
+
+        // Avatar preview update
+        document.getElementById('editAvatar').addEventListener('change', function() {
+            const avatarPreview = document.getElementById('avatarPreview');
+            const previewImg = avatarPreview.querySelector('img');
+
+            if (this.value) {
+                previewImg.src = this.value;
+                avatarPreview.classList.remove('d-none');
+            } else {
+                avatarPreview.classList.add('d-none');
+            }
+        });
+
+        // Form submission with Ajax
+        document.getElementById('editUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const userId = document.getElementById('editUserId').value;
+
+            // Convert form data to JSON
+            const jsonData = Object.fromEntries(formData.entries());
+
+            // Add loading state to submit button
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
+
+            fetch(`/api/users/update/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show success message
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+                modal.hide();
+
+                // Optionally refresh the page or update the table row
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating user');
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            });
+        });
+    </script>
+
+</div>

@@ -17,9 +17,6 @@ import lombok.experimental.FieldDefaults;
 public class Tag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
-
     @NotNull(message = "NAME_NOT_NULL")
     String name;
 

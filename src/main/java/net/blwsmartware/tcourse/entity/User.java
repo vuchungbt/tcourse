@@ -32,6 +32,7 @@ public class User {
     @NotNull(message = "NAME_NOT_NULL")
     String name;
 
+    @Column(unique = true)
     String username;
 
     @Email(message = "EMAIL_INVALID")

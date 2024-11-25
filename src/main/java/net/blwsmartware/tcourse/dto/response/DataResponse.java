@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DataResponse<T> {
+    String name;
     int pageNumber;
     int pageSize;
     long totalElements;

@@ -1,0 +1,40 @@
+<div th:fragment="list_post_all" class="my-3">
+    <div class="row my-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 th:text="${list_post_all.name}">Phổ biến</h4>
+            <a type="button" class="btn btn-sm btn-outline-info" th:href="@{/home/all}" >Tất cả</a>
+        </div>
+    </div>
+
+    <div th:if="${list_post_all.totalElements > 0}" class="row row-cols-1 row-cols-md-3 g-4">
+        <div th:each="post : ${list_post_all.content}" class="col">
+            <div class="card h-100 position-relative">
+                <div class="badge bg-danger position-absolute top-0 start-0">-20%</div>
+                <a class="btn btn-primary btn-sm position-absolute top-0 end-0 m-2">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <img th:src="@{'/image/' + ${post.thumbnail}}" class="card-img-top" height="200px" alt="Product 1">
+                <div class="card-body">
+                    <a th:href="@{'/home/p/' +${post.id}}">
+                        <h5 class="card-title" th:text="${post.name}"></h5>
+                        <p class="card-text" th:text="${post.content}">Mô tả ngắn gọn về sản phẩm 1.</p>
+                    </a>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-primary" th:text="${post.price}">$150</span>
+                    <div class="text-warning">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Nếu không có bài viết -->
+    <div th:if="${list_post_all.totalElements == 0}" class="alert alert-warning text-center mt-4">
+       <h5>Không có bài viết nào để hiển thị.</h5>
+    </div>
+</div>

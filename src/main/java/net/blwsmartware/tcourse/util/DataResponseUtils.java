@@ -8,6 +8,7 @@ import java.util.List;
 public class DataResponseUtils {
     public static <T> DataResponse<T> convertPageInfo(Page<?> page, List<T> data) {
         return new DataResponse<>(
+                null,
                 page.getNumber(),
                 page.getSize(),
                 page.getTotalElements(),

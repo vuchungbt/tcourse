@@ -16,7 +16,7 @@ public class UserUpdate {
     @NotNull(message = "NAME_NOT_NULL")
     String name;
 
-    String avatar, title, description;
+    String title,email, description;
 
     String tel;
 

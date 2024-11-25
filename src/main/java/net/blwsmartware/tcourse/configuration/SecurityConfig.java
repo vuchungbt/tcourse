@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,13 +25,13 @@ public class SecurityConfig  {
 
     private static final String[] PUBLIC_ENDPOINTS = {
 
-            "css/**", "js/**", "admin/css/**", "admin/js/**", "img/**",
+            "css/**", "js/**", "admin/css/**", "admin/js/**", "img/**","image/**",
             // "/login","admin/login",
-            "trang-chu","register","dang-ky","home"
+            "trang-chu","register","dang-ky","home/all/**","/",
+            "categories/**","api/course/upload-videos"
     };
 
     private final CustomUserDetailsService customUserDetailsService;
-    private final UserDetailsService userDetailsService ;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -50,14 +51,21 @@ public class SecurityConfig  {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/home")
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/login?error")
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .permitAll()
-                ) ;
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        .invalidSessionUrl("/login")
+                        .maximumSessions(1)
+                );
+        ;
         return http.build();
     }
 

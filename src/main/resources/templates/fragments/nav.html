@@ -1,0 +1,148 @@
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-dark bg-color fixed-top shadow-minor" aria-label="Eighth navbar example">
+    <div class="container py-1">
+        <a class="navbar-brand fw-bold" href="/">T-Course</a>
+
+        <div class="flex-shrink-0">
+            <a href="/" class="position-relative mx-2 h4 text-white">
+                <i class="bi bi-cart"></i>
+                <!-- Số đếm trong vòng tròn màu đỏ -->
+                <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
+                      style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span>
+            </a>
+            <a href="/notifications" class="position-relative mx-2 h4 text-white"><i class="bi bi-envelope"></i>
+                <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
+                      style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span></a>
+
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse fw-bold" id="navbarsExample07">
+            <ul class="navbar-nav me-auto mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap
+
+
+
+                " aria-current="page" href="/">Trang chủ</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Danh mục</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown07">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap  active " href="/trending">Xu hướng</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Dịch vụ
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Bảo hành</a></li>
+                        <li class="dropdown-submenu dropend">
+                            <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                Sửa chữa
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Điện thoại</a></li>
+                                <li><a class="dropdown-item" href="#">Máy tính</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap " href="/ask">Câu hỏi</a>
+                </li>
+
+            </ul>
+
+            <div class="search d-flex">
+                <form class="w-100 position-relative">
+                    <textarea data-autoresize="" class="form-control pe-5 bg-light" rows="1" placeholder="Search..."></textarea>
+                    <button class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0 " type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                <div class="flex-shrink-0 dropdown mx-2" >
+
+                    <a th:if="${username == null}" th:href="@{/dang-nhap}" class="btn btn-primary">Đăng nhập</a>
+
+                    <a  th:if="${username != null}"
+                        href="#" class="d-blockdropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:src="@{'/image/' + ${user.avatar}}" alt="mdo" width="38" height="38" class="rounded-circle border border-light">
+
+                        <i class="fas fa-sort-down"></i>
+
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="/profile" th:text="${username}">Username</a></li>
+                        <li><a class="dropdown-item" href="/create-post"> Đăng ký bán</a></li>
+                        <li><a class="dropdown-item" href="/settings">Cài đặt</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout" >Thoát</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</nav>
+<footer th:fragment="footer" class="bg-dark text-white text-center pt-4 mt-auto">
+    <div class="container">
+        <div class="row">
+            <!-- Hàng 1 -->
+            <div class="col-md-4">
+                <h5>Thông tin</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">Về chúng tôi</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Liên hệ</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Dịch vụ</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">Hỗ trợ khách hàng</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Giao hàng</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Hoàn trả</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Kết nối</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">Facebook</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Instagram</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="bg-light">
+        <div class="row">
+            <!-- Hàng 2 -->
+            <div class="col-md-4">
+                <p class="mb-0">© 2024 Your Website</p>
+            </div>
+            <div class="col-md-4">
+                <p class="mb-0">Điều khoản sử dụng</p>
+            </div>
+            <div class="col-md-4">
+                <p class="mb-0">Hỗ trợ 24/7</p>
+            </div>
+        </div>
+    </div>
+</footer>

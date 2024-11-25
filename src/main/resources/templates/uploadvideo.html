@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Video Course Upload Form</title>
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{css/customize.css}" rel="stylesheet">
+</head>
+<body  style="margin-top:70px">
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+    <div class="container mt-5">
+        <form id="videoUploadForm" class="needs-validation" novalidate>
+            <div id="videoGroups">
+
+                <div class="video-group mb-4" th:each="section, iterStat : ${post.sections}">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><span th:text="${'Phần :#'}"></span><span class="group-number" th:text="${iterStat.count}"></span></h5>
+                            <button type="button" class="btn btn-danger btn-sm remove-group">
+                                <i class="bi bi-trash"></i> Xóa nhóm
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Row for inputs -->
+                            <div class="row mb-4">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>ID </label>
+                                        <input type="text" class="form-control group-id" th:value="${section.name}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tên </label>
+                                        <input type="text" class="form-control group-name" th:value="${section.name}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mô tả ngắn</label>
+                                        <input type="text" class="form-control group-description">
+                                    </div>
+                                </div> <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Videos</label>
+                                    <input type="file" class="form-control video-files" multiple accept="video/*" required>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="progress" style="display: none;">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <div class="upload-status mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <button type="button" class="btn btn-success" id="addGroup">
+                        <i class="bi bi-plus-circle"></i> Thêm nhóm mới
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" he class="btn btn-primary float-end">Upload</button>
+        </form>
+    </div>
+
+    <!-- Template cho nhóm video -->
+    <template id="videoGroupTemplate">
+        <div class="video-group mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Nhóm video #<span class="group-number"></span></h5>
+                    <button type="button" class="btn btn-danger btn-sm remove-group">
+                        <i class="bi bi-trash"></i> Xóa nhóm
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input type="text" class="form-control group-id" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control group-name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <input type="text" class="form-control group-description">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Videos</label>
+                                <input type="file" class="form-control video-files" multiple accept="video/*" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <div class="upload-status mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <div class="pt-2" th:replace="~{fragments/nav :: footer}"></div>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <link th:href="@{/css/font/bootstrap-icons.css}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let groupCounter = $('.video-group').length;
+
+            // Hàm thêm nhóm mới
+            function addVideoGroup() {
+                groupCounter++;
+                const template = document.getElementById('videoGroupTemplate');
+                const clone = template.content.cloneNode(true);
+                
+                // Cập nhật số thứ tự nhóm
+                $(clone).find('.group-number').text(groupCounter);
+                $(clone).find('.group-id').attr('name', `id${groupCounter}`);
+                $(clone).find('.group-name').attr('name', `groupName${groupCounter}`);
+                $(clone).find('.group-description').attr('name', `description${groupCounter}`);
+                $(clone).find('.video-files').attr('name', `videos${groupCounter}`);
+
+                
+                $('#videoGroups').append(clone);
+            }
+
+            // Thêm nhóm đầu tiên khi tải trang
+            //addVideoGroup();
+
+            // Xử lý nút thêm nhóm
+            $('#addGroup').click(addVideoGroup);
+
+            // Xử lý nút xóa nhóm
+            $(document).on('click', '.remove-group', function() {
+                if ($('.video-group').length > 1) {
+                    $(this).closest('.video-group').remove();
+                }
+                $('.video-group').each(function(index) {
+                    $(this).find('.group-number').text(index + 1);
+                });
+
+            });
+
+            // Xử lý submit form
+            $('#videoUploadForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData();
+                formData.append('groupCount', groupCounter);
+
+                // Thêm thông tin về số lượng nhóm
+                $('.video-group').each(function(index) {
+                    const groupNum = index + 1;
+                    const groupPrefix = `group${groupNum}`;
+
+                    // Thêm thông tin cơ bản của nhóm
+                    formData.append(`${groupPrefix}Name`, $(this).find('.group-name').val());
+                    formData.append(`${groupPrefix}Note`, $(this).find('.group-note').val());
+                    formData.append(`${groupPrefix}Description`, $(this).find('.group-description').val());
+
+                    // Thêm các video files
+                    const videoFiles = $(this).find('.video-files')[0].files;
+                    for (let i = 0; i < videoFiles.length; i++) {
+                        formData.append(`${groupPrefix}Videos`, videoFiles[i]);
+                    }
+                });
+
+                // Reset tất cả progress bars và status
+                $('.progress').show();
+                $('.progress-bar').width('0%').text('0%').removeClass('bg-success bg-danger');
+                $('.upload-status').empty();
+
+                // Thực hiện AJAX upload
+                $.ajax({
+                    url: '/api/course/upload-videos',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    xhr: function() {
+                        const xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener('progress', function(e) {
+                            if (e.lengthComputable) {
+                                const percent = Math.round((e.loaded / e.total) * 100);
+                                $('.progress-bar').width(percent + '%').text(percent + '%');
+                            }
+                        });
+                        return xhr;
+                    },
+                    success: function(response) {
+                        $('.progress-bar').addClass('bg-success');
+                        $('.upload-status').html('<div class="alert alert-success">Upload thành công!</div>');
+                    },
+                    error: function(xhr, status, error) {
+                        $('.progress-bar').addClass('bg-danger');
+                        $('.upload-status').html('<div class="alert alert-danger">Lỗi upload: ' + error + '</div>');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.dropdown-submenu > a').forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var submenu = this.nextElementSibling;
+
+                    var allSubmenus = document.querySelectorAll('.dropdown-submenu .dropdown-menu');
+                    allSubmenus.forEach(function(menu) {
+                        if (menu !== submenu) {
+                            menu.style.display = 'none';
+                        }
+                    });
+
+                    if (submenu.style.display === 'block') {
+                        submenu.style.display = 'none';
+                    } else {
+                        submenu.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

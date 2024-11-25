@@ -1,0 +1,113 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<div th:fragment="side_nav"  id="layoutSidenav_nav">
+  <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+    <div class="sb-sidenav-menu">
+      <div class="nav">
+        <a class="nav-link" th:href="@{/admin/dashboard}"
+           th:classappend="${param.q == null ? ' active' : ''}">
+          <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+          Tổng quan
+        </a>
+        <div class="sb-sidenav-menu-heading">Danh mục</div>
+        <a class="nav-link collapsed" href="#"
+           th:href="@{/admin/account?q=ALL}"
+           data-bs-toggle="collapse" data-bs-target="#user_"
+           aria-expanded="${param.q != null ? 'true' : 'false'}"
+           aria-controls="user_" th:classappend="${param.q != null ? ' active' : ''}">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-user-tie"></i></div>
+          Tài khoản
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+
+        <!-- Collapse section -->
+        <div class="collapse" id="user_" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"
+             th:classappend="${param.q != null ? ' show' : ''}">
+          <nav class="sb-sidenav-menu-nested nav">
+
+            <a class="nav-link" th:href="@{/admin/account?q=ALL}"
+               th:classappend="${param.q == 'ALL' ? ' active' : ''}">Tất cả</a>
+            <a class="nav-link" th:href="@{/admin/account?q=ADMIN}"
+               th:classappend="${param.q == 'ADMIN' ? ' active' : ''}">Admin</a>
+            <a class="nav-link" th:href="@{/admin/account?q=TEACHER}"
+               th:classappend="${param.q == 'TEACHER' ? ' active' : ''}">Giảng viên</a>
+            <a class="nav-link" th:href="@{/admin/account?q=USER}"
+               th:classappend="${param.q == 'USER' ? ' active' : ''}">Học viên</a>
+            <a class="nav-link" th:href="@{/admin/account?q=USER&q=TEACHER}"
+               th:classappend="${param.q == 'USER,TEACHER' ? ' active' : ''}">Người dùng</a>
+          </nav>
+        </div>
+
+        <a class="nav-link collapsed" href="#"
+           th:href="@{/admin/course?c=ALL}"
+           data-bs-toggle="collapse" data-bs-target="#course_"
+           aria-expanded="false"
+           aria-controls="course_" th:classappend="${param.c != null ? ' active' : ''}">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>
+          Khóa học
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+
+        <!-- Collapse section -->
+        <div class="collapse" id="course_" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"
+             th:classappend="${param.c != null ? ' show' : ''}">
+          <nav class="sb-sidenav-menu-nested nav">
+
+            <a class="nav-link" th:href="@{/admin/course?c=ALL}"
+               th:classappend="${param.c == 'ALL' ? ' active' : ''}">Tất cả</a>
+            <a class="nav-link" th:href="@{/admin/account?q=ADMIN}"
+               th:classappend="${param.c == 'ADMIN' ? ' active' : ''}">Đang đợi duyệt</a>
+            <a class="nav-link" th:href="@{/admin/account?q=TEACHER}"
+               th:classappend="${param.c == 'TEACHER' ? ' active' : ''}">Đã đăng bán</a>
+          </nav>
+        </div>
+
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+           aria-expanded="false" aria-controls="collapsePages">
+          <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+          Khóa học
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+              Authentication
+              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="login.html">Login</a>
+                <a class="nav-link" href="register.html">Register</a>
+                <a class="nav-link" href="password.html">Forgot Password</a>
+              </nav>
+            </div>
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+              Error
+              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="401.html">401 Page</a>
+                <a class="nav-link" href="404.html">404 Page</a>
+                <a class="nav-link" href="500.html">500 Page</a>
+              </nav>
+            </div>
+          </nav>
+        </div>
+        <div class="sb-sidenav-menu-heading">Addons</div>
+        <a class="nav-link" href="charts.html">
+          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+          Charts
+        </a>
+        <a class="nav-link" href="tables.html">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
+          Cài đặt
+        </a>
+      </div>
+    </div>
+    <div class="sb-sidenav-footer">
+      <div class="small">Logged in as:</div>
+      <span th:text="${username}"></span>
+    </div>
+  </nav>
+</div>
+</html>

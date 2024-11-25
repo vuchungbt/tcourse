@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang chủ</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/customize.css}" rel="stylesheet">
+  <link th:href="@{/css/dropify.css}" rel="stylesheet">
+  <link th:href="@{/css/dropify.min.css}" rel="stylesheet">
+
+</head>
+<body  style="margin-top:70px">
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<div class="container">
+  <div class="card card-6 mb-2" style="background:white !important;">
+     <form th:action="@{/post}" method="post" enctype="multipart/form-data">
+    <div class="card-heading m-2">
+      <h2 class="title">Thiết lập thông tin khóa học</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <!-- Cột bên trái -->
+        <div class="col-md-9">
+          <label for="name" class="form-label">Tên khóa học</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Tên khóa học" required>
+        </div>
+        <div class="col-md-3">
+          <label for="price" class="form-label">Giá bán</label>
+          <input type="number" class="form-control" id="price" name="price" value="100000" placeholder="Giá bán" required>
+        </div>
+      </div>
+
+
+      <div class="mb-3">
+
+        <div id="input-container">
+          <label for="intro" class="form-label"> Kỹ năng được học</label>
+          <!-- Default Input -->
+          <div class="input-group mb-2">
+
+            <input type="text" class="form-control" name="skills" placeholder="Nhập thông tin" required>
+          </div>
+        </div>
+        <a id="add-input" class="btn btn-primary mb-3">Thêm</a>
+      </div>
+
+      <div class="mb-3">
+        <label for="intro" class="form-label">Mô tả ngắn</label>
+        <textarea class="form-control" required name="description" id="intro" rows="3" maxlength="2000" ></textarea>
+      </div>
+      <div class="mb-3">
+        <div class="row">
+          <!-- Cột bên trái -->
+          <div class="col-md-8">
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Giới thiệu</label>
+              <textarea class="form-control" name="content" required id="exampleFormControlTextarea1" style="height: 264px;" maxlength="1000"></textarea>
+            </div>
+          </div>
+
+          <!-- Cột bên phải -->
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="input-file-now-custom-1" class="form-label" >Ảnh thumbnail</label>
+              <input type="file" name="thumbnail_p" id="input-file-now-custom-1" class="dropify dropify-vn"  data-max-height="500" data-height="250" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="input-file-now-custom-2" class="form-label">Ảnh nền</label>
+        <input type="file" id="input-file-now-custom-2" name="coverPhoto_p" class="dropify dropify-vn" data-height="550" data-max-height="500" />
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary mb-3 float-end">Tiếp theo</button>
+    </div>
+    </form>
+  </div>
+
+</div>
+
+
+<div th:replace="~{fragments/nav :: footer}"></div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<link th:href="@{/css/font/bootstrap-icons.css}" rel="stylesheet">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+      document.querySelectorAll('.dropdown-submenu > a').forEach(function(element) {
+          element.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              var submenu = this.nextElementSibling;
+
+              var allSubmenus = document.querySelectorAll('.dropdown-submenu .dropdown-menu');
+              allSubmenus.forEach(function(menu) {
+                  if (menu !== submenu) {
+                      menu.style.display = 'none';
+                  }
+              });
+
+              if (submenu.style.display === 'block') {
+                  submenu.style.display = 'none';
+              } else {
+                  submenu.style.display = 'block';
+              }
+          });
+      });
+  });
+</script>
+<script>
+  // Lấy các phần tử DOM
+const inputContainer = document.getElementById("input-container");
+const addInputButton = document.getElementById("add-input");
+
+// Biến đếm số lượng input
+let inputCount = 1; // Mặc định đã có 1 ô input
+const maxInputs = 6; // Số lượng tối đa ô nhập liệu
+
+// Xử lý sự kiện khi nhấn nút "Thêm ô nhập"
+addInputButton.addEventListener("click", function () {
+    if (inputCount < maxInputs) {
+        inputCount++;
+
+         const newInputGroup = document.createElement("div");
+        newInputGroup.classList.add("input-group", "mb-2");
+
+        const newInput = document.createElement("input");
+        newInput.type = "text";
+        newInput.classList.add("form-control");
+        newInput.name = "skills";
+        newInput.placeholder = `Nhập thông tin (${inputCount})`;
+
+
+        const removeButton = document.createElement("button");
+        removeButton.classList.add("btn", "btn-danger");
+        removeButton.textContent = "Xóa";
+        removeButton.type = "button";
+        removeButton.addEventListener("click", function () {
+            inputContainer.removeChild(newInputGroup);
+            inputCount--;
+        });
+
+        newInputGroup.appendChild(newInput);
+        newInputGroup.appendChild(removeButton);
+
+
+        inputContainer.appendChild(newInputGroup);
+    } else {
+        alert("Không thể thêm quá 6 ô nhập liệu!");
+    }
+});
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script th:src="@{/js/dropify.min.js}"></script>
+<script>
+  $(document).ready(function(){
+      // Basic
+      $('.dropify').dropify();
+
+      // Translated
+      $('.dropify-vn').dropify({
+          messages: {
+              default: 'Kéo và thả tệp vào đây hoặc nhấp vào',
+              replace: 'Kéo và thả tệp hoặc nhấp để thay thế',
+              remove:  'Xóa',
+              error:   'Lỗi, tệp quá lớn'
+          }
+      });
+
+      // Used events
+      var drEvent = $('#input-file-events').dropify();
+
+      drEvent.on('dropify.beforeClear', function(event, element){
+          return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+      });
+
+      drEvent.on('dropify.afterClear', function(event, element){
+          alert('File deleted');
+      });
+
+      drEvent.on('dropify.errors', function(event, element){
+          console.log('Has Errors');
+      });
+
+      var drDestroy = $('#input-file-to-destroy').dropify();
+      drDestroy = drDestroy.data('dropify')
+      $('#toggleDropify').on('click', function(e){
+          e.preventDefault();
+          if (drDestroy.isDropified()) {
+              drDestroy.destroy();
+          } else {
+              drDestroy.init();
+          }
+      })
+  });
+</script>
+</body>
+</html>

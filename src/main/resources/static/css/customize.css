@@ -14,6 +14,9 @@
 .search-form {
     margin-bottom: 0 !important ;
 }
+a {
+       text-decoration: none;
+ }
 body {
          background: #eff2f6;
          /** background: linear-gradient(230deg, #a1c4ff 5%, #c2e9fb 80%); background: #eff2f6; */
@@ -209,4 +212,10 @@ body {
     .bg-glass {
       background-color: hsla(0, 0%, 100%, 0.9) !important;
       backdrop-filter: saturate(200%) blur(25px);
+    }
+
+    .custom-img {
+        height: 400px; /* Chiều cao cố định bạn muốn */
+        object-fit: cover; /* Ảnh sẽ được cắt để lấp đầy cả chiều ngang và chiều cao */
+        width: 100%; /* Đảm bảo ảnh luôn chiếm hết chiều ngang container */
     }

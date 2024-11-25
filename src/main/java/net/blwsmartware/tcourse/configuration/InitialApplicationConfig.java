@@ -5,9 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import net.blwsmartware.tcourse.constant.CategoryDefault;
 import net.blwsmartware.tcourse.constant.PredefinedRole;
+import net.blwsmartware.tcourse.entity.Category;
 import net.blwsmartware.tcourse.entity.Role;
 import net.blwsmartware.tcourse.entity.User;
+import net.blwsmartware.tcourse.repository.CategoryRepository;
 import net.blwsmartware.tcourse.repository.RoleRepository;
 import net.blwsmartware.tcourse.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -43,7 +47,9 @@ public class InitialApplicationConfig {
     PasswordEncoder passwordEncoder  ;
 
     @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository , RoleRepository roleRepository){
+    ApplicationRunner applicationRunner(UserRepository userRepository ,
+                                        RoleRepository roleRepository ,
+                                        CategoryRepository categoryRepository){
         log.info("********** Initializing application...");
 
         return args -> {
@@ -77,6 +83,18 @@ public class InitialApplicationConfig {
                 log.info("********** Application init successfully for admin...");
             }
             log.info("********** Application initialization completed before...");
+            log.info("********** Categories adding...");
+            if(categoryRepository.findByDescription(CategoryDefault.DEFAULT).isEmpty()) {
+                Category first = Category.builder().name("Tài chính").description(CategoryDefault.DEFAULT).build();
+                Category twice = Category.builder().name("Công nghệ").description(CategoryDefault.DEFAULT).build();
+                Category thir = Category.builder().name("Sức khỏe").description(CategoryDefault.DEFAULT).build();
+                Category foure = Category.builder().name("Ngoại ngữ").description(CategoryDefault.DEFAULT).build();
+                Category fire = Category.builder().name("Lập trình").description(CategoryDefault.DEFAULT).build();
+                List<Category> list = List.of(fire,foure,thir,twice,first);
+                categoryRepository.saveAll(list);
+            }
+            log.info("********** Categories completed...");
+
         };
     }
 

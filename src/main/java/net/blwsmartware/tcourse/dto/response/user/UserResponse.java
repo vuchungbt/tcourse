@@ -22,7 +22,7 @@ public class UserResponse {
     boolean emailVerified;
     Instant createAt;
     Instant updateAt;
-    String avatar, title, description;
+    String avatar, title,coverPhoto, description;
     String tel;
     LocalDate dob;
     Set<Role> roles;

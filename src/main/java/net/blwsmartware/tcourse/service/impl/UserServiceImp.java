@@ -3,6 +3,7 @@ package net.blwsmartware.tcourse.service.impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import net.blwsmartware.tcourse.constant.PagePrepare;
 import net.blwsmartware.tcourse.constant.PredefinedRole;
 import net.blwsmartware.tcourse.dto.request.account.*;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
@@ -47,12 +48,13 @@ public class UserServiceImp implements UserService {
 
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user = userRepository.save(user);
 
         Role roleUserDefault = roleRepository.findByName(PredefinedRole.USER_ROLE)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.ROLE_NOT_EXISTED) );
         Set<Role> roleSet = Set.of(roleUserDefault);
         user.setRoles(roleSet);
+
+        user = userRepository.save(user);
 
         return userMapper.toUserResponse(user);
     }
@@ -67,6 +69,17 @@ public class UserServiceImp implements UserService {
         List<UserResponse> userResponses = userList.stream().map(userMapper::toUserResponse).toList();
 
         return DataResponseUtils.convertPageInfo(pageOfUsers,userResponses);
+    }
+
+    @Override
+    public List<UserResponse> getAllByRoleName(Integer pageNumber, Integer pageSize, String sortBy, List<String> category) {
+        if(pageNumber<0) {
+            if(category.isEmpty() || category.getFirst().equals(PagePrepare.CATEGORY))
+                return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+
+            return userRepository.findByRoles_NameIn(category).stream().map(userMapper::toUserResponse).toList();
+        }
+        return null;
     }
 
     @Override
