@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mã Giảm Giá</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer>
+        // Function to add a product to the list
+        function addProduct() {
+            const productId = document.getElementById('productSelect').value;
+            const productName = document.getElementById('productSelect').selectedOptions[0].text;
+
+            if (!productId) return;
+
+            const productList = document.getElementById('productList');
+
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.dataset.productId = productId;
+
+            const text = document.createTextNode(productName);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm';
+            deleteButton.innerText = 'Xóa';
+            deleteButton.onclick = () => listItem.remove();
+
+            listItem.appendChild(text);
+            listItem.appendChild(deleteButton);
+            productList.appendChild(listItem);
+        }
+    </script>
+</head>
+<body>
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left Column: Discount Information -->
+        <div class="col-md-6">
+            <h3>Thông Tin Giảm Giá</h3>
+            <form>
+                <div class="mb-3">
+                    <label for="discountName" class="form-label">Tên Giảm Giá</label>
+                    <input type="text" class="form-control" id="discountName" placeholder="Nhập tên mã giảm giá">
+                </div>
+                <div class="mb-3">
+                    <label for="discountDescription" class="form-label">Mô Tả</label>
+                    <textarea class="form-control" id="discountDescription" rows="3" placeholder="Nhập mô tả mã giảm giá"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="discountType" class="form-label">Loại Giảm Giá</label>
+                    <select class="form-select" id="discountType">
+                        <option value="percentage">Phần Trăm</option>
+                        <option value="fixed">Số Tiền</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="discountValue" class="form-label">Giá Trị</label>
+                    <input type="number" class="form-control" id="discountValue" placeholder="Nhập giá trị giảm giá">
+                </div>
+                <div class="mb-3">
+                    <label for="discountStartDate" class="form-label">Ngày Bắt Đầu</label>
+                    <input type="date" class="form-control" id="discountStartDate">
+                </div>
+                <div class="mb-3">
+                    <label for="discountEndDate" class="form-label">Ngày Kết Thúc</label>
+                    <input type="date" class="form-control" id="discountEndDate">
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Column: Product List -->
+        <div class="col-md-6">
+            <h3>Sản Phẩm Áp Dụng</h3>
+            <div class="mb-3">
+                <label for="productSelect" class="form-label">Chọn Sản Phẩm</label>
+                <select class="form-select" id="productSelect">
+                    <option value="">-- Chọn sản phẩm --</option>
+                    <option value="1">Sản Phẩm 1</option>
+                    <option value="2">Sản Phẩm 2</option>
+                    <option value="3">Sản Phẩm 3</option>
+                    <!-- Add more products as needed -->
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary mb-3" onclick="addProduct()">Thêm Sản Phẩm</button>
+
+            <ul class="list-group" id="productList">
+                <!-- Selected products will be added here dynamically -->
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
