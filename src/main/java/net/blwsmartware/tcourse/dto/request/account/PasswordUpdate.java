@@ -1,16 +1,17 @@
 package net.blwsmartware.tcourse.dto.request.account;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Data
-@NoArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PasswordUpdate {
 
-    @NotNull(message = "PASSWORD_NOT_NULL")
-    String password ;
+    String oldpwd;
+    String enteroldpwd;
+    String password;
+
 }

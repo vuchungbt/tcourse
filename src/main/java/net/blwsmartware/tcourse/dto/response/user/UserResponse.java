@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import net.blwsmartware.tcourse.entity.Card;
 import net.blwsmartware.tcourse.entity.Role;
 
 import java.time.Instant;
@@ -26,4 +27,5 @@ public class UserResponse {
     String tel;
     LocalDate dob;
     Set<Role> roles;
+    Set<Card> cards;
 }

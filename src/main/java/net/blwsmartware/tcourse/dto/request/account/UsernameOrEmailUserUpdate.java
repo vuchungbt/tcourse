@@ -9,8 +9,10 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class UsernameUserUpdate {
+public class UsernameOrEmailUserUpdate {
 
     @NotNull(message = "USERNAME_NOT_NULL")
     String username;
+
+    String email;
 }

@@ -11,7 +11,7 @@
 <body>
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<div class="container" >
+<div class="container" style="padding-top:70px" >
 
   <!-- Carousel -->
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
@@ -107,32 +107,7 @@
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <link th:href="@{/css/font/bootstrap-icons.css}" rel="stylesheet">
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-
-      document.querySelectorAll('.dropdown-submenu > a').forEach(function(element) {
-          element.addEventListener('click', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              var submenu = this.nextElementSibling;
-
-              var allSubmenus = document.querySelectorAll('.dropdown-submenu .dropdown-menu');
-              allSubmenus.forEach(function(menu) {
-                  if (menu !== submenu) {
-                      menu.style.display = 'none';
-                  }
-              });
-
-              if (submenu.style.display === 'block') {
-                  submenu.style.display = 'none';
-              } else {
-                  submenu.style.display = 'block';
-              }
-          });
-      });
-  });
-</script>
+<script th:src="@{/js/customize.js}"></script>
 
 </body>
 </html>

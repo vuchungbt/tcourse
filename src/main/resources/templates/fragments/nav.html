@@ -3,15 +3,13 @@
         <a class="navbar-brand fw-bold" href="/">T-Course</a>
 
         <div class="flex-shrink-0">
-            <a href="/" class="position-relative mx-2 h4 text-white">
+            <a href="javascript:void(0)" id="viewCartBtn"
+                 class="position-relative mx-2 h4 text-white">
                 <i class="bi bi-cart"></i>
                 <!-- Số đếm trong vòng tròn màu đỏ -->
-                <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
-                      style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span>
+                <span id="cart-count" class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
+                      style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;"> </span>
             </a>
-            <a href="/notifications" class="position-relative mx-2 h4 text-white"><i class="bi bi-envelope"></i>
-                <span class="position-absolute top-2 start-100 translate-middle badge rounded-circle bg-danger p-x1 border border-light"
-                      style="width: 1.2rem; height: 1.2rem; font-size: 0.75rem;">  3   </span></a>
 
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,48 +20,38 @@
         <div class="collapse navbar-collapse fw-bold" id="navbarsExample07">
             <ul class="navbar-nav me-auto mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap
-
-
-
-                " aria-current="page" href="/">Trang chủ</a>
+                    <a class="nav-link text-nowrap " aria-current="page" href="/">Trang chủ</a>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Danh mục</a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdown07">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-
+                    <ul class="dropdown-menu" id="categoriesList" aria-labelledby="dropdown07">
+                        <li><a class="dropdown-item" href="/">Tất cả</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-nowrap  active " href="/trending">Xu hướng</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        Dịch vụ
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Bảo hành</a></li>
-                        <li class="dropdown-submenu dropend">
-                            <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                Sửa chữa
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Điện thoại</a></li>
-                                <li><a class="dropdown-item" href="#">Máy tính</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-nowrap " href="/ask">Câu hỏi</a>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link text-nowrap  active " href="/trending">Xu hướng</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item dropdown">-->
+<!--                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">-->
+<!--                        Dịch vụ-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu">-->
+<!--                        <li><a class="dropdown-item" href="#">Bảo hành</a></li>-->
+<!--                        <li class="dropdown-submenu dropend">-->
+<!--                            <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">-->
+<!--                                Sửa chữa-->
+<!--                            </a>-->
+<!--                            <ul class="dropdown-menu">-->
+<!--                                <li><a class="dropdown-item" href="#">Điện thoại</a></li>-->
+<!--                                <li><a class="dropdown-item" href="#">Máy tính</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link text-nowrap " href="/ask">Câu hỏi</a>-->
+<!--                </li>-->
 
             </ul>
 
@@ -101,9 +89,13 @@
         </div>
 
     </div>
+
+
+
 </nav>
-<footer th:fragment="footer" class="bg-dark text-white text-center pt-4 mt-auto">
-    <div class="container">
+<footer th:fragment="footer" class="bg-dark  pt-4 mt-auto">
+
+    <div class="container text-white text-center">
         <div class="row">
             <!-- Hàng 1 -->
             <div class="col-md-4">
@@ -145,4 +137,57 @@
             </div>
         </div>
     </div>
+    <!-- Modal Giỏ hàng -->
+    <div class="modal fade index1200" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg index1200 text-dark">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Giỏ hàng của bạn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItemsList">
+                        <!-- Các sản phẩm sẽ được hiển thị ở đây -->
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-danger" id="clearCartBtn">Xóa giỏ hàng</button>
+                        <a class="btn btn-primary ms-2" id="checkoutBtn" th:href="@{/home/payment}">Thanh toán</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+         const categoriesList = document.getElementById('categoriesList');
+
+         try {
+           const response = await fetch('/api/categories/all');
+           const categories = await response.json();
+           console.log('categories:', categories);
+
+           categories.forEach(category => {
+            console.log('category:', category);
+             if (category && category.id !== undefined) {
+                console.log('category.name:', category.name);
+                 const li = document.createElement('li');
+                 const a = document.createElement('a');
+                 a.classList.add('dropdown-item');
+                 a.href = `/?c=${category.id}`;
+                 a.textContent = category.name || 'Không có tên';
+                 li.appendChild(a);
+                 categoriesList.appendChild(li);
+               } else {
+                 console.warn('Category không hợp lệ:', category);
+               }
+           });
+         } catch (error) {
+           console.error('Lỗi khi tải danh mục:', error);
+           const errorLi = document.createElement('li');
+           errorLi.innerHTML = '<a class="dropdown-item text-danger">Không thể tải danh mục</a>';
+           categoriesList.appendChild(errorLi);
+         }
+       });
+    </script>
+
 </footer>

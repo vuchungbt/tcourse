@@ -15,5 +15,6 @@ public interface PostMapper {
     Post toPost(PostRequest request);
     void updatePost(PostUpdate post, @MappingTarget Post p);
     void updatePostSection(PostUpdateSection post, @MappingTarget Post p);
+    @Mapping(target = "avgVote", ignore = true)
     PostResponse toPostResponse(Post post);
 }

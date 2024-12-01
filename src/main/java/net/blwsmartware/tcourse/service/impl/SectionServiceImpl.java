@@ -23,6 +23,13 @@ public class SectionServiceImpl implements SectionService {
     SectionMapper sectionMapper;
 
     @Override
+    public Section save(Section section) {
+        System.out.println("Save Section:" +section);
+
+        return sectionRepository.save(section);
+    }
+
+    @Override
     public Section create(SectionRequest request) {
 
         return sectionRepository.save(sectionMapper.toSection(request));

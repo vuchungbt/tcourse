@@ -36,7 +36,8 @@ public class AdminAccountController {
     }
     // Xử lý xóa user
     @PostMapping("/account/delete")
-    public String deleteUser(@RequestParam Long userId, RedirectAttributes attributes , @RequestHeader(value = "Referer", required = false) String referer) {
+    public String deleteUser(@RequestParam Long userId, RedirectAttributes attributes ,
+                             @RequestHeader(value = "Referer", required = false) String referer) {
         try {
             userService.deleteUser(userId);
             attributes.addFlashAttribute("success", "User deleted successfully!");

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/customize.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<div class="container" style="padding-top:70px" >
+
+    <h1 class="text-center">Trang thanh toán</h1>
+    <div class="row bg-white p-2" >
+        <div class="col-md-8">
+            <div id="cartItems" class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID</th>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Giá</th>
+                        <th>Hành Động</th>
+                    </tr>
+                    </thead>
+                    <tbody id="cartTableBody">
+                    <!-- Các sản phẩm sẽ được tải từ localStorage -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <h4>Tổng Cộng: <span id="totalPrice" class="text-danger">0 VND</span></h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+                <h5>Chọn phương thức thanh toán:</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="paymentOnline" value="online" checked>
+                    <label class="form-check-label" for="paymentOnline">Thanh toán online</label>
+                </div>
+                <div class="form-check">
+                    <ul class="list-group">
+                        <li class="list-group-item active" aria-current="true">
+                            <img src="/img/visa.jpg" height="32px" class="img">
+                            <i class="bi bi-check-circle mx-1"></i> 123132 123131 23132
+                        </li>
+                        <li class="list-group-item" >
+                            <button class="btn btn-secondary">Thêm thẻ</button>
+                        </li>
+                    </ul>
+                    <div>
+                    </div>
+
+                </div>
+        </div>
+
+
+    </div>
+
+    <!-- Nút Thanh Toán -->
+    <div class="text-end mt-4">
+        <button id="checkoutButton" class="btn btn-success">Thanh Toán</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Hàm hiển thị giỏ hàng từ localStorage
+    function loadCart() {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const cartTableBody = document.getElementById('cartTableBody');
+    cartTableBody.innerHTML = ''; // Reset bảng
+
+    let totalPrice = 0;
+
+    if (cartItems.length === 0) {
+        cartTableBody.innerHTML = `<tr><td colspan="5" class="text-center">Giỏ hàng trống</td></tr>`;
+    } else {
+        cartItems.forEach((item, index) => {
+            totalPrice += Number(item.price); // Đảm bảo giá là số
+
+            const row = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.postId}</td>
+                    <td>${item.name}</td>
+                    <td>${formatCurrency(Number(item.price))}</td> <!-- Format giá là số -->
+                    <td>
+                        <button class="btn btn-danger btn-sm remove-item" data-index="${index}">Xóa</button>
+                    </td>
+                </tr>
+            `;
+            cartTableBody.innerHTML += row;
+        });
+    }
+
+    // Cập nhật tổng tiền
+    document.getElementById('totalPrice').innerText = formatCurrency(totalPrice);
+
+    // Gắn sự kiện cho nút Xóa
+    attachEventListeners();
+}
+
+
+    // Định dạng tiền tệ
+    function formatCurrency(value) {
+        return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+    // Gắn sự kiện cho nút Xóa
+    function attachEventListeners() {
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', function () {
+                const index = this.getAttribute('data-index');
+                removeItemFromCart(index);
+            });
+        });
+    }
+
+    // Xóa sản phẩm khỏi giỏ hàng
+    function removeItemFromCart(index) {
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        cartItems.splice(index, 1); // Xóa sản phẩm khỏi mảng
+        localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Lưu lại
+        loadCart(); // Tải lại giỏ hàng
+    }
+
+    // Xử lý nút Thanh Toán
+    document.getElementById('checkoutButton').addEventListener('click', function () {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        if (cartItems.length === 0) {
+            alert('Giỏ hàng trống, không thể thanh toán!');
+            return;
+        }
+
+        // Lấy phương thức thanh toán
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+        console.log('Phương thức thanh toán:', paymentMethod);
+
+        alert(`Thanh toán thành công với phương thức: ${paymentMethod}`);
+        localStorage.removeItem('cartItems'); // Xóa giỏ hàng sau khi thanh toán
+        loadCart(); // Làm mới giao diện
+    });
+
+    // Tải giỏ hàng khi trang được load
+    document.addEventListener('DOMContentLoaded', loadCart);
+</script>
+<div th:replace="~{fragments/nav :: footer}"></div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<link th:href="@{/css/font/bootstrap-icons.css}" rel="stylesheet">
+<script th:src="@{/js/customize.js}"></script>
+
+</body>
+</html>
+

@@ -1,25 +1,18 @@
 package net.blwsmartware.tcourse.dto.request.account;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdate {
+public class PhotoUserUpdate {
 
-    @NotNull(message = "NAME_NOT_NULL")
     String name;
 
-    String title, description;
-
-    String tel;
-
-    LocalDate dob;
+    MultipartFile photo;
 
 }

@@ -13,10 +13,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,7 +50,8 @@ public class ImageController {
             Path imagePath = Paths.get(uploadDir).resolve(pth).normalize();
             Resource resource = new UrlResource(imagePath.toUri());
 
-            if (!resource.exists() || !resource.isReadable() || !isValidImageExtension(imagePath)) {
+            if (!resource.exists() ||
+                    !resource.isReadable() || !isValidImageExtension(imagePath)) {
                 // Sử dụng ảnh mặc định nếu không tìm thấy ảnh hoặc không đọc được
                 Path defaultImagePath = Paths.get(uploadDir).resolve("default_image.jpg").normalize();
                 resource = new UrlResource(defaultImagePath.toUri());
@@ -72,6 +75,8 @@ public class ImageController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+
     @GetMapping("/stream/{id}")
     public ResponseEntity<byte[]> streamVideo(@PathVariable String id) {
         String pth = "";
@@ -79,12 +84,16 @@ public class ImageController {
         try {
             _id = Long.parseLong(id) ;
             pth = id + "_"+ storageService.getNameByID(_id);
+            log.info("AAAa {}",pth);
         }  catch (Exception ignored) {  }
         try {
-            Path videoPath = Paths.get(uploadDir + pth);
+            Path videoPath = Paths.get(uploadDir + File.separator + pth);
+            log.info("SSSSSS1 {}" ,videoPath.getFileName() );
+            log.info("SSSSSS2 {}" ,videoPath );
             byte[] videoBytes = Files.readAllBytes(videoPath);
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", "video/mp4");
+            headers.setContentLength(videoBytes.length);
             return new ResponseEntity<>(videoBytes, headers, HttpStatus.OK);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

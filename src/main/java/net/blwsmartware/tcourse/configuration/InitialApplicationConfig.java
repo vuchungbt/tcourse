@@ -56,8 +56,10 @@ public class InitialApplicationConfig {
             log.info("********** adminEmail ... {}", adminEmail);
             log.info("********** adminPassword ... {}", adminPassword);
             log.info("********** adminName ... {}", adminName);
+            log.info("********** username ... {}", username);
 
             if (userRepository.findByEmail(adminEmail).isEmpty()) {
+
                 Role admin = roleRepository.save(Role.builder()
                                 .name(PredefinedRole.ADMIN_ROLE)
                                 .description("Admin")
@@ -72,9 +74,9 @@ public class InitialApplicationConfig {
                         .build());
 
                 Set<Role> roles = new HashSet<>();
-                roles.add(admin);
                 roles.add(user);
-                roles.add(teacher);
+                //roles.add(teacher);
+                roles.add(admin);
 
                 User userAdmin = User.builder()
                         .email(adminEmail)

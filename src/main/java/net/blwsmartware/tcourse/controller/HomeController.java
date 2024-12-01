@@ -9,6 +9,8 @@ import net.blwsmartware.tcourse.constant.PredefinedRole;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
+import net.blwsmartware.tcourse.entity.Discount;
+import net.blwsmartware.tcourse.entity.Vote;
 import net.blwsmartware.tcourse.service.CategoryService;
 import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.service.UserService;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,13 +34,16 @@ public class HomeController {
     CategoryService categoryService;
     PostService postService;
     UserService userService;
+    @GetMapping("/stream/view/{id}")
+    public String view(@PathVariable String id , Model model){
+        model.addAttribute("id", id);
+        return "vd";
+    }
 
     @GetMapping("/home/p/{id}" )
     public String course(Authentication authentication, Model model,
                          @PathVariable long id,
                           @RequestHeader(value = "Referer", required = false) String referer ){
-
-
 
         model.addAttribute("list_category_all", categoryService.getAll( 0,15, PagePrepare.SORT_BY) );
 
@@ -46,8 +52,33 @@ public class HomeController {
             model.addAttribute("username", username);
             model.addAttribute("user", userService.getUserByUsername(username));
         }
-        model.addAttribute("post", postService.getPostByID(id));
+        PostResponse p =postService.getPostByID(id);
+        int totalItems = p.getSections().stream()
+                .mapToInt(section -> section.getItems().size())
+                .sum();
+        Optional<Discount> defaultDiscount = p.getDiscounts()
+                .stream()
+                .filter(Discount::isDef)
+                .findFirst();
 
+        if (defaultDiscount.isPresent()) {
+            Discount discount = defaultDiscount.get();
+            p.setDiscountPercent(discount.getPercent());
+            p.setFinalPrice(p.getPrice() - p.getPrice()* discount.getPercent()/100) ;
+        } else {
+            p.setDiscountPercent(0);
+            p.setFinalPrice(p.getPrice());
+        }
+        double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+        double avg = total / p.getVotes().size();
+        avg = Math.round(avg * 10) / 10.0;
+        p.setAvgVote(avg);
+
+        model.addAttribute("post", p);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("cre", userService.getUserByUsername(p.getCreated_by()));
+
+        log.info("=================={}",p);
         return "/chitiet-khoahoc";
     }
 
@@ -71,9 +102,48 @@ public class HomeController {
         if(category==0) {
             response =postService.getAll(pageNumber, pageSize,sortBy);
             response.setName("Tất cả");
+            response.getContent().forEach(p -> {
+                Optional<Discount> defaultDiscount = p.getDiscounts()
+                        .stream()
+                        .filter(Discount::isDef)
+                        .findFirst();
+
+                if (defaultDiscount.isPresent()) {
+                    Discount discount = defaultDiscount.get();
+                    p.setDiscountPercent(discount.getPercent());
+                    p.setFinalPrice(p.getPrice() - p.getPrice()* discount.getPercent()/100) ;
+                } else {
+                    p.setDiscountPercent(0);
+                    p.setFinalPrice(p.getPrice());
+                }
+
+                double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+                double avg = total / p.getVotes().size();
+                avg = Math.round(avg * 10) / 10.0;
+                p.setAvgVote(avg);
+            });
         } else {
             response =postService.getPostByCategory(category,pageNumber, pageSize,sortBy);
+            response.getContent().forEach(p -> {
+                Optional<Discount> defaultDiscount = p.getDiscounts()
+                        .stream()
+                        .filter(Discount::isDef)
+                        .findFirst();
 
+                if (defaultDiscount.isPresent()) {
+                    Discount discount = defaultDiscount.get();
+                    p.setDiscountPercent(discount.getPercent());
+                    p.setFinalPrice(p.getPrice() - p.getPrice()* discount.getPercent()/100) ;
+                } else {
+                    p.setDiscountPercent(0);
+                    p.setFinalPrice(p.getPrice());
+                }
+
+                double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+                double avg = total / p.getVotes().size();
+                avg = Math.round(avg * 10) / 10.0;
+                p.setAvgVote(avg);
+            });
         }
 
         model.addAttribute("list_post_all",response    );
@@ -104,11 +174,40 @@ public class HomeController {
             response_post =postService.getPostByCategory(category,pageNumber, pageSize,sortBy);
 
         }
+        response_post.getContent().forEach(p -> {
+            Optional<Discount> defaultDiscount = p.getDiscounts()
+                    .stream()
+                    .filter(Discount::isDef)
+                    .findFirst();
+
+            if (defaultDiscount.isPresent()) {
+                Discount discount = defaultDiscount.get();
+                p.setDiscountPercent(discount.getPercent());
+                p.setFinalPrice(p.getPrice() - p.getPrice()* discount.getPercent()/100) ;
+            } else {
+                p.setDiscountPercent(0);
+                p.setFinalPrice(p.getPrice());
+            }
+
+            double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+            double avg = total / p.getVotes().size();
+            avg = Math.round(avg * 10) / 10.0;
+            p.setAvgVote(avg);
+        });
 
         model.addAttribute("list_post_all",response_post    );
         response_teacher.setName("Top Giảng viên");
         model.addAttribute("list_teacher",response_teacher    );
 
         return "/index";
+    }
+    @GetMapping("/home/payment")
+    public String homePayment(Authentication authentication, Model model ){
+        if(authentication!=null) {
+            String username = authentication.getName();
+            model.addAttribute("username", username);
+            model.addAttribute("user", userService.getUserByUsername(username));
+        }
+        return "/payment";
     }
 }

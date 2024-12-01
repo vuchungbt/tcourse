@@ -56,11 +56,15 @@ public class User {
     @Column(name = "cover_photo")
     String coverPhoto ;
 
+    @Column(columnDefinition = "TEXT")
     String avatar, title, description,intro,tel , fbID, ggID;
 
     LocalDate dob;
 
     @ManyToMany
     Set<Role> roles;
+
+    @OneToMany
+    Set<Card> cards;
 
 }

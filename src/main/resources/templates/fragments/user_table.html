@@ -195,24 +195,6 @@
                             </div>
 
                             <div class="mb-3">
-                                <div class="row align-items-center">
-                                    <div class="col-md-9">
-                                        <label for="editEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="editEmail"
-                                               name="email" required>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="emailVerified" class="form-label">Email</label>
-                                        <select class="form-control" id="emailVerified"
-                                                name="emailVerified">
-                                            <option value="false">Verified</option>
-                                            <option value="true">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="editDob" class="form-label">Date of Birth</label>
                                 <input type="date" class="form-control" id="editDob"
                                        name="dob">
@@ -331,7 +313,7 @@
             submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
 
             fetch(`/api/users/update/${userId}`, {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },

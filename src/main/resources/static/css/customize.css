@@ -5,6 +5,9 @@
 .top-6 {
     top: 6px;
 }
+.index1200 {
+    z-index: 1200 !important;
+}
 .p-x1 {
   padding: 0.15rem !important;
 }

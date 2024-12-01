@@ -6,7 +6,7 @@ spring:
   application:
     name: course
   datasource:
-    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/course2}
+    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/course}
     username: ${DB_POSTGRES_USERNAME:postgres}
     password: ${DB_POSTGRES_PASSWORD:postgres123}
   jpa:
@@ -15,8 +15,8 @@ spring:
     show-sql: true
   servlet:
     multipart:
-      max-file-size: 500MB
-      max-request-size: 500MB
+      max-file-size: 1000MB
+      max-request-size: 1000MB
 
 jwt:
   secret: ${JWT_SECRET:JWT_SECRET_KEY_MUST_BE_32_DIGITS}
@@ -24,7 +24,7 @@ jwt:
   expiration-day: 90
 config:
   file:
-    upload-dir: E:\tem
+    upload-dir: ${UPLOAD_DIR:E:\tem}
   admin:
     name: ${ADMIN_NAME:adminadmin}
     password: ${ADMIN_PASSWORD:adminadmin123}

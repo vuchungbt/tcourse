@@ -12,17 +12,13 @@ import net.blwsmartware.tcourse.entity.Post;
 import net.blwsmartware.tcourse.entity.Section;
 import net.blwsmartware.tcourse.entity.Tag;
 import net.blwsmartware.tcourse.mapper.CategoryMapper;
-import net.blwsmartware.tcourse.service.CategoryService;
-import net.blwsmartware.tcourse.service.PostService;
-import net.blwsmartware.tcourse.service.SectionService;
-import net.blwsmartware.tcourse.service.TagService;
+import net.blwsmartware.tcourse.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
@@ -33,6 +29,7 @@ import java.util.Set;
 public class SectionController {
 
     PostService postService;
+    UserService userService;
     TagService tagService ;
     SectionService sectionService ;
     CategoryService categoryService ;
@@ -59,8 +56,6 @@ public class SectionController {
         }
         if(form!=null && !form.getComponents().isEmpty()) {
             form.getComponents().forEach(component -> {
-                System.out.println("component:"+ component);
-                System.out.println("component name:"+ component.getName());
                 sectionSet.add(sectionService.create(component));
             });
         }
@@ -74,6 +69,12 @@ public class SectionController {
         PostResponse postResponse =  postService.updatePostSection(post_id,postUpdateSection);
         log.info("postResponse: {}",postResponse);
         model.addAttribute("post",  postResponse);
+        if(authentication!=null) {
+            String username = authentication.getName();
+            model.addAttribute("username", username);
+            model.addAttribute("user", userService.getUserByUsername(username));
+        }
+
         return "uploadvideo";
     }
 }

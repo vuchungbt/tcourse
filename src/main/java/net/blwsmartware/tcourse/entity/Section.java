@@ -23,11 +23,8 @@ public class Section {
     @NotNull(message = "NAME_NOT_NULL")
     String name;
 
-    String description;
-    String content;
-    String type;
-    String source;
-    String thumbnail;
+    @Column(columnDefinition = "TEXT")
+    String description, content, type, source, thumbnail;
     LocalTime time;
 
     @Column(name = "item_order")

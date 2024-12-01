@@ -173,6 +173,30 @@
             float: right;
         }
     </style>
+    <style>
+        .star-rating {
+            display: flex;
+            align-items: center;
+        }
+        .star-rating .stars {
+            display: flex;
+            margin-left: 10px;
+        }
+        .star-rating .stars i {
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 1.5rem;
+            margin-right: 3px;
+        }
+        .star-rating .stars i.bi-star-fill {
+            color: #ffc107;
+        }
+        .star-rating .current-rating {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body  style="margin-top:70px">
 
@@ -196,18 +220,20 @@
 
                 <div class="d-flex align-items-center mb-3">
                     <div class="rating me-2">
-                        <span>4.7</span>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
+                        <span th:text="${#numbers.formatDecimal(post.avgVote, 0, 1)}"></span>
+                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                            <th:block th:switch="${true}">
+                                <i th:case="${post.avgVote >= i}" class="bi bi-star-fill"></i>
+                                <i th:case="${post.avgVote > (i-1) and post.avgVote < i}" class="bi bi-star-half"></i>
+                                <i th:case="*" class="bi bi-star"></i>
+                            </th:block>
+                        </th:block>
                     </div>
-                    <span>(20 đánh giá)</span>
-                    <span class="ms-3">239 Học viên</span>
+                    <span th:text="${post.votes.size() + ' Đánh giá'}"></span>
+<!--                    <span class="ms-3">239 Học viên</span>-->
                 </div>
                 
-                <p>Giảng viên: <a href="#" class="text-info">Nguyễn Minh Cường</a></p>
+                <p>Giảng viên: <a href="#" class="text-info" th:text="${cre.name}"></a></p>
 
                 <div class="info-box">
                     <h3 class="mb-4">Bạn sẽ học được</h3>
@@ -238,91 +264,28 @@
                 <!-- What you'll learn section -->
                 <div class="info-box">
                     <h3 class="mb-4">Nội dung</h3>
-                    <div class="course-stats">4 phần - 53 bài giảng - 03 giờ 03 phút</div>
+                    <div class="course-stats" th:text="${post.sections.size() +'-Phần'}"></div>
 
                     <div class="accordion" id="courseContent">
                         <!-- Phần 1 -->
                          <div class="accordion-item" th:each="section, iterStat : ${post.sections}">
-                            <h2 class="accordion-header" id="heading1">
-<!--                                <button class="accordion-button" type="button"-->
-<!--                                        th:attr="data-bs-target=${'#collapse' + (iterStat.index + 1)}"-->
-<!--                                        th:text="${'Phần ' + (iterStat.index + 1) + ':'}">-->
-<!--                                    <span class="section-info" th:text="${section.name}"></span>-->
-<!--                                    <span class="section-info" th:text="${iterStat.index}"></span>-->
-<!--                                </button>-->
+
+                            <h2 class="accordion-header" th:id="${'heading' +iterStat.index}">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         th:attr="data-bs-target=${'#collapse' + (iterStat.index + 1)}">
                                     <span th:text="${'Phần ' + iterStat.count + ': '}"></span>
                                     <span class="section-info" th:text="${section.name}"></span>
                                 </button>
                             </h2>
-                            <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
-                                <div class="accordion-body p-0">
+                            <div th:id="${'collapse' +(iterStat.index+1)}"  class="accordion-collapse collapse "
+                                 th:classappend="${iterStat.first} ? 'show' : ''"
+                                 data-bs-parent="#courseContent">
+                                <div class="accordion-body p-0" th:each="item, iterStatx : ${section.items}">
                                     <a href="#" class="lesson-item">
                                         <i class="fas fa-play-circle lesson-icon"></i>
-                                        <span class="lesson-title">Bài 1: Landing page (trang đích) là gì?</span>
-                                        <span class="lesson-duration">00:02:22</span>
+                                        <a class="lesson-title" th:href="@{'/stream/view/' +${item.name}}" th:text="${'Bài '+ (iterStatx.index + 1)+' > ' + item.description }"> </a>
+                                        <span class="lesson-duration"  th:text="${item.time}"> </span>
                                     </a>
-                                    <a href="#" class="lesson-item">
-                                        <i class="fas fa-play-circle lesson-icon"></i>
-                                        <span class="lesson-title">Bài 2: 2 loại Landing page phổ biến</span>
-                                        <span class="lesson-duration">00:02:41</span>
-                                    </a>
-                                    <a href="#" class="lesson-item">
-                                        <i class="fas fa-play-circle lesson-icon"></i>
-                                        <span class="lesson-title">Bài 3: Trang chủ và trang đích (landing page)</span>
-                                        <span class="lesson-duration">00:03:43</span>
-                                    </a>
-                                    <a href="#" class="lesson-item">
-                                        <i class="fas fa-play-circle lesson-icon"></i>
-                                        <span class="lesson-title">Bài 4: Tại sao cần trang đích trong quảng cáo bán hàng (Tiktok)</span>
-                                        <span class="lesson-duration">00:02:50</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Phần 2 -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading2">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-                                    Phần 2: 10 bước tạo trang đích tăng tỷ lệ mua hàng
-                                    <span class="section-info">10 bài giảng - 0 giờ 45 phút</span>
-                                </button>
-                            </h2>
-                            <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#courseContent">
-                                <div class="accordion-body">
-                                    <!-- Thêm nội dung bài học phần 2 tương tự như phần 1 -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Phần 3 -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading3">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-                                    Phần 3: Từng bước thực hành tạo trang đích từ con số 0
-                                    <span class="section-info">25 bài giảng - 1 giờ 37 phút</span>
-                                </button>
-                            </h2>
-                            <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#courseContent">
-                                <div class="accordion-body">
-                                    <!-- Thêm nội dung bài học phần 3 -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Phần 4 -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading4">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
-                                    Phần 4: Tặng thêm - 12 tư duy marketing quan trọng cần biết khi học bán hàng online
-                                    <span class="section-info">14 bài giảng - 0 giờ 28 phút</span>
-                                </button>
-                            </h2>
-                            <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#courseContent">
-                                <div class="accordion-body">
-                                    <!-- Thêm nội dung bài học phần 4 -->
                                 </div>
                             </div>
                         </div>
@@ -330,45 +293,88 @@
                 </div>
 
                 <div class="info-box">
-                    <div class="card">
+                    <div class="card" th:each="comment : ${post.comments}">
                         <div class="card-body">
                             <div class="d-flex flex-start align-items-center">
-                                <img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60" height="60">
+                                <img class="rounded-circle shadow-1-strong me-3"
+                                     th:src="@{'/image/' + ${comment.created.avatar}}"
+                                     alt="avatar" width="50" height="50">
                                 <div>
-                                    <h6 class="fw-bold text-primary mb-1">Lily Coleman</h6>
-                                    <p class="text-muted small mb-0">
-                                        Shared publicly - Jan 2020
+                                    <h6 class="fw-bold text-primary mb-1" th:text="${comment.created.name}"></h6>
+                                    <p class="text-muted small mb-0 timestamps" th:text="${comment.createAt}">
                                     </p>
                                 </div>
                             </div>
 
-                            <p class="mt-3 mb-1">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip consequat.
+                            <p class="mt-3 mb-1" th:text="${comment.content}">
                             </p>
-
-                            <div class="small d-flex justify-content-start">
-                                <a href="#!" class="d-flex align-items-center me-3">
-                                    <i class="far fa-thumbs-up me-2"></i>
-                                    <p class="mb-0">Like</p>
-                                </a>
-                                <a href="#!" class="d-flex align-items-center me-3">
-                                    <i class="far fa-comment-dots me-2"></i>
-                                    <p class="mb-0">Reply</p>
-                                </a>
-                            </div>
                         </div>
+                    </div>
+                    <div th:if="${user == null}" class="card align-items-center py-1 " >
+                        <h5> Đăng nhập để bình luận</h5>
+                        <a  th:href="@{/dang-nhap}" class="btn btn-primary">Đăng nhập</a>
+                    </div>
+                    <div th:if="${user != null}" class="card">
                         <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
-                            <div class="d-flex flex-start w-100">
-                                <img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="40" height="40">
-                                <div data-mdb-input-init="" class="form-outline w-100">
-                                    <textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;"></textarea>
+
+                            <form th:action="@{/post/comment/create}" method="post" >
+                                <div class="d-flex flex-start w-100">
+                                    <img class="rounded-circle shadow-1-strong me-3"
+                                         th:src="@{'/image/' + ${user.avatar}}" alt="avatar" width="40" height="40">
+                                    <div data-mdb-input-init="" class="form-outline w-100">
+                                        <textarea
+                                                name="content"
+                                                class="form-control"
+                                                id="textAreaExample"
+                                                rows="3"
+                                                style="background: #fff;"
+                                                placeholder="Nhập bình luận của bạn..."></textarea>
+                                        <input type="hidden" name="postId" th:value="${post.id}"/>
+                                        <input type="hidden" name="createdId" th:value="${user.id}"/>
+                                        <input type="hidden" name="vote" value="0"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="float-end mt-2 ">
-                                <button type="button" data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-primary-2th btn-sm">Post comment</button>
-                            </div>
+                                <div class="float-end mt-2 ">
+                                    <button type="submit" data-mdb-button-init=""
+                                            data-mdb-ripple-init="" class="btn btn-primary-2th btn-sm">Post comment</button>
+                                </div>
+                            </form>
+                            <script>
+                                document.getElementById("voteForm").addEventListener("submit", function(event) {
+                                    event.preventDefault();
+
+                                    const stars = document.getElementById("stars").value;
+                                    const postId = document.getElementById("postId_").value;
+
+                                    console.log('postId:', postId);
+                                    console.log('stars:', stars);
+
+                                    fetch(`/api/course/vote/${postId}?stars=${stars}`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    })
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok');
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(data => {
+                                        // Kiểm tra và hiển thị thông báo phù hợp
+                                        if (data && data.message) {
+                                            alert(data);
+                                        } else {
+                                            alert('Vote thành công!');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('Đã có lỗi xảy ra: ' + error);
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -381,36 +387,66 @@
 
                     <div class="price-box bg-white p-4 rounded">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="price text-dark" th:text="${post.discount}"> </span>
-                            <div>
-                                <span class="original-price" th:text="${post.price}"> </span>
-                                <span class="badge bg-danger discount ms-2 p-2 text-white">Giảm 30%</span>
+                            <span class="final-price text-dark h5 num"
+                                  th:text="${post.finalPrice + ' VND'}"> </span>
+
+                            <div th:if="${post.discountPercent>0 }">
+                                <span class="original-price text-decoration-line-through text-muted num"
+                                      th:text="${post.price + 'VND'}"> </span>
+                                <span class="badge bg-danger discount ms-2 p-2 text-white"
+                                      th:text="${post.discountPercent + '%'}"> </span>
                             </div>
                         </div>
 
-                        <button class="btn btn-primary-2th mb-2">THÊM VÀO GIỎ HÀNG</button>
-                        <button class="btn btn-outline-primary">MUA NGAY</button>
+                        <button class="btn btn-primary-2th mb-2 add-to-cart-btn"
+                                th:data-post-id="${post.id}"
+                                th:data-name="${post.name}"
+                                th:data-price="${post.finalPrice}"
+                                th:data-thumbnail="${post.thumbnail}">THÊM VÀO GIỎ HÀNG</button>
+                        <a class="btn btn-outline-primary"  th:href="@{/home/payment}">MUA NGAY</a>
 
                         <div class="course-info mt-4">
-                            <p><i class="bi bi-alarm"></i> Thời lượng: 04 giờ 27 phút</p>
-                            <p><i class="bi bi-play-circle"></i> Giáo trình: 37 Bài giảng</p>
+                            <p><i class="bi bi-alarm"></i> <span th:text="${'Phần học: ' + post.sections.size()}"> </span></p>
+                            <p><i class="bi bi-play-circle"></i> Giáo trình: <span th:text="${totalItems}">0</span> Bài giảng</p>
+
                             <p><i class="bi bi-archive"></i></i> Sở hữu khóa học trọn đời</p>
                             <p><i class="bi bi-patch-check"></i></i> Cấp chứng nhận hoàn thành</p>
                         </div>
-
                         <div class="coupon mt-4">
-                            <input type="text" class="form-control" placeholder="Nhập mã giảm giá">
-                            <button class="btn btn-outline-primary mt-2">Áp dụng</button>
+                            <div>
+                                <div class="star-rating">
+                                    <span class="current-rating">0.0</span>
+                                    <div class="stars">
+                                        <i class="bi bi-star" data-rating="1"></i>
+                                        <i class="bi bi-star" data-rating="2"></i>
+                                        <i class="bi bi-star" data-rating="3"></i>
+                                        <i class="bi bi-star" data-rating="4"></i>
+                                        <i class="bi bi-star" data-rating="5"></i>
+                                    </div>
+                                </div>
+
+                                <form id="voteForm">
+                                    <input type="hidden" id="postId_" th:value="${post.id}"/>
+                                    <input type="hidden" id="selectedStars" name="stars" value="0" required/>
+                                </form>
+                            </div>
                         </div>
+
+
+<!--                        <div class="coupon mt-4">-->
+<!--                            <input type="text" class="form-control" placeholder="Nhập mã giảm giá">-->
+<!--                            <button class="btn btn-outline-primary mt-2">Áp dụng</button>-->
+<!--                        </div>-->
                     </div>
                 </div>
                 <div class="info-box position-relative ">
                     <div class="h-100 text-center position-relative   ">
                         <div class="badge bg-success position-absolute top-0 start-0">Giảng viên</div>
-                        <img src="/img/a2.jpg" class="container-fluid card-img-top  rounded-circle w-75 " alt="Product 4">
+                        <img th:src="@{'/image/' + ${cre.avatar}}" class="container-fluid card-img-top  rounded-circle w-75 "
+                             alt="Product 4">
                         <div class="card-body text-dark bg-gradient mt-1">
-                            <h5 class="card-title">Sản phẩm 4</h5>
-                            <p class="card-text">Mô tả ngắn gọn về sản phẩm 4.</p>
+                            <h5 class="card-title" th:text="${cre.name}"> </h5>
+                            <p class="card-text" th:text="${cre.title}"></p>
                         </div>
                     </div>
                 </div>
@@ -419,33 +455,89 @@
     </div>
 
 
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<link th:href="@{/css/font/bootstrap-icons.css}" rel="stylesheet">
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.stars i');
+        const currentRating = document.querySelector('.current-rating');
+        const selectedStarsInput = document.getElementById('selectedStars');
+        const postId = document.getElementById('postId_').value;
 
-        document.querySelectorAll('.dropdown-submenu > a').forEach(function(element) {
-            element.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                var submenu = this.nextElementSibling;
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('bi-star');
+                    star.classList.add('bi-star-fill');
+                } else {
+                    star.classList.remove('bi-star-fill');
+                    star.classList.add('bi-star');
+                }
+            });
+            currentRating.textContent = rating.toFixed(1);
+            selectedStarsInput.value = rating;
+        }
 
-                var allSubmenus = document.querySelectorAll('.dropdown-submenu .dropdown-menu');
-                allSubmenus.forEach(function(menu) {
-                    if (menu !== submenu) {
-                        menu.style.display = 'none';
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+
+                console.log('rating:', rating);
+                console.log('postId:', postId);
+
+                fetch(`/api/course/vote/${postId}?stars=${rating}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    console.log('Full response:', response);
+                    console.log('Response status:', response.status);
+
+                    // Quan trọng: Sử dụng .json() để đọc body
+                    return response.json();
+                })
+                .then(data => {
+                    // Log toàn bộ dữ liệu nhận được
+                    console.log('Parsed data:', data);
+
+                    // Kiểm tra và xử lý dữ liệu
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đã có lỗi xảy ra: ' + error);
+                });
+            });
+
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.remove('bi-star');
+                        s.classList.add('bi-star-fill');
+                    } else {
+                        s.classList.remove('bi-star-fill');
+                        s.classList.add('bi-star');
                     }
                 });
+                currentRating.textContent = rating.toFixed(1);
+            });
 
-                if (submenu.style.display === 'block') {
-                    submenu.style.display = 'none';
-                } else {
-                    submenu.style.display = 'block';
-                }
+            star.addEventListener('mouseout', function() {
+                const currentSelectedRating = parseInt(selectedStarsInput.value);
+                updateStars(currentSelectedRating);
             });
         });
     });
 </script>
+<div class="pt-2" th:replace="~{fragments/nav :: footer}"></div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<link th:href="@{/css/font/bootstrap-icons.css}" rel="stylesheet">
+<script th:src="@{/js/customize.js}"></script>
 </body>
 </html>

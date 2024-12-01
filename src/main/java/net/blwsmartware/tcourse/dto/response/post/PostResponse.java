@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import net.blwsmartware.tcourse.entity.Category;
-import net.blwsmartware.tcourse.entity.Section;
-import net.blwsmartware.tcourse.entity.Skill;
-import net.blwsmartware.tcourse.entity.Tag;
+import net.blwsmartware.tcourse.entity.*;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,18 +16,21 @@ import java.util.Set;
 public class PostResponse {
     Long id;
     String  created_by,name,
-            thumbnail , coverPhoto, price, discount,description,
+            thumbnail , coverPhoto, description,
             title ,
             content ;
     Instant createAt;
 
     Instant updateAt;
-
+    int price, discount,discountPercent,finalPrice;
+    double avgVote;
     Instant publishedAt;
     int status;
     Set<Skill> skills ;
-    Set<Section> sections ;
+    List<Section> sections ;
     Set<Tag> tags ;
     Set<Category> categories ;
-
+    List<Comment> comments ;
+    Set<Discount> discounts ;
+    Set<Vote> votes ;
 }

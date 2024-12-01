@@ -6,9 +6,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import net.blwsmartware.tcourse.dto.request.comment.CommentRequest;
 import net.blwsmartware.tcourse.dto.request.post.PostRequest;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.entity.ImageStorage;
+import net.blwsmartware.tcourse.service.CommentService;
 import net.blwsmartware.tcourse.service.StorageService;
 import net.blwsmartware.tcourse.service.PostService;
 import org.springframework.security.core.Authentication;
@@ -28,7 +30,7 @@ public class PostController {
 
     StorageService storageService;
     PostService postService;
-
+    CommentService commentService;
 
     @PostMapping("/post")
     public String post(
@@ -62,5 +64,16 @@ public class PostController {
         model.addAttribute("post", post);
         return "create-step2-post";
     }
+    @PostMapping("/post/comment/create")
+    public String createComment(@ModelAttribute CommentRequest commentRequest, Model model ,
+                                @RequestHeader(value = "Referer", required = false) String referer) {
+        log.info("Comment :{}",commentRequest);
+        commentService.createComment(commentRequest);
+        if (referer != null) {
+            return "redirect:" + referer;
+        }
+        return "redirect:/home" ;
+    }
+
 
 }

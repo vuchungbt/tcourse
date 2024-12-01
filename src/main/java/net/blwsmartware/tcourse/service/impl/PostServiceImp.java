@@ -8,17 +8,11 @@ import net.blwsmartware.tcourse.dto.request.post.PostUpdate;
 import net.blwsmartware.tcourse.dto.request.post.PostUpdateSection;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
-import net.blwsmartware.tcourse.entity.Category;
-import net.blwsmartware.tcourse.entity.Post;
-import net.blwsmartware.tcourse.entity.Skill;
-import net.blwsmartware.tcourse.entity.User;
+import net.blwsmartware.tcourse.entity.*;
 import net.blwsmartware.tcourse.enums.ErrorResponse;
 import net.blwsmartware.tcourse.exception.AppRuntimeException;
 import net.blwsmartware.tcourse.mapper.PostMapper;
-import net.blwsmartware.tcourse.repository.CategoryRepository;
-import net.blwsmartware.tcourse.repository.PostRepository;
-import net.blwsmartware.tcourse.repository.SkillRepository;
-import net.blwsmartware.tcourse.repository.UserRepository;
+import net.blwsmartware.tcourse.repository.*;
 import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.util.DataResponseUtils;
 import org.springframework.data.domain.Page;
@@ -41,6 +35,7 @@ public class PostServiceImp implements PostService {
     SkillRepository skillRepository;
     UserRepository userRepository;
     CategoryRepository categoryRepository;
+    DiscountRepository discountRepository;
 
     @Override
     public PostResponse createPost(PostRequest request) {
@@ -53,6 +48,13 @@ public class PostServiceImp implements PostService {
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USERNAME_NOT_NULL));
         post.setCreated(created);
         post.setSkills(skills);
+        Discount discount = Discount.builder()
+                .def(true)
+                .status(true)
+                .percent(request.getDiscount())
+                .build();
+        discount= discountRepository.save(discount);
+        post.setDiscounts(Set.of(discount));
         return postMapper.toPostResponse(postRepository.save(post));
     }
 

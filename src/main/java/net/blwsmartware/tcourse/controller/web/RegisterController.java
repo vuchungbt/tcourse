@@ -45,9 +45,9 @@ public class RegisterController {
         }
         model.addAttribute("message", "Đăng ký thành công");
 
-        if (referer != null) {
-            return "redirect:" + referer;
-        }
+//        if (referer != null) {
+//            return "redirect:" + referer;
+//        }
 
         return "login";
     }

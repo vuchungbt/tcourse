@@ -14,7 +14,17 @@
 
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<div class="container">
+<div class="container" th:if="${isTeacher=='No'}">
+  <div class="alert alert-warning text-center mt-4">
+    <h5>Vui long đăng ký tài khoản giảng viên trước khi đăng tải khóa học</h5>
+    <a  class="btn btn-primary mb-3" th:href="@{/users/request/TEACHER}">Đăng ký</a>
+  </div>
+</div>
+
+<div class="container" th:if="${isTeacher=='Yes'}">
+  <div class="alert alert-warning text-center mt-4" th:if="${param.result !=null}">
+    <h5>Đã đăng ký thành công</h5>
+  </div>
   <div class="card card-6 mb-2" style="background:white !important;">
      <form th:action="@{/post}" method="post" enctype="multipart/form-data">
     <div class="card-heading m-2">
@@ -23,13 +33,17 @@
     <div class="card-body">
       <div class="row">
         <!-- Cột bên trái -->
-        <div class="col-md-9">
+        <div class="col-md-8">
           <label for="name" class="form-label">Tên khóa học</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Tên khóa học" required>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <label for="price" class="form-label">Giá bán</label>
           <input type="number" class="form-control" id="price" name="price" value="100000" placeholder="Giá bán" required>
+        </div>
+        <div class="col-md-2">
+          <label for="price" class="form-label">Giảm giá(%)</label>
+          <input type="number" class="form-control" id="discount" name="discount" value="0" placeholder="Giảm giá" required>
         </div>
       </div>
 
@@ -88,7 +102,7 @@
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <link th:href="@{/css/font/bootstrap-icons.css}" rel="stylesheet">
-
+<script th:src="@{/js/customize.js}"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
 

@@ -9,10 +9,20 @@
     <div th:if="${list_post_all.totalElements > 0}" class="row row-cols-1 row-cols-md-3 g-4">
         <div th:each="post : ${list_post_all.content}" class="col">
             <div class="card h-100 position-relative">
-                <div class="badge bg-danger position-absolute top-0 start-0">-20%</div>
-                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2">
+                <div  th:each="discount :${ post.discounts }">
+                    <div  class="badge bg-danger position-absolute top-0 start-0"
+                          th:if="${discount.def && discount.percent>0}" th:text="${discount.percent +'%'}">
+                    </div>
+                </div>
+                <!-- Nút thêm vào giỏ -->
+                <button class="btn btn-outline-primary btn-sm position-absolute top-0 end-0 m-2 add-to-cart-btn"
+                        th:data-post-id="${post.id}"
+                        th:data-name="${post.name}"
+                        th:data-price="${post.finalPrice}"
+                        th:data-thumbnail="${post.thumbnail}">
                     <i class="bi bi-cart"></i>
                 </button>
+
                 <img th:src="@{'/image/' + ${post.thumbnail}}" class="card-img-top" height="200px" alt="Product 1">
                 <div class="card-body">
                     <a th:href="@{'/home/p/' +${post.id}}">
@@ -21,13 +31,16 @@
                     </a>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
-                    <span class="fw-bold text-primary" th:text="${post.price}">$150</span>
+                    <span class="num fw-bold text-primary" th:text="${post.price + ' VND'}">$150</span>
                     <div class="text-warning">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
+                        <span th:text="${#numbers.formatDecimal(post.avgVote, 0, 1)}"></span>
+                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                            <th:block th:switch="${true}">
+                                <i th:case="${post.avgVote >= i}" class="bi bi-star-fill"></i>
+                                <i th:case="${post.avgVote > (i-1) and post.avgVote < i}" class="bi bi-star-half"></i>
+                                <i th:case="*" class="bi bi-star"></i>
+                            </th:block>
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -37,4 +50,6 @@
     <div th:if="${list_post_all.totalElements == 0}" class="alert alert-warning text-center mt-4">
        <h5>Không có bài viết nào để hiển thị.</h5>
     </div>
+
+
 </div>

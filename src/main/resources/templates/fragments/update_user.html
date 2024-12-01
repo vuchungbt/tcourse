@@ -4,7 +4,7 @@
 
     <div class="d-flex align-items-center mb-4 d-lg-none">
       <button class="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-        <span class="btn btn-primary"><i class="fa-solid fa-sliders-h" aria-hidden="true"></i></span>
+        <span class="btn btn-primary"><i class="bi bi-sliders"></i></span>
         <span class="h6 mb-0 fw-bold d-lg-none ms-2">Settings</span>
       </button>
     </div>
@@ -41,8 +41,8 @@
                 </li>
                 <li class="nav-item" data-bs-dismiss="offcanvas">
                   <a class="nav-link d-flex mb-0" href="#nav-setting-tab-4" data-bs-toggle="tab">
-                    <i class="bi bi-bell-slash  mx-1"></i>
-                    <span>Cài đặt thông báo </span></a>
+                    <i class="bi bi-credit-card mx-1"></i>
+                    <span>Cài đặt thanh toán </span></a>
                 </li>
 
               </ul>
@@ -67,29 +67,33 @@
         <div class="card mb-4">
 
           <div class="card-body">
-            <form>
+            <form id="infoUserForm">
+              <input type="hidden" name="post_id" th:value="${user.id}">
+              <input type="hidden" th:value="${user.id}" id="editUserId" name="id" />
               <div class="mb-3">
                 <label for="name" class="form-label">Tên</label>
-                <input type="text" class="form-control" id="name" placeholder="Nhập tên">
+                <input type="text" th:value="${user.name}" name="name" class="form-control" id="name" placeholder="Nhập tên">
               </div>
 
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label for="tel" class="form-label">Số điện thoại</label>
-                  <input type="tel" class="form-control" id="tel" placeholder="Nhập số điện thoại">
+                  <input th:value="${user.tel}" type="tel" name="tel" class="form-control" id="tel" placeholder="Nhập số điện thoại">
                 </div>
                 <div class="col-md-6">
                   <label for="dob" class="form-label">Ngày sinh</label>
-                  <input type="date" class="form-control" id="dob">
+                  <input th:value="${user.dob}" type="date" name="dob" class="form-control" id="dob">
                 </div>
               </div>
               <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" placeholder="Giới thiệu">
+                <input type="text" th:value="${user.title}" name="title" class="form-control" id="title" placeholder="Giới thiệu">
               </div>
               <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" rows="3" placeholder="Nhập mô tả"></textarea>
+                <textarea class="form-control" th:text="${user.description}" name="description"   id="description" rows="3" placeholder="Nhập mô tả">
+
+                </textarea>
               </div>
               <button type="submit" class="btn btn-primary float-end">Cập nhật</button>
             </form>
@@ -97,6 +101,54 @@
           </div>
           <!-- Card body END -->
         </div>
+        <script>
+          document.getElementById('infoUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const userId = document.getElementById('editUserId').value;
+
+            // Convert form data to JSON
+            const jsonData = Object.fromEntries(formData.entries());
+
+            // Add loading state to submit button
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
+
+            fetch(`/api/users/update/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show success message
+                // const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+               // modal.hide();
+                alert(data.message);
+                // Optionally refresh the page or update the table row
+                // window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating user');
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            });
+        });
+        </script>
 
       </div>
       <!-- Notification tab START -->
@@ -104,20 +156,68 @@
         <!-- Notification START -->
         <div class="card">
           <div class="card-body">
-            <form>
+            <form id="accountForm">
+              <input type="hidden" th:value="${user.id}" name="id" id="accountId"  >
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Nhập email">
+                <input type="email" th:value="${user.email}" name="email" class="form-control" id="email" placeholder="Nhập email">
               </div>
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Nhập username">
+                <input type="text" th:value="${user.username}" class="form-control" id="username" name="username" placeholder="Nhập username">
               </div>
               <button type="submit" class="btn btn-primary float-end">Cập nhật</button>
             </form>
           </div>
         </div>
-        <!-- Notification END -->
+        <script>
+          document.getElementById('accountForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const userId = document.getElementById('accountId').value;
+
+            // Convert form data to JSON
+            const jsonData = Object.fromEntries(formData.entries());
+
+            // Add loading state to submit button
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
+
+            fetch(`/api/users/account/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show success message
+                // const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+               // modal.hide();
+                alert(data.message);
+                // Optionally refresh the page or update the table row
+                // window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating user');
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            });
+        });
+        </script>
       </div>
       <!-- Notification tab END -->
 
@@ -126,53 +226,185 @@
         <!-- Privacy and safety START -->
         <div class="card">
           <div class="card-body">
-            <form>
+            <form id="pwdForm">
+              <input type="hidden" th:value="${user.id}" name="id" id="pwdId"  >
               <div class="mb-3">
                 <label for="current-password" class="form-label">Mật khẩu cũ</label>
-                <input type="password" class="form-control" id="current-password" placeholder="Nhập mật khẩu cũ">
+                <input type="password" value="" name="old_password" class="form-control" id="current-password" placeholder="Nhập mật khẩu cũ">
               </div>
               <div class="mb-3">
                 <label for="new-password" class="form-label">Mật khẩu mới</label>
-                <input type="password" class="form-control" id="new-password" placeholder="Nhập mật khẩu mới">
+                <input type="password" value="" name="password" class="form-control" id="new-password" placeholder="Nhập mật khẩu mới">
               </div>
               <div class="mb-3">
                 <label for="confirm-password" class="form-label">Nhập lại mật khẩu</label>
                 <input type="password" class="form-control" id="confirm-password" placeholder="Nhập lại mật khẩu mới">
+                <p class="message" id="message"> </p>
               </div>
               <button type="submit" class="btn btn-primary float-end">Cập nhật</button>
             </form>
           </div>
         </div>
+        <script>
+          const currentPasswordInput = document.getElementById('current-password');
+          const newPasswordInput = document.getElementById('new-password');
+          const confirmPasswordInput = document.getElementById('confirm-password');
+          const message = document.getElementById('message');
+
+          function validatePasswords() {
+            const currentPassword = currentPasswordInput.value;
+            const newPassword = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (newPassword === currentPassword) {
+              message.textContent = ' Mật khẩu ít nhất có 6 kí tự!';
+              message.style.color = 'green';
+            } else if (newPassword !== confirmPassword) {
+              message.textContent = 'Mật khẩu không khớp!';
+              message.style.color = 'red';
+            } else {
+              message.textContent = '';
+            }
+          }
+
+          newPasswordInput.addEventListener('input', validatePasswords);
+          confirmPasswordInput.addEventListener('input', validatePasswords);
+        </script>
+        <script>
+          document.getElementById('pwdForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const userId = document.getElementById('pwdId').value;
+
+            // Convert form data to JSON
+            const jsonData = Object.fromEntries(formData.entries());
+
+            // Add loading state to submit button
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
+
+            fetch(`/api/users/pwd/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show success message
+                // const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+               // modal.hide();
+                alert(data.message);
+                 Optionally refresh the page or update the table row
+                 window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating user');
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            });
+        });
+        </script>
+
       </div>
       <div class="tab-pane fade" id="nav-setting-tab-4">
-        <div class="card">
-          <div class="card-header border-0 pb-0">
-            <h5 class="card-title">Chức năng thêm</h5>
+          <div class="card">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0"
+                    th:each="card :${ user.cards }">
+                    <div class="me-2">
+                      <h6 class="mb-0 num" th:text="${card.number}"> </h6>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="msgSwitchCheckChecked5"
+                             th:checked="${card.isDefault}">
+                    </div>
+                </li>
+
+              </ul>
+
+            </div>
+
           </div>
-          <div class="card-body">
+          <div class="card-footer bg-white">
+            <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addCardModal"><i class="bi bi-plus-circle-dotted"></i>Thêm thẻ </a>
           </div>
-          <div class="card-footer pt-0 text-end border-0">
-            <button type="submit" class="btn btn-sm btn-primary mb-0">Save changes</button>
+        <!-- Modal Thêm Thẻ Tín Dụng -->
+        <div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addCardModalLabel">Thêm Thẻ Tín Dụng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form th:action="@{/profile/add-card}" method="post">
+                  <input type="hidden" class="form-control" id="id_"   name="id" th:value="${user.id}">
+                  <div class="mb-3">
+                    <label for="cardNumber" class="form-label">Số Thẻ</label>
+                    <input type="text" class="form-control" id="cardNumber" placeholder="Nhập số thẻ" name="number">
+                  </div>
+                  <div class="mb-3">
+                    <label for="cardHolderName" class="form-label">Tên Chủ Thẻ</label>
+                    <input type="text" class="form-control" id="cardHolderName" placeholder="Nhập tên chủ thẻ" name="name">
+                  </div>
+                  <div class="mb-3">
+                    <label for="expiryDate" class="form-label">Ngày Hết Hạn</label>
+                    <input type="month" class="form-control" id="expiryDate" name="expr">
+                  </div>
+                  <div class="mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="password" class="form-control" id="cvv" placeholder="Nhập CVV" name="CVV">
+                  </div>
+                  <div class="mb-3">
+                    <label for="address" class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" name="address">
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="isDefault" name="isDefault">
+                    <label class="form-check-label" for="isDefault">Đặt làm mặc định</label>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm Thẻ</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
+
+        <script>
+          const switches = document.querySelectorAll('.form-check-input');
+          switches.forEach(switchElement => {
+              switchElement.addEventListener('change', () => {
+                  if (switchElement.checked) {
+                      switches.forEach(otherSwitch => {
+                          if (otherSwitch !== switchElement) {
+                              otherSwitch.checked = false;
+                          }
+                      });
+                  }
+              });
+          });
+        </script>
       </div>
 
-      <div class="tab-pane fade" id="nav-setting-tab-6">
-        <!-- Card START -->
-        <div class="card">
-          <!-- Card header START -->
-          <div class="card-header border-0 pb-0">
-            <h5 class="card-title">Delete account</h5>
-            <p class="mb-0">He moonlights difficult engrossed it, sportsmen. Interested has all Devonshire difficulty gay assistance joy. Unaffected at ye of compliment alteration to.</p>
-          </div>
-          <!-- Card header START -->
-          <!-- Card body START -->
-          <div class="card-body">
-          </div>
-          <!-- Card body END -->
-        </div>
-        <!-- Card END -->
-      </div>
 
     </div>
   </div>

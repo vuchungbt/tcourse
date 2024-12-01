@@ -31,13 +31,14 @@ public class Post {
     @Column(name = "update_at")
     Instant updateAt;
 
-    double price, discount;
+    int price, discount;
 
     Instant publishedAt;
 
     @Column(name = "cover_photo")
     String  coverPhoto;
 
+    @Column(columnDefinition = "TEXT")
     String  created_by, description, name ,
             thumbnail ,
             title ,
@@ -57,8 +58,15 @@ public class Post {
     List<Comment> comments ;
 
     @OneToMany
-    Set<Section> sections ;
+    List<Section> sections ;
 
     @OneToMany
     Set<Skill> skills ;
+
+    @OneToMany
+    Set<Discount> discounts ;
+
+    @OneToMany
+    Set<Vote> votes;
+
 }

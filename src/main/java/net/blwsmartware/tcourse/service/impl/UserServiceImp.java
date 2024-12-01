@@ -7,30 +7,25 @@ import net.blwsmartware.tcourse.constant.PagePrepare;
 import net.blwsmartware.tcourse.constant.PredefinedRole;
 import net.blwsmartware.tcourse.dto.request.account.*;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
-import net.blwsmartware.tcourse.dto.response.post.PostResponse;
-import net.blwsmartware.tcourse.dto.response.role.RoleResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
-import net.blwsmartware.tcourse.entity.Category;
-import net.blwsmartware.tcourse.entity.Post;
-import net.blwsmartware.tcourse.entity.Role;
-import net.blwsmartware.tcourse.entity.User;
+import net.blwsmartware.tcourse.entity.*;
 import net.blwsmartware.tcourse.enums.ErrorResponse;
 import net.blwsmartware.tcourse.exception.AppRuntimeException;
 import net.blwsmartware.tcourse.mapper.UserMapper;
+import net.blwsmartware.tcourse.repository.CardRepository;
 import net.blwsmartware.tcourse.repository.RoleRepository;
 import net.blwsmartware.tcourse.repository.UserRepository;
+import net.blwsmartware.tcourse.service.StorageService;
 import net.blwsmartware.tcourse.service.UserService;
 import net.blwsmartware.tcourse.util.DataResponseUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +39,8 @@ public class UserServiceImp implements UserService {
     RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    StorageService storageService;
+    CardRepository cardRepository;
 
     @Override
     @Transactional
@@ -60,6 +57,24 @@ public class UserServiceImp implements UserService {
         user = userRepository.save(user);
 
         return userMapper.toUserResponse(user);
+    }
+
+    @Override
+    public UserResponse addCard(Card request, long userId) {
+        User u = userRepository.findById(userId)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND) );
+        Card card = Card.builder()
+                .name(request.getName())
+                .CVV(request.getCVV())
+                .address(request.getAddress())
+                .expr(request.getExpr())
+                .isDefault(request.isDefault())
+                .number(request.getNumber())
+                .build();
+        card = cardRepository.save(card);
+        Set<Card> set = u.getCards() ;
+        set.add(card);
+        return userMapper.toUserResponse(userRepository.save(u));
     }
 
     @Override
@@ -144,10 +159,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public UserResponse updateEmail(long id, EmailUserUpdate request) {
+    public UserResponse updateUsernameEmail(long id, UsernameOrEmailUserUpdate request) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
         old.setEmail(request.getEmail());
+        old.setUsername(request.getUsername());
         return userMapper.toUserResponse(userRepository.save(old));
     }
 
@@ -157,11 +173,35 @@ public class UserServiceImp implements UserService {
     public UserResponse updatePassword(long id, PasswordUserUpdate request) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
-        if(passwordEncoder.matches(old.getPassword(),passwordEncoder.encode(request.getOld_password())))
+        if(passwordEncoder.matches(request.getOld_password() , old.getPassword())) {
             old.setPassword(passwordEncoder.encode(request.getPassword()));
+            userRepository.save(old);
+            System.out.println("----saved new Pw");
+        }
+
         else throw new AppRuntimeException(ErrorResponse.PASSWORD_INCORRECT);
 
         return userMapper.toUserResponse(userRepository.save(old));
+    }
+
+    @Override
+    public UserResponse updatePhoto(long id, PhotoUserUpdate request) {
+
+        User old = userRepository.findById(id)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
+
+        try {
+            ImageStorage avatar2 = storageService.saveToStorage(request.getPhoto());
+            if (request.getName().equals("avatar")) {
+                old.setAvatar(avatar2.getId() + "");
+            } else {
+                old.setCoverPhoto(avatar2.getId() + "");
+            }
+            return userMapper.toUserResponse(userRepository.save(old));
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

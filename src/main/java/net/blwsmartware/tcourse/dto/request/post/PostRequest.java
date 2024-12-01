@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostRequest {
-    double price;
+    int price , discount;
     String  name, description, thumbnail,coverPhoto,
             title , created_by,
             content ;
