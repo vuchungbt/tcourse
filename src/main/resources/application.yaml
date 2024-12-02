@@ -5,8 +5,12 @@ server:
 spring:
   application:
     name: course
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
   datasource:
-    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/course}
+    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/course3}
     username: ${DB_POSTGRES_USERNAME:postgres}
     password: ${DB_POSTGRES_PASSWORD:postgres123}
   jpa:

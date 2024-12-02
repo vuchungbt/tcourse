@@ -138,4 +138,10 @@ public class PostServiceImp implements PostService {
     public void delete(long id) {
         postRepository.deleteById(id);
     }
+
+    @Override
+    public List<PostResponse> findAllPostsByUserId(long id) {
+        System.out.println("==========127:" + postRepository.findAllPostsByUserId(id).size());
+        return postRepository.findAllPostsByUserId(id).stream().map(postMapper::toPostResponse).toList();
+    }
 }

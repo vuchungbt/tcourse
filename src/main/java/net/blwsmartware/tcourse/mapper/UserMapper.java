@@ -5,7 +5,6 @@ import net.blwsmartware.tcourse.dto.request.account.UserUpdate;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
 import net.blwsmartware.tcourse.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")

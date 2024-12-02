@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -66,5 +67,8 @@ public class User {
 
     @OneToMany
     Set<Card> cards;
+
+    @OneToMany(mappedBy = "created")
+    List<Invoice> invoices;
 
 }

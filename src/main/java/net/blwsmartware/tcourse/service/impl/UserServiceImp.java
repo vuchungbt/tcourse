@@ -7,10 +7,12 @@ import net.blwsmartware.tcourse.constant.PagePrepare;
 import net.blwsmartware.tcourse.constant.PredefinedRole;
 import net.blwsmartware.tcourse.dto.request.account.*;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
+import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
 import net.blwsmartware.tcourse.entity.*;
 import net.blwsmartware.tcourse.enums.ErrorResponse;
 import net.blwsmartware.tcourse.exception.AppRuntimeException;
+import net.blwsmartware.tcourse.mapper.PostMapper;
 import net.blwsmartware.tcourse.mapper.UserMapper;
 import net.blwsmartware.tcourse.repository.CardRepository;
 import net.blwsmartware.tcourse.repository.RoleRepository;
@@ -153,7 +155,9 @@ public class UserServiceImp implements UserService {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
         var roles = roleRepository.findAllById(request.getRoleIds());
-        old.setRoles(new HashSet<>(roles));
+        Set<Role> roleSet = old.getRoles();
+        roleSet.addAll(roles);
+        old.setRoles(roleSet);
         return userMapper.toUserResponse(userRepository.save(old));
     }
 

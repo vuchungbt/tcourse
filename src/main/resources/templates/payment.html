@@ -49,7 +49,7 @@
                             <i class="bi bi-check-circle mx-1"></i> 123132 123131 23132
                         </li>
                         <li class="list-group-item" >
-                            <button class="btn btn-secondary">Thêm thẻ</button>
+                            <a class="btn btn-secondary" href="/login">Thêm thẻ</a>
                         </li>
                     </ul>
                     <div>
@@ -63,12 +63,71 @@
 
     <!-- Nút Thanh Toán -->
     <div class="text-end mt-4">
-        <button id="checkoutButton" class="btn btn-success">Thanh Toán</button>
+        <button id="checkout" class="btn btn-success">Thanh Toán</button>
     </div>
+
 </div>
+<script>
+
+
+
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+    function createInvoice() {
+        const rows = document.querySelectorAll('#cartTableBody tr'); // Lấy tất cả các hàng trong giỏ hàng
+        const invoiceDetails = [];
+        let totalPrice = 0;
+
+        rows.forEach((row) => {
+            const id = row.children[1].innerText.trim(); // Lấy ID
+            const priceText = row.children[3].innerText.trim(); // Lấy giá (định dạng văn bản)
+            const price = parseInt(priceText.replace(/\D/g, '')); // Chuyển giá thành số (loại bỏ ký tự không phải số)
+
+            invoiceDetails.push({ id, price });
+            totalPrice += price;
+        });
+
+        // Tạo hóa đơn
+        const invoice = {
+            total: totalPrice,
+            posts: invoiceDetails
+        };
+        uploadInvoice(invoice);
+        console.log('Hóa đơn:', invoice);
+    }
+    // Gửi hóa đơn lên server
+    function uploadInvoice(invoice) {
+        fetch('/home/buy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(invoice)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Phản hồi từ server:', data);
+            if (data.success === false) {
+                alert('Đăng nhập trước!');
+                window.location.href = '/login';
+            } else {
+                console.log('Thao tác thành công!');
+                alert('Thanh toán thành công!');
+                clearCart();
+                window.location.reload();
+            }
+
+        })
+        .catch(error => {
+            console.error('Lỗi khi gửi hóa đơn:', error);
+            alert('Thanh toán thất bại!');
+        });
+    }
+    document.getElementById('checkout').addEventListener('click', createInvoice);
+
     // Hàm hiển thị giỏ hàng từ localStorage
     function loadCart() {
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -129,22 +188,6 @@
         loadCart(); // Tải lại giỏ hàng
     }
 
-    // Xử lý nút Thanh Toán
-    document.getElementById('checkoutButton').addEventListener('click', function () {
-        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        if (cartItems.length === 0) {
-            alert('Giỏ hàng trống, không thể thanh toán!');
-            return;
-        }
-
-        // Lấy phương thức thanh toán
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-        console.log('Phương thức thanh toán:', paymentMethod);
-
-        alert(`Thanh toán thành công với phương thức: ${paymentMethod}`);
-        localStorage.removeItem('cartItems'); // Xóa giỏ hàng sau khi thanh toán
-        loadCart(); // Làm mới giao diện
-    });
 
     // Tải giỏ hàng khi trang được load
     document.addEventListener('DOMContentLoaded', loadCart);

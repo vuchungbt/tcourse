@@ -79,7 +79,7 @@ public class HomeController {
         model.addAttribute("cre", userService.getUserByUsername(p.getCreated_by()));
 
         log.info("=================={}",p);
-        return "/chitiet-khoahoc";
+        return "chitiet-khoahoc";
     }
 
     @GetMapping("/home/all")
@@ -148,7 +148,7 @@ public class HomeController {
 
         model.addAttribute("list_post_all",response    );
 
-        return "/index-all";
+        return "index-all";
     }
     @GetMapping({"/trang-chu","/" ,"/home"})
     public String home(Authentication authentication, Model model,
@@ -199,7 +199,7 @@ public class HomeController {
         response_teacher.setName("Top Giảng viên");
         model.addAttribute("list_teacher",response_teacher    );
 
-        return "/index";
+        return "index";
     }
     @GetMapping("/home/payment")
     public String homePayment(Authentication authentication, Model model ){
@@ -208,6 +208,6 @@ public class HomeController {
             model.addAttribute("username", username);
             model.addAttribute("user", userService.getUserByUsername(username));
         }
-        return "/payment";
+        return "payment";
     }
 }

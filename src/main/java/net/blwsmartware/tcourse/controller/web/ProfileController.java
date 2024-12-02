@@ -43,6 +43,10 @@ public class ProfileController {
             DataResponse<PostResponse> list = postService.getPostByCreated(userService.getUserByUsername(username).getId() , pageNumber,  pageSize, sortBy );
             list.setName("Khóa học đã đăng");
             model.addAttribute("list_post_all",  list);
+            long id =userService.getUserByUsername(username).getId();
+            log.info(" ID {}",id);
+            log.info(" Buyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy: {}",postService.findAllPostsByUserId(id));
+            model.addAttribute("post_buy",  postService.findAllPostsByUserId(userService.getUserByUsername(username).getId()));
 
         return "profile";
     }
