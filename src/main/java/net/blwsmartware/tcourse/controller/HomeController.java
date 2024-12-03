@@ -9,8 +9,10 @@ import net.blwsmartware.tcourse.constant.PredefinedRole;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
+import net.blwsmartware.tcourse.entity.AppSetting;
 import net.blwsmartware.tcourse.entity.Discount;
 import net.blwsmartware.tcourse.entity.Vote;
+import net.blwsmartware.tcourse.service.AppSettingService;
 import net.blwsmartware.tcourse.service.CategoryService;
 import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.service.UserService;
@@ -34,6 +36,14 @@ public class HomeController {
     CategoryService categoryService;
     PostService postService;
     UserService userService;
+    AppSettingService appSettingService;
+
+    @GetMapping("/home/about/{v}")
+    public String about(@PathVariable int v , Model model){
+        AppSetting appSetting = appSettingService.getByID(v);
+        model.addAttribute("about", appSetting);
+        return "about";
+    }
     @GetMapping("/stream/view/{id}")
     public String view(@PathVariable String id , Model model){
         model.addAttribute("id", id);
