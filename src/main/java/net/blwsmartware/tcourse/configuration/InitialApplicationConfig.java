@@ -94,10 +94,9 @@ public class InitialApplicationConfig {
             if(categoryRepository.findByDescription(CategoryDefault.DEFAULT).isEmpty()) {
                 Category first = Category.builder().name("Tài chính").description(CategoryDefault.DEFAULT).build();
                 Category twice = Category.builder().name("Công nghệ").description(CategoryDefault.DEFAULT).build();
-                Category thir = Category.builder().name("Sức khỏe").description(CategoryDefault.DEFAULT).build();
                 Category foure = Category.builder().name("Ngoại ngữ").description(CategoryDefault.DEFAULT).build();
                 Category fire = Category.builder().name("Lập trình").description(CategoryDefault.DEFAULT).build();
-                List<Category> list = List.of(fire,foure,thir,twice,first);
+                List<Category> list = List.of(fire,foure,twice,first);
                 categoryRepository.saveAll(list);
             }
             log.info("********** Categories completed...");
