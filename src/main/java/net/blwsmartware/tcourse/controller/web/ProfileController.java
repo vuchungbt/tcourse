@@ -11,12 +11,17 @@ import net.blwsmartware.tcourse.dto.response.DataResponse;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
 import net.blwsmartware.tcourse.entity.Card;
+import net.blwsmartware.tcourse.entity.Discount;
+import net.blwsmartware.tcourse.entity.Vote;
 import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,11 +49,50 @@ public class ProfileController {
             model.addAttribute("user", userService.getUserByUsername(username));
             DataResponse<PostResponse> list = postService.getPostByCreated(id , pageNumber,  pageSize, sortBy );
             list.setName("Khóa học đã đăng");
-            DataResponse<PostResponse> buy = postService.findAllPostsByUserId(id , pageNumber,  pageSize, sortBy );
-            buy.setName("Đã mua");
+            List<PostResponse> buy = postService.findAllPostsByUserId(id );
+            list.getContent().forEach(p -> {
+                Optional<Discount> defaultDiscount = p.getDiscounts()
+                        .stream()
+                        .filter(Discount::isDef)
+                        .findFirst();
+
+                if (defaultDiscount.isPresent()) {
+                    Discount discount = defaultDiscount.get();
+                    p.setDiscountPercent(discount.getPercent());
+                    p.setFinalPrice(p.getPrice() - p.getPrice() * discount.getPercent() / 100);
+                } else {
+                    p.setDiscountPercent(0);
+                    p.setFinalPrice(p.getPrice());
+                }
+
+                double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+                double avg = total / p.getVotes().size();
+                avg = Math.round(avg * 10) / 10.0;
+                p.setAvgVote(avg);
+            });
             model.addAttribute("list_post_all",  list);
             log.info(" ID {}",id);
             log.info(" Buyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy: {}",buy);
+            buy.forEach(p -> {
+                        Optional<Discount> defaultDiscount = p.getDiscounts()
+                                .stream()
+                                .filter(Discount::isDef)
+                                .findFirst();
+
+                        if (defaultDiscount.isPresent()) {
+                            Discount discount = defaultDiscount.get();
+                            p.setDiscountPercent(discount.getPercent());
+                            p.setFinalPrice(p.getPrice() - p.getPrice() * discount.getPercent() / 100);
+                        } else {
+                            p.setDiscountPercent(0);
+                            p.setFinalPrice(p.getPrice());
+                        }
+
+                        double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+                        double avg = total / p.getVotes().size();
+                        avg = Math.round(avg * 10) / 10.0;
+                        p.setAvgVote(avg);
+            });
             model.addAttribute("post_buy",  buy);
 
         return "profile";

@@ -27,7 +27,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @Size(min = 6,message = "PASSWORD_MUST_6_DIGITS")
+    @Column(columnDefinition = "TEXT")
+    String avatar, title, description,intro,tel , fbID, ggID;
+
     String password;
 
     @NotNull(message = "NAME_NOT_NULL")
@@ -56,9 +58,6 @@ public class User {
 
     @Column(name = "cover_photo")
     String coverPhoto ;
-
-    @Column(columnDefinition = "TEXT")
-    String avatar, title, description,intro,tel , fbID, ggID;
 
     LocalDate dob;
 

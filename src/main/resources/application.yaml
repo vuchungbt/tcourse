@@ -10,18 +10,40 @@ spring:
     suffix: .html
 
   datasource:
-    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/course3}
+    url: ${DB_POSTGRES_URL:jdbc:postgresql://localhost:5432/course}
     username: ${DB_POSTGRES_USERNAME:postgres}
     password: ${DB_POSTGRES_PASSWORD:postgres123}
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+  mail:
+    default-encoding: UTF-8
+    host: ${EMAIL_HOST:smtp.larksuite.com}
+    username: ${EMAIL_ADDRESS:notification@blwsmartware.net}
+    password: ${EMAIL_PASSWORD:XgZC3ehR2k6db30U}
+    port: ${EMAIL_PORT:465}
+    protocol: smtp
+    test-connection: false
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.enable: true
   servlet:
     multipart:
       max-file-size: 1000MB
       max-request-size: 1000MB
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1080645398579-rubp4bq65u82rompf4iu9l0vdv1knjul.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            scope:
+              - email
+              - profile
 jwt:
   secret: ${JWT_SECRET:JWT_SECRET_KEY_MUST_BE_32_DIGITS}
   expiration-minutes: 30

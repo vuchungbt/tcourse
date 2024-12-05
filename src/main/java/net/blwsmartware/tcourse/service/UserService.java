@@ -21,8 +21,10 @@ public interface UserService {
     UserResponse updateRoleOfUser(long id, RoleOfUpdate request);
     UserResponse updateUsernameEmail(long id, UsernameOrEmailUserUpdate request);
     UserResponse updatePassword(long id, PasswordUserUpdate request);
+    UserResponse updatePassNew(long id, String pw);
     UserResponse updatePhoto(long id, PhotoUserUpdate request);
     UserResponse disableUser(long id, ActiveUserUpdate request);
     void deleteUser(long id);
-
+    boolean existEmail(String email);
+    void forgot(String email);
 }

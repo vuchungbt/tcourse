@@ -170,6 +170,7 @@ public class HomeController {
 
         if(authentication!=null) {
             String username = authentication.getName();
+            log.info("username-{}",username);
             model.addAttribute("username", username);
             model.addAttribute("user", userService.getUserByUsername(username));
         }

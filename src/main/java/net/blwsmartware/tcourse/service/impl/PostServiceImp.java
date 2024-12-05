@@ -140,11 +140,8 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public DataResponse<PostResponse> findAllPostsByUserId(long id ,Integer pageNumber, Integer pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        Page<Post> pageOfPost = postRepository.findAllPostsByUserId(id,pageable);
-        List<Post> userList = pageOfPost.getContent();
-        List<PostResponse> postResponses = userList.stream().map(postMapper::toPostResponse).toList();
-        return DataResponseUtils.convertPageInfo(pageOfPost,postResponses);
+    public List<PostResponse> findAllPostsByUserId(long id ) {
+        List<Post> pageOfPost = postRepository.findAllPostsByUserId(id);
+        return pageOfPost.stream().map(postMapper::toPostResponse).toList();
     }
 }

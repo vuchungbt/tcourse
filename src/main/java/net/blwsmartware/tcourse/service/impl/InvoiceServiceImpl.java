@@ -12,6 +12,7 @@ import net.blwsmartware.tcourse.enums.ErrorResponse;
 import net.blwsmartware.tcourse.exception.AppRuntimeException;
 import net.blwsmartware.tcourse.repository.InvoiceDetailRepository;
 import net.blwsmartware.tcourse.repository.InvoiceRepository;
+import net.blwsmartware.tcourse.repository.PostRepository;
 import net.blwsmartware.tcourse.repository.UserRepository;
 import net.blwsmartware.tcourse.service.InvoiceService;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceRepository invoiceRepository;
     InvoiceDetailRepository invoiceDetailRepository;
     UserRepository userRepository;
+    PostRepository postRepository;
 
     @Override
     public Invoice addInvoice(InvoiceRequest invoice) {
@@ -42,6 +44,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         List<InvoiceDetail> details = invoice.getPosts().stream()
                 .map(invoiceDetailRequest -> InvoiceDetail.builder()
                         .invoice(ivs1)
+                        .item(postRepository.findById(invoiceDetailRequest.getId()).orElseThrow())
                         .price(invoiceDetailRequest.getPrice())
                         .build())
                 .toList();

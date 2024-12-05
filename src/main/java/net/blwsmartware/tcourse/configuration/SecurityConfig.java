@@ -1,8 +1,7 @@
 package net.blwsmartware.tcourse.configuration;
 
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import net.blwsmartware.tcourse.service.CustomOAuth2UserService;
 import net.blwsmartware.tcourse.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,7 +25,7 @@ public class SecurityConfig  {
 
             "css/**", "js/**", "admin/css/**", "admin/js/**", "img/**","image/**",
             // "/login","admin/login",
-            "trang-chu","register","dang-ky","home/**","/",
+            "trang-chu","register","dang-ky","home/**","/","/oauth2/authorization/google","/forgot","/forgot/email",
             "categories/**","api/course/upload-videos","api/categories/all"
     };
 
@@ -39,9 +37,8 @@ public class SecurityConfig  {
                 .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http , CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
@@ -49,8 +46,20 @@ public class SecurityConfig  {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .authorizationEndpoint(authorization ->
+                                authorization.baseUri("/oauth2/authorization")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error")
+                )
                 .formLogin(form -> form
                         .loginPage("/login")
+
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/home" , true)
                         .failureUrl("/login?error")

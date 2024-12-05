@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/customize.css" rel="stylesheet">
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{css/customize.css}" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
@@ -19,6 +19,7 @@
 
     </style>
 </head>
+
 <body class="background-radial-gradient overflow-hidden">
 
 <div th:replace="~{fragments/login :: login}"></div>

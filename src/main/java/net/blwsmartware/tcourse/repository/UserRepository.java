@@ -1,6 +1,5 @@
 package net.blwsmartware.tcourse.repository;
 
-import net.blwsmartware.tcourse.entity.Post;
 import net.blwsmartware.tcourse.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +15,9 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Optional<User> findByUsername(String username);
+    boolean existsByEmail(String email);
+    @Query("SELECT u FROM User u WHERE u.username = :value OR u.ggID = :value")
+    Optional<User> findByUsernameOrGgID(@Param("value") String value);
     Optional<User> findByTel(String tel);
     List<User> findByRoles_NameIn(List<String> roleNames);
     Page<User> findByRoles_NameIn(List<String> roleNames, Pageable pageable);

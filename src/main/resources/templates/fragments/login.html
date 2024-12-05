@@ -29,15 +29,15 @@
     <div class="divider">
       <span > or </span>
     </div>
-    <a type="button" class="btn btn-register" href="/dang-ky">Đăng ký</a>
+    <a type="button" class="btn btn-register" th:href="@{/dang-ky}">Đăng ký</a>
 
-<!--    <a type="button" class="btn btn-google">-->
-<!--      <i class="bi bi-google"></i>-->
-<!--      Đăng nhập với Google-->
-<!--    </a>-->
+    <a type="button" th:href="@{/oauth2/authorization/google}" class="btn btn-google">
+      <i class="bi bi-google"></i>
+      Đăng nhập với Google
+    </a>
 
     <div class="forgot-password">
-      <a href="#">Quên mật khẩu?</a>
+      <a th:href="@{/forgot}">Quên mật khẩu?</a>
     </div>
   </form>
 </div>
@@ -64,6 +64,30 @@
     </button>
     <div class="forgot-password">
       <a href="#">Gửi lại</a>
+    </div>
+  </form>
+</div>
+
+<div th:fragment="forgot" class="login-container">
+  <div class="login-header">
+    <h5>Nhập email</h5>
+    <p th:if="${param.error}" class="text-danger">Có lỗi~!</p>
+    <p th:if="${param.success}"  class="text-success">Vui lòng kiểm tra email</p>
+    <p th:text="${message}" class="text-info" ></p>
+  </div>
+
+  <form method="post"
+        role="form"
+        th:action="@{/forgot/email}">
+    <div class="form-floating">
+      <input type="email" class="form-control" id="email" name="email"  placeholder="Email">
+      <label for="email">Email</label>
+    </div>
+    <button type="submit" class="btn btn-login">
+      Xác nhận
+    </button>
+    <div class="forgot-password">
+      <a th:href="@{/login}">Đăng nhập</a>
     </div>
   </form>
 </div>

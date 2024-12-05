@@ -14,7 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByCreatedId(Long createdId);
     Page<Post> findByCreatedId(Long createdId,Pageable pageable);
     Page<Post> findByCategories(Category categoryId, Pageable pageable);
-    //@Query("SELECT DISTINCT d.item FROM InvoiceDetail d JOIN d.invoice i WHERE i.created.id = :userId")
-    @Query("SELECT DISTINCT p FROM Post p JOIN InvoiceDetail id ON p.id = id.item.id JOIN Invoice i ON id.invoice.id = i.id WHERE i.created.id = :userId")
-    Page<Post> findAllPostsByUserId(@Param("userId") Long userId ,Pageable pageable);
+    @Query("SELECT DISTINCT d.item FROM InvoiceDetail d JOIN d.invoice i WHERE i.created.id = :userId")
+    List<Post> findAllPostsByUserId(@Param("userId") Long userId );
 }

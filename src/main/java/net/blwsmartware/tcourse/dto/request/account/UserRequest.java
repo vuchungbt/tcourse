@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -27,7 +28,7 @@ public class UserRequest {
     @Email(message = "EMAIL_INVALID")
     String email;
 
-    String avatar, title, description,intro,tel, cover_photo ;
+    String avatar, title, description,intro,tel, cover_photo,ggID ;
 
     LocalDate dob;
 }

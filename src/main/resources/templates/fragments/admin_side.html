@@ -61,15 +61,15 @@
           </nav>
         </div>
 
-        <a class="nav-link collapsed" href="#"
-           th:href="@{/admin/invoice?i=ALL}"
-           data-bs-toggle="collapse" data-bs-target="#invoice_"
-           aria-expanded="false"
-           aria-controls="invoice_" th:classappend="${param.i != null ? ' active' : ''}">
-          <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
-          Lượt bán
-          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-        </a>
+<!--        <a class="nav-link collapsed" href="#"-->
+<!--           th:href="@{/admin/invoice?i=ALL}"-->
+<!--           data-bs-toggle="collapse" data-bs-target="#invoice_"-->
+<!--           aria-expanded="false"-->
+<!--           aria-controls="invoice_" th:classappend="${param.i != null ? ' active' : ''}">-->
+<!--          <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>-->
+<!--          Lượt bán-->
+<!--          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>-->
+<!--        </a>-->
 
         <a class="nav-link" th:href="@{/admin/invoice?c=ALL}"
            th:classappend="${param.i == 'ALL' ? ' active' : ''}">Đã bán</a>

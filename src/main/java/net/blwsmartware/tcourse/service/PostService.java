@@ -20,5 +20,5 @@ public interface PostService {
     DataResponse<PostResponse> getAll(Integer pageNumber, Integer pageSize, String sortBy,String name,String filter);
     List<PostResponse> getAll();
     void delete(long id);
-    DataResponse<PostResponse> findAllPostsByUserId(long id , Integer pageNumber, Integer pageSize, String sortBy);
+    List<PostResponse> findAllPostsByUserId(long id);
 }

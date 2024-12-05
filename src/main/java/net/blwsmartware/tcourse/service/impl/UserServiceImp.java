@@ -49,7 +49,7 @@ public class UserServiceImp implements UserService {
     public UserResponse createUser(UserRequest request) {
 
         User user = userMapper.toUser(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(request.getPassword() !=null) user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         Role roleUserDefault = roleRepository.findByName(PredefinedRole.USER_ROLE)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.ROLE_NOT_EXISTED) );
@@ -132,6 +132,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponse getUserByUsername(String username) {
+        System.out.println("Userrrrrrrrrrr:" +username);
         return userMapper.toUserResponse(userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND))
         );
@@ -189,6 +190,16 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserResponse updatePassNew(long id, String pw) {
+        User old = userRepository.findById(id)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
+            old.setPassword(passwordEncoder.encode(pw));
+            userRepository.save(old);
+            System.out.println("----saved new Pw");
+        return userMapper.toUserResponse(userRepository.save(old));
+    }
+
+    @Override
     public UserResponse updatePhoto(long id, PhotoUserUpdate request) {
 
         User old = userRepository.findById(id)
@@ -219,5 +230,15 @@ public class UserServiceImp implements UserService {
     @Override
     public void deleteUser(long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void forgot(String email) {
+
     }
 }

@@ -1,18 +1,13 @@
 <div th:fragment="list_post_all" class="my-3">
     <div class="row my-2">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 th:text="${post_buy.name}">Đã mua</h4>
+            <h4  >Đã mua</h4>
         </div>
     </div>
 
-    <div th:if="${post_buy.totalElements > 0}" class="row row-cols-1 row-cols-md-3 g-4">
-        <div th:each="post : ${post_buy.content}" class="col">
+    <div th:if="${post_buy.size() > 0}" class="row row-cols-1 row-cols-md-3 g-4">
+        <div th:each="post : ${post_buy}" class="col">
             <div class="card h-100 position-relative">
-                <div  th:each="discount :${ post.discounts }">
-                    <div  class="badge bg-danger position-absolute top-0 start-0"
-                          th:if="${discount.def && discount.percent>0}" th:text="${discount.percent +'%'}">
-                    </div>
-                </div>
                 <img th:src="@{'/image/' + ${post.thumbnail}}" class="card-img-top" height="200px" alt="Product 1">
                 <div class="card-body">
                     <a th:href="@{'/home/p/' +${post.id}}">
