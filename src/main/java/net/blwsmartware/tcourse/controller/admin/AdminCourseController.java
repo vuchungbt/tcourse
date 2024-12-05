@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import net.blwsmartware.tcourse.constant.PagePrepare;
+import net.blwsmartware.tcourse.entity.Invoice;
+import net.blwsmartware.tcourse.service.InvoiceService;
 import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import java.util.List;
 public class AdminCourseController {
 
     PostService postService;
+    InvoiceService invoiceService;
 
     @GetMapping({"/course"})
     public String home(Model model,
@@ -34,5 +37,26 @@ public class AdminCourseController {
         model.addAttribute("posts",postService.getAll() );
 
         return "admin/course-dashboard";
+    }
+    @GetMapping({"/invoice"})
+    public String invoice(Model model,
+                       @RequestParam(value = "pageNumber",defaultValue = PagePrepare.PAGE_NUMBER,required = false) Integer pageNumber,
+                       @RequestParam(value = "pageSize", defaultValue = PagePrepare.PAGE_SIZE, required = false) Integer pageSize,
+                       @RequestParam(value = "i", defaultValue = PagePrepare.CATEGORY, required = false) List<String> query,
+                       @RequestParam(value = "sortBy",defaultValue = PagePrepare.SORT_BY, required = false) String sortBy){
+        List<Invoice> list = invoiceService.getAll();
+        int totalSum = list.stream()
+                .mapToInt(Invoice::getTotal)
+                .sum();
+        model.addAttribute("invoices", list);
+        model.addAttribute("buy", list.size());
+        model.addAttribute("total", totalSum);
+        int count = list.stream()
+                .mapToInt(invoice -> invoice.getDetailList().size())
+                .sum();
+        model.addAttribute("count", count);
+
+
+        return "admin/invoice-dashboard";
     }
 }

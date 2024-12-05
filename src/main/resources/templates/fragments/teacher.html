@@ -13,6 +13,7 @@
                     <img th:src="@{'/image/' + ${teacher.avatar}}"   class="container-fluid card-img-top  rounded-circle w-75"
                          alt="Teacher">
                     <div class="card-body">
+<!--                        <a th:href="@{'/profile?v='+ teacher.username}"-->
                         <h5 class="card-title" th:text="${teacher.name}"> </h5>
                         <p class="card-text" th:text="${teacher.title}"></p>
                     </div>

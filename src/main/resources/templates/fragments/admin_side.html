@@ -37,29 +37,29 @@
           </nav>
         </div>
 
-        <a class="nav-link collapsed" href="#"
-           th:href="@{/admin/course?c=ALL}"
-           data-bs-toggle="collapse" data-bs-target="#course_"
-           aria-expanded="false"
-           aria-controls="course_" th:classappend="${param.c != null ? ' active' : ''}">
-          <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>
-          Khóa học
-          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-        </a>
+<!--        <a class="nav-link collapsed" href="#"-->
+<!--           th:href="@{/admin/course?c=ALL}"-->
+<!--           data-bs-toggle="collapse" data-bs-target="#course_"-->
+<!--           aria-expanded="false"-->
+<!--           aria-controls="course_" th:classappend="${param.c != null ? ' active' : ''}">-->
+<!--          <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>-->
+<!--          Khóa học-->
+<!--          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>-->
+<!--        </a>-->
 
-        <!-- Collapse section -->
-        <div class="collapse" id="course_" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"
-             th:classappend="${param.c != null ? ' show' : ''}">
-          <nav class="sb-sidenav-menu-nested nav">
+<!--        &lt;!&ndash; Collapse section &ndash;&gt;-->
+<!--        <div class="collapse" id="course_" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"-->
+<!--             th:classappend="${param.c != null ? ' show' : ''}">-->
+<!--          <nav class="sb-sidenav-menu-nested nav">-->
 
-            <a class="nav-link" th:href="@{/admin/course?c=ALL}"
-               th:classappend="${param.c == 'ALL' ? ' active' : ''}">Tất cả</a>
-            <a class="nav-link" th:href="@{/admin/course?q= }"
-               th:classappend="${param.c == 'ADMIN' ? ' active' : ''}">Đang đợi duyệt</a>
-            <a class="nav-link" th:href="@{/admin/course?q=TEACHER}"
-               th:classappend="${param.c == 'TEACHER' ? ' active' : ''}">Đã đăng bán</a>
-          </nav>
-        </div>
+<!--            <a class="nav-link" th:href="@{/admin/course?c=ALL}"-->
+<!--               th:classappend="${param.c == 'ALL' ? ' active' : ''}">Tất cả</a>-->
+<!--            <a class="nav-link" th:href="@{/admin/course?q= }"-->
+<!--               th:classappend="${param.c == 'ADMIN' ? ' active' : ''}">Đang đợi duyệt</a>-->
+<!--            <a class="nav-link" th:href="@{/admin/course?q=TEACHER}"-->
+<!--               th:classappend="${param.c == 'TEACHER' ? ' active' : ''}">Đã đăng bán</a>-->
+<!--          </nav>-->
+<!--        </div>-->
 
 <!--        <a class="nav-link collapsed" href="#"-->
 <!--           th:href="@{/admin/invoice?i=ALL}"-->
@@ -70,9 +70,15 @@
 <!--          Lượt bán-->
 <!--          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>-->
 <!--        </a>-->
+        <a class="nav-link" th:href="@{/admin/course?c=ALL}"
+           th:classappend="${param.c != null ? ' active' : ''}">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>
+          Khóa học</a>
 
-        <a class="nav-link" th:href="@{/admin/invoice?c=ALL}"
-           th:classappend="${param.i == 'ALL' ? ' active' : ''}">Đã bán</a>
+        <a class="nav-link" th:href="@{/admin/invoice?i=ALL}"
+           th:classappend="${param.i != null ? ' active' : ''}">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
+          Đã bán</a>
 
         <div class="sb-sidenav-menu-heading">Thêm...</div>
         <a class="nav-link" th:href="@{/admin/set}">

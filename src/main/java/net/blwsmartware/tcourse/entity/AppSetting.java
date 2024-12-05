@@ -21,15 +21,5 @@ public class AppSetting {
 
     String name;
     String description, banner;
-    String logo;
-    String facebook;
-    String tiktok;
-    String youtube;
-    String instagram;
-    String about,contact,privacy,information;
-
-    @OneToMany
-    List<Item> slide;
-
     boolean showSlide;
 }

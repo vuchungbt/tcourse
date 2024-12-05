@@ -13,6 +13,7 @@ import net.blwsmartware.tcourse.dto.response.user.UserResponse;
 import net.blwsmartware.tcourse.entity.Card;
 import net.blwsmartware.tcourse.entity.Discount;
 import net.blwsmartware.tcourse.entity.Vote;
+import net.blwsmartware.tcourse.service.InvoiceService;
 import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -39,9 +40,14 @@ public class ProfileController {
                           @RequestParam(value = "page", defaultValue = "12", required = false) Integer pageSize,
                           @RequestParam(value = "c", defaultValue = "0", required = false) long category,
                           @RequestParam(value = "sortBy",defaultValue = PagePrepare.SORT_BY, required = false) String sortBy,
+                          @RequestParam(value = "v", defaultValue = "", required = false) String pn,
                           @RequestHeader(value = "Referer", required = false) String referer){
 
+
             String username = authentication.getName();
+            if(!pn.isEmpty()) {
+                username=pn;
+            }
             long id =userService.getUserByUsername(username).getId();
 
             model.addAttribute("username", username);
@@ -94,6 +100,9 @@ public class ProfileController {
                         p.setAvgVote(avg);
             });
             model.addAttribute("post_buy",  buy);
+
+            model.addAttribute("c_buy",  buy.size());
+            model.addAttribute("c_sale",  list.getContent().size());
 
         return "profile";
     }
