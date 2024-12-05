@@ -54,51 +54,28 @@
 
             <a class="nav-link" th:href="@{/admin/course?c=ALL}"
                th:classappend="${param.c == 'ALL' ? ' active' : ''}">Tất cả</a>
-            <a class="nav-link" th:href="@{/admin/account?q=ADMIN}"
+            <a class="nav-link" th:href="@{/admin/course?q= }"
                th:classappend="${param.c == 'ADMIN' ? ' active' : ''}">Đang đợi duyệt</a>
-            <a class="nav-link" th:href="@{/admin/account?q=TEACHER}"
+            <a class="nav-link" th:href="@{/admin/course?q=TEACHER}"
                th:classappend="${param.c == 'TEACHER' ? ' active' : ''}">Đã đăng bán</a>
           </nav>
         </div>
 
-        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-           aria-expanded="false" aria-controls="collapsePages">
-          <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-          Khóa học
+        <a class="nav-link collapsed" href="#"
+           th:href="@{/admin/invoice?i=ALL}"
+           data-bs-toggle="collapse" data-bs-target="#invoice_"
+           aria-expanded="false"
+           aria-controls="invoice_" th:classappend="${param.i != null ? ' active' : ''}">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
+          Lượt bán
           <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
         </a>
-        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-          <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-              Authentication
-              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="login.html">Login</a>
-                <a class="nav-link" href="register.html">Register</a>
-                <a class="nav-link" href="password.html">Forgot Password</a>
-              </nav>
-            </div>
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-              Error
-              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="401.html">401 Page</a>
-                <a class="nav-link" href="404.html">404 Page</a>
-                <a class="nav-link" href="500.html">500 Page</a>
-              </nav>
-            </div>
-          </nav>
-        </div>
-        <div class="sb-sidenav-menu-heading">Addons</div>
-        <a class="nav-link" href="charts.html">
-          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-          Charts
-        </a>
-        <a class="nav-link" href="tables.html">
+
+        <a class="nav-link" th:href="@{/admin/invoice?c=ALL}"
+           th:classappend="${param.i == 'ALL' ? ' active' : ''}">Đã bán</a>
+
+        <div class="sb-sidenav-menu-heading">Thêm...</div>
+        <a class="nav-link" th:href="@{/admin/set}">
           <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
           Cài đặt
         </a>
