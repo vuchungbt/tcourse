@@ -56,8 +56,9 @@
             </ul>
 
             <div class="search d-flex">
-                <form class="w-100 position-relative">
-                    <textarea data-autoresize="" class="form-control pe-5 bg-light" rows="1" placeholder="Search..."></textarea>
+                <form class="w-100 position-relative" method="get" th:action="@{/home/all/search}">
+                    <textarea data-autoresize="" name="v" class="form-control pe-5 bg-light"
+                              rows="1" placeholder="Search..."></textarea>
                     <button class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0 " type="submit">
                         <i class="bi bi-search"></i>
                     </button>

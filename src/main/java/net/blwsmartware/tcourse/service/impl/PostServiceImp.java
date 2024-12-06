@@ -96,6 +96,18 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
+    public DataResponse<PostResponse> search(String keyword, Integer pageNumber, Integer pageSize, String sortBy) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        Page<Post> pageOfPost = postRepository.searchPosts(keyword,pageable);
+        List<Post> userList = pageOfPost.getContent();
+        List<PostResponse> postResponses = userList.stream().map(postMapper::toPostResponse).toList();
+        DataResponse<PostResponse> list = DataResponseUtils.convertPageInfo(pageOfPost,postResponses);
+        list.setName("Từ khóa: "+keyword);
+        return list;
+    }
+
+    @Override
     public PostResponse updatePost(long id, PostUpdate update) {
         Post old = postRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.POST_NOT_FOUND));

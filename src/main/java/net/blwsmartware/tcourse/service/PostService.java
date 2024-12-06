@@ -14,6 +14,7 @@ public interface PostService {
     List<PostResponse> getPostByCreated(long id);
     DataResponse<PostResponse> getPostByCreated(long id ,Integer pageNumber, Integer pageSize, String sortBy);
     DataResponse<PostResponse>  getPostByCategory(long id ,Integer pageNumber, Integer pageSize, String sortBy);
+    DataResponse<PostResponse>  search(String keyword,Integer pageNumber, Integer pageSize, String sortBy);
     PostResponse updatePost(long id, PostUpdate update);
     PostResponse updatePostSection(long id, PostUpdateSection update);
     DataResponse<PostResponse> getAll(Integer pageNumber, Integer pageSize, String sortBy);

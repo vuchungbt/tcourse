@@ -16,4 +16,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByCategories(Category categoryId, Pageable pageable);
     @Query("SELECT DISTINCT d.item FROM InvoiceDetail d JOIN d.invoice i WHERE i.created.id = :userId")
     List<Post> findAllPostsByUserId(@Param("userId") Long userId );
+
+    @Query("SELECT p FROM Post p WHERE " +
+            "LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(p.content) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<Post> searchPosts(@Param("keyword") String keyword , Pageable pageable);
 }

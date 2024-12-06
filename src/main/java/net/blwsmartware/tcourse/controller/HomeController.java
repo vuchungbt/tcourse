@@ -91,6 +91,74 @@ public class HomeController {
         log.info("=================={}",p);
         return "chitiet-khoahoc";
     }
+    @GetMapping("/home/all/search")
+    public String search(Authentication authentication, Model model,
+                          @RequestParam(value = "number",defaultValue = PagePrepare.PAGE_NUMBER,required = false) Integer pageNumber,
+                          @RequestParam(value = "page", defaultValue = "12", required = false) Integer pageSize,
+                          @RequestParam(value = "v", defaultValue = "", required = false) String key,
+                          @RequestParam(value = "sortBy",defaultValue = PagePrepare.SORT_BY, required = false) String sortBy,
+                          @RequestHeader(value = "Referer", required = false) String referer){
+
+        if(authentication!=null) {
+            String username = authentication.getName();
+            model.addAttribute("username", username);
+            model.addAttribute("user", userService.getUserByUsername(username));
+        }
+        model.addAttribute("list_category_all", categoryService.getAll( 0,15, PagePrepare.SORT_BY) );
+
+        DataResponse<PostResponse> response ;
+
+        if(!key.isEmpty()) {
+            response =postService.search(key,pageNumber, pageSize,sortBy);
+            response.setName(key);
+            response.getContent().forEach(p -> {
+                Optional<Discount> defaultDiscount = p.getDiscounts()
+                        .stream()
+                        .filter(Discount::isDef)
+                        .findFirst();
+
+                if (defaultDiscount.isPresent()) {
+                    Discount discount = defaultDiscount.get();
+                    p.setDiscountPercent(discount.getPercent());
+                    p.setFinalPrice(p.getPrice() - p.getPrice()* discount.getPercent()/100) ;
+                } else {
+                    p.setDiscountPercent(0);
+                    p.setFinalPrice(p.getPrice());
+                }
+
+                double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+                double avg = total / p.getVotes().size();
+                avg = Math.round(avg * 10) / 10.0;
+                p.setAvgVote(avg);
+            });
+        } else {
+            response =postService.getAll(pageNumber, pageSize,sortBy);
+            response.getContent().forEach(p -> {
+                Optional<Discount> defaultDiscount = p.getDiscounts()
+                        .stream()
+                        .filter(Discount::isDef)
+                        .findFirst();
+
+                if (defaultDiscount.isPresent()) {
+                    Discount discount = defaultDiscount.get();
+                    p.setDiscountPercent(discount.getPercent());
+                    p.setFinalPrice(p.getPrice() - p.getPrice()* discount.getPercent()/100) ;
+                } else {
+                    p.setDiscountPercent(0);
+                    p.setFinalPrice(p.getPrice());
+                }
+
+                double total = p.getVotes().stream().mapToInt(Vote::getStars).sum();
+                double avg = total / p.getVotes().size();
+                avg = Math.round(avg * 10) / 10.0;
+                p.setAvgVote(avg);
+            });
+        }
+
+        model.addAttribute("list_post_all",response    );
+
+        return "index-search";
+    }
 
     @GetMapping("/home/all")
     public String homeAll(Authentication authentication, Model model,
