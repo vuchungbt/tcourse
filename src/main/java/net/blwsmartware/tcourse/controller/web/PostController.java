@@ -32,6 +32,49 @@ public class PostController {
     PostService postService;
     CommentService commentService;
 
+    @GetMapping("/post/update/{id}")
+    public String updatePost(Model model , Authentication authentication,
+                             @PathVariable long id,
+                             @RequestHeader(value = "Referer", required = false) String referer) throws IOException {
+
+        PostResponse post = postService.getPostByID(id);
+        model.addAttribute("post", post);
+        return "update-step1-post";
+    }
+    @PostMapping("/post/update/{id}")
+    public String update(
+            Authentication authentication,
+            @Valid @ModelAttribute PostRequest postRequest,
+            @RequestParam("thumbnail_p") MultipartFile thumbnail,
+            @RequestParam("coverPhoto_p") MultipartFile coverPhoto,
+            BindingResult bindingResult,
+            @PathVariable String id,
+            Model model ) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", "Vui lòng kiểm tra thông tin nhập vào.");
+            return "create-step1-post";
+        }
+
+        if(!thumbnail.isEmpty()) {
+            ImageStorage avatar1 = storageService.saveToStorage(thumbnail);
+            postRequest.setThumbnail(avatar1.getId() + "");
+        }
+
+        if(!coverPhoto.isEmpty()) {
+            ImageStorage avatar2 = storageService.saveToStorage(coverPhoto);
+            postRequest.setCoverPhoto(avatar2.getId() + "");
+        }
+        if(authentication!=null) {
+            String username = authentication.getName();
+            postRequest.setCreated_by(username);
+        }
+
+        PostResponse post = postService.createPost(postRequest);
+        model.addAttribute("post", post);
+        return "create-step2-post";
+    }
+
     @PostMapping("/post")
     public String post(
             Authentication authentication,
@@ -46,12 +89,12 @@ public class PostController {
             return "create-step1-post";
         }
 
-        if(thumbnail != null) {
+        if(!thumbnail.isEmpty()) {
             ImageStorage avatar1 = storageService.saveToStorage(thumbnail);
             postRequest.setThumbnail(avatar1.getId() + "");
         }
 
-        if(coverPhoto!=null) {
+        if(!coverPhoto.isEmpty()) {
             ImageStorage avatar2 = storageService.saveToStorage(coverPhoto);
             postRequest.setCoverPhoto(avatar2.getId() + "");
         }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import net.blwsmartware.tcourse.constant.PagePrepare;
+import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ import java.util.List;
 public class AdminAccountController {
 
     UserService userService;
+    PostService postService;
+
 
     @GetMapping({"/account"})
     public String home(Model model,
@@ -48,5 +51,20 @@ public class AdminAccountController {
             return "redirect:" + referer;
         }
         return "redirect:admin/account?q=ALL";
+    }
+
+    @PostMapping("/post/delete")
+    public String deletePost(@RequestParam Long postId, RedirectAttributes attributes ,
+                             @RequestHeader(value = "Referer", required = false) String referer) {
+        try {
+            postService.deletePost(postId);
+            attributes.addFlashAttribute("success", "User deleted successfully!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Error deleting user: " + e.getMessage());
+        }
+        if (referer != null) {
+            return "redirect:" + referer;
+        }
+        return "redirect:admin/course?c=ALL";
     }
 }

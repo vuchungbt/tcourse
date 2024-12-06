@@ -26,6 +26,7 @@ public class AdminCourseController {
 
     PostService postService;
     InvoiceService invoiceService;
+    UserService userService;
 
     @GetMapping({"/course"})
     public String home(Model model,
@@ -51,6 +52,9 @@ public class AdminCourseController {
         model.addAttribute("invoices", list);
         model.addAttribute("buy", list.size());
         model.addAttribute("total", totalSum);
+
+        model.addAttribute("stu",
+                userService.getAllByRoleName(-1,1000,PagePrepare.SORT_BY,List.of("USER")).size());
         int count = list.stream()
                 .mapToInt(invoice -> invoice.getDetailList().size())
                 .sum();

@@ -13,7 +13,7 @@
                           th:if="${discount.def && discount.percent>0}" th:text="${discount.percent +'%'}">
                     </div>
                 </div>
-                <a class="btn btn-primary btn-sm position-absolute top-0 end-0 m-2">
+                <a th:href="@{'/post/update/'+${post.id}}" class="btn btn-primary btn-sm position-absolute top-0 end-0 m-2">
                     <i class="bi bi-pencil-square"></i>
                 </a>
                 <img th:src="@{'/image/' + ${post.thumbnail}}" class="card-img-top" height="200px" alt="Product 1">

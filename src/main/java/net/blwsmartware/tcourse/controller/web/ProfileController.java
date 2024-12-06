@@ -78,7 +78,6 @@ public class ProfileController {
             });
             model.addAttribute("list_post_all",  list);
             log.info(" ID {}",id);
-            log.info(" Buyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy: {}",buy);
             buy.forEach(p -> {
                         Optional<Discount> defaultDiscount = p.getDiscounts()
                                 .stream()

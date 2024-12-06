@@ -152,6 +152,13 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
+    public void deletePost(long id) {
+        Post p = postRepository.findById(id)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.POST_NOT_FOUND));
+        postRepository.delete(p);
+    }
+
+    @Override
     public List<PostResponse> findAllPostsByUserId(long id ) {
         List<Post> pageOfPost = postRepository.findAllPostsByUserId(id);
         return pageOfPost.stream().map(postMapper::toPostResponse).toList();

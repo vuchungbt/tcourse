@@ -39,7 +39,7 @@
 
                     <i class="fa-solid fa-ban" th:unless="${user.isActive}"></i>
                 </td>
-                <td th:text="${user.createAt}"></td>
+                <td > <span th:text="${user.createAt}" class="timestamps"></span></td>
                 <td >
                         <a href="#" class="mx-2 text-primary text-decoration-none"
                             data-bs-toggle="modal"

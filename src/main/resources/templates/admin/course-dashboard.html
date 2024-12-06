@@ -36,5 +36,49 @@
 <script src="/admin/js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="/admin/js/datatables-simple-demo.js"></script>
+
+<script>
+    function formatNumberWithDot(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+    function timeAgo(date) {
+        const now = new Date();
+        const timeDiff = now - new Date(date);
+        const seconds = Math.floor(timeDiff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+        const weeks = Math.floor(days / 7);
+
+        if (weeks >= 1) {
+            return new Date(date).toLocaleString();
+        } else if (days > 0) {
+            return `${days} ngày trước`;
+        } else if (hours > 0) {
+            return `${hours} giờ trước`;
+        } else if (minutes > 0) {
+            return `${minutes} phút trước`;
+        } else {
+            return `${seconds} giây trước`;
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = document.querySelectorAll(".num");
+        elements.forEach(el => {
+            const text = el.textContent.trim(); // Lấy nội dung văn bản
+            const [value, unit] = text.split(" "); // Tách số và đơn vị
+            const formattedValue = formatNumberWithDot(value); // Định dạng số
+            el.textContent = `${formattedValue} ${unit || ""}`; // Ghép lại số và đơn vị
+        });
+
+        const timestamps = document.querySelectorAll(".timestamps");
+        console.log('timestamps: ', timestamps)
+        timestamps.forEach(timestamp => {
+            console.log('timestamp: ', timestamp)
+            const originalText = timestamp.textContent;
+            timestamp.textContent = timeAgo(originalText);
+        });
+        });
+</script>
 </body>
 </html>

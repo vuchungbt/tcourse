@@ -5,6 +5,7 @@ import net.blwsmartware.tcourse.dto.request.post.PostUpdate;
 import net.blwsmartware.tcourse.dto.request.post.PostUpdateSection;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
+import net.blwsmartware.tcourse.entity.Post;
 
 import java.util.List;
 
@@ -21,5 +22,6 @@ public interface PostService {
     DataResponse<PostResponse> getAll(Integer pageNumber, Integer pageSize, String sortBy,String name,String filter);
     List<PostResponse> getAll();
     void delete(long id);
+    void deletePost(long id);
     List<PostResponse> findAllPostsByUserId(long id);
 }

@@ -27,7 +27,6 @@ public class PaymentController {
                                 Model model ,
                                 Authentication authentication,
                                 @RequestHeader(value = "Referer", required = false) String referer) {
-        log.info("invoiceRequest :{}",invoiceRequest);
         if(authentication==null) {
             return ResponseEntity.ok()
                     .body(Map.of(

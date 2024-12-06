@@ -22,9 +22,9 @@
 
                 <td th:text="${invoice.id}"></td>
                 <td th:text="${invoice.created.name}"></td>
-                <td th:text="${invoice.total}"></td>
+                <td><span class="num"  th:text="${invoice.total}"></span></td>
                 <td th:text="${invoice.detailList.size()}"></td>
-                <td th:text="${invoice.createAt}"></td>
+                <td > <span th:text="${invoice.createAt}" class="timestamps"></span></td>
 
             </tr>
 
