@@ -26,7 +26,8 @@ public class SecurityConfig  {
             "css/**", "js/**", "admin/css/**", "admin/js/**", "img/**","image/**",
             // "/login","admin/login",
             "trang-chu","register","dang-ky","home/**","/","/oauth2/authorization/google","/forgot","/forgot/email",
-            "categories/**","api/course/upload-videos","api/categories/all","/home/all/search"
+            "categories/**","api/course/upload-videos","api/categories/all","/home/all/search",
+            "/about/**","/about"
     };
 
     private final CustomUserDetailsService customUserDetailsService;

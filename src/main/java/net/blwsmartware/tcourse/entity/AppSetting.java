@@ -19,6 +19,7 @@ public class AppSetting {
     @Id
     int id;
 
+    String code;
     String name;
     String description, banner;
     boolean showSlide;

@@ -57,11 +57,27 @@
     <span th:text="${post.id}"></span>
     <div class="row">
       <div class="col-md-6">
-        <label for="tag-input" class="form-label">Thêm Thẻ Tag</label>
-        <div class="tag-container" id="tag-container">
-          <input type="text" class="tag-input" id="tag-input" placeholder="Nhập thẻ tag... (bắt đầu với #)">
+<!--        <label for="tag-input" class="form-label">Thêm Thẻ Tag</label>-->
+<!--        <div class="tag-container" id="tag-container">-->
+<!--          <input type="text" class="tag-input" id="tag-input" placeholder="Nhập thẻ tag... (bắt đầu với #)">-->
+<!--        </div>-->
+<!--        <input type="hidden" name="tags" id="hidden-tags">-->
+        <h4 class="mb-3">Thêm Phần Học</h4>
+
+        <!-- Vùng chứa các thành phần -->
+
+        <div id="component-container"></div>
+
+        <!-- Nút thêm thành phần -->
+        <div>
+          <button type="button" id="add-component-btn" class="btn btn-success  mb-3">Thêm Thành Phần</button>
+
         </div>
-        <input type="hidden" name="tags" id="hidden-tags">
+
+        <div>
+          <button type="submit" id="submit-btn" class="btn btn-primary mb-3 float-end">Hoàn thành</button>
+
+        </div>
       </div>
       <div class="col-md-4">
         <div id="input-container ">
@@ -76,25 +92,7 @@
 
     </div>
 
-    <div class="row">
-      <h4 class="mb-3">Thêm Phần Học</h4>
 
-      <!-- Vùng chứa các thành phần -->
-
-        <div id="component-container"></div>
-
-        <!-- Nút thêm thành phần -->
-      <div>
-        <button type="button" id="add-component-btn" class="btn btn-success  mb-3">Thêm Thành Phần</button>
-
-      </div>
-
-       <div>
-         <button type="submit" id="submit-btn" class="btn btn-primary mb-3 float-end">Hoàn thành</button>
-
-       </div>
-
-    </div>
   </form>
   </div>
   <!-- Progress bar -->

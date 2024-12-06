@@ -38,11 +38,18 @@ public class HomeController {
     UserService userService;
     AppSettingService appSettingService;
 
-    @GetMapping("/home/about/{v}")
-    public String about(@PathVariable int v , Model model){
-        AppSetting appSetting = appSettingService.getByID(v);
-        model.addAttribute("about", appSetting);
-        return "about";
+    @GetMapping("/about/{v}")
+    public String about(@PathVariable String v , Model model){
+        return switch (v) {
+            case "me" -> "about/about-me";
+            case "contact" -> "about/about-contact";
+            case "privacy" -> "about/about-privacy";
+            case "support" -> "about/about-support";
+            case "buy" -> "about/about-buy";
+            case "refund" -> "about/about-refund";
+            case "social" -> "about/about-social";
+            default -> "about/about-me";
+        };
     }
     @GetMapping("/stream/view/{id}")
     public String view(@PathVariable String id , Model model){

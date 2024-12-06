@@ -6,10 +6,13 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import net.blwsmartware.tcourse.constant.CategoryDefault;
+import net.blwsmartware.tcourse.constant.CodeSetting;
 import net.blwsmartware.tcourse.constant.PredefinedRole;
+import net.blwsmartware.tcourse.entity.AppSetting;
 import net.blwsmartware.tcourse.entity.Category;
 import net.blwsmartware.tcourse.entity.Role;
 import net.blwsmartware.tcourse.entity.User;
+import net.blwsmartware.tcourse.repository.AppSettingRepository;
 import net.blwsmartware.tcourse.repository.CategoryRepository;
 import net.blwsmartware.tcourse.repository.RoleRepository;
 import net.blwsmartware.tcourse.repository.UserRepository;
@@ -48,12 +51,12 @@ public class InitialApplicationConfig {
 
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository ,
+                                        AppSettingRepository appSettingRepository,
                                         RoleRepository roleRepository ,
                                         CategoryRepository categoryRepository){
         log.info("********** Initializing application...");
 
         return args -> {
-            log.info("********** adminEmail ... {}", adminEmail);
             log.info("********** adminPassword ... {}", adminPassword);
             log.info("********** adminName ... {}", adminName);
             log.info("********** username ... {}", username);
@@ -91,6 +94,7 @@ public class InitialApplicationConfig {
             }
             log.info("********** Application initialization completed before...");
             log.info("********** Categories adding...");
+
             if(categoryRepository.findByDescription(CategoryDefault.DEFAULT).isEmpty()) {
                 Category first = Category.builder().name("Tài chính").description(CategoryDefault.DEFAULT).build();
                 Category twice = Category.builder().name("Công nghệ").description(CategoryDefault.DEFAULT).build();
@@ -100,8 +104,7 @@ public class InitialApplicationConfig {
                 categoryRepository.saveAll(list);
             }
             log.info("********** Categories completed...");
-
-        };
+                  };
     }
 
 

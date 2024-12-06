@@ -14,9 +14,8 @@ import net.blwsmartware.tcourse.enums.ErrorResponse;
 import net.blwsmartware.tcourse.exception.AppRuntimeException;
 import net.blwsmartware.tcourse.mapper.PostMapper;
 import net.blwsmartware.tcourse.mapper.UserMapper;
-import net.blwsmartware.tcourse.repository.CardRepository;
-import net.blwsmartware.tcourse.repository.RoleRepository;
-import net.blwsmartware.tcourse.repository.UserRepository;
+import net.blwsmartware.tcourse.repository.*;
+import net.blwsmartware.tcourse.service.InvoiceService;
 import net.blwsmartware.tcourse.service.StorageService;
 import net.blwsmartware.tcourse.service.UserService;
 import net.blwsmartware.tcourse.util.DataResponseUtils;
@@ -229,9 +228,12 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void deleteUser(long id) {
+        User old = userRepository.findById(id)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
         userRepository.deleteById(id);
     }
-
+    InvoiceRepository invoiceRepository;
+    InvoiceDetailRepository invoiceDetailRepository;
     @Override
     public boolean existEmail(String email) {
         return userRepository.existsByEmail(email);

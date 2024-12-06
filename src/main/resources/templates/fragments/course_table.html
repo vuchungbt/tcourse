@@ -13,7 +13,7 @@
                 <th>ID</th>
                 <th>Tên</th>
                 <th>Giá</th>
-                <th>Khuyến mãi</th>
+                <th>Khuyến mãi(%)</th>
                 <th>Người tạo</th>
                 <th>Thời gian</th>
             </tr>
@@ -25,8 +25,8 @@
                 <td th:text="${post.name}"></td>
                 <td> <span  th:text="${post.price}" class="num"></span></td>
                 <td> <span  th:text="${post.discount}" class="num"></span></td>
-                <td> <span  th:text="${post.created.name}" class="num"></span></td>
-                <td> <span  th:text="${post.createAt}" class="num"></span></td>
+                <td> <span  th:text="${post.created_by}" class="num"></span></td>
+                <td> <span  th:text="${post.createAt}" class="timestamps"></span></td>
 
 <!--                <td>-->
 <!--                    <a href="#" class="mx-2 text-danger text-decoration-none"-->
