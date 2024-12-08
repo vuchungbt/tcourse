@@ -42,6 +42,14 @@ public class CourseUploadController {
     SectionService sectionService;
     ItemService itemService;
     CommentService commentService;
+    PostService postService;
+
+    @PostMapping("/post/delete/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return ResponseEntity.ok("Post deleted successfully");
+    }
+
 
     @PostMapping("/course/upload-videos")
     public ResponseEntity<?> uploadVideos(HttpServletRequest request)   {

@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import net.blwsmartware.tcourse.dto.request.comment.CommentRequest;
 import net.blwsmartware.tcourse.dto.request.post.PostRequest;
+import net.blwsmartware.tcourse.dto.request.post.PostUpdateRequest;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.entity.ImageStorage;
 import net.blwsmartware.tcourse.service.CommentService;
@@ -44,9 +45,7 @@ public class PostController {
     @PostMapping("/post/update/{id}")
     public String update(
             Authentication authentication,
-            @Valid @ModelAttribute PostRequest postRequest,
-            @RequestParam("thumbnail_p") MultipartFile thumbnail,
-            @RequestParam("coverPhoto_p") MultipartFile coverPhoto,
+            @Valid @ModelAttribute PostUpdateRequest request,
             BindingResult bindingResult,
             @PathVariable String id,
             Model model ) throws IOException {
@@ -56,23 +55,10 @@ public class PostController {
             return "create-step1-post";
         }
 
-        if(!thumbnail.isEmpty()) {
-            ImageStorage avatar1 = storageService.saveToStorage(thumbnail);
-            postRequest.setThumbnail(avatar1.getId() + "");
-        }
-
-        if(!coverPhoto.isEmpty()) {
-            ImageStorage avatar2 = storageService.saveToStorage(coverPhoto);
-            postRequest.setCoverPhoto(avatar2.getId() + "");
-        }
-        if(authentication!=null) {
-            String username = authentication.getName();
-            postRequest.setCreated_by(username);
-        }
-
-        PostResponse post = postService.createPost(postRequest);
+        PostResponse post = postService.updatePost(Long.parseLong(id),request);
         model.addAttribute("post", post);
-        return "create-step2-post";
+        model.addAttribute("success", "Cập nhật thành công.");
+        return "update-step2-post";
     }
 
     @PostMapping("/post")

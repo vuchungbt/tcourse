@@ -37,6 +37,7 @@ import java.util.Set;
 public class UserServiceImp implements UserService {
 
     UserRepository userRepository;
+    PostRepository postRepository;
     RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
@@ -162,6 +163,17 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserResponse updateRoleAndActive(long id, UserRoleRequest request) {
+        User old = userRepository.findById(id)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
+        var roles = roleRepository.findAllByNameIn(request.getRoles());
+        Set<Role> roleSet = new HashSet<>(roles);
+        old.setRoles(roleSet);
+        old.setActive(request.isActive());
+        return userMapper.toUserResponse(userRepository.save(old));
+    }
+
+    @Override
     @Transactional
     public UserResponse updateUsernameEmail(long id, UsernameOrEmailUserUpdate request) {
         User old = userRepository.findById(id)
@@ -219,6 +231,14 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserResponse deleteCard(long id, long cardId) {
+        User old = userRepository.findById(id)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
+        old.getCards().removeIf(card -> card.getId() == cardId);
+        return userMapper.toUserResponse(userRepository.save(old));
+    }
+
+    @Override
     public UserResponse disableUser(long id, ActiveUserUpdate request) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
@@ -230,7 +250,8 @@ public class UserServiceImp implements UserService {
     public void deleteUser(long id) {
         User old = userRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.USER_NOT_FOUND));
-        userRepository.deleteById(id);
+        postRepository.findByCreatedId(old.getId()).forEach(postRepository::delete);
+        userRepository.delete(old);
     }
     InvoiceRepository invoiceRepository;
     InvoiceDetailRepository invoiceDetailRepository;

@@ -49,7 +49,7 @@
 
             </div>
             <div class="card-footer text-center py-2">
-              <a class="btn btn-link text-secondary btn-sm" href="#!">View Profile </a>
+              <a class="btn btn-link text-secondary btn-sm" th:href="@{/profile}">View Profile </a>
             </div>
           </div>
           <!-- Card END -->
@@ -326,15 +326,20 @@
               <ul class="list-group list-group-flush">
 
                 <li class="list-group-item d-flex justify-content-between align-items-center px-0"
-                    th:each="card :${ user.cards }">
-                    <div class="me-2">
-                      <h6 class="mb-0 num" th:text="${card.number}"> </h6>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" role="switch" id="msgSwitchCheckChecked5"
-                             th:checked="${card.isDefault}">
-                    </div>
+                    th:each="card, iterStat : ${user.cards}">
+                  <!-- Chứa ảnh và số thẻ trên cùng hàng ngang -->
+                  <div class="d-flex align-items-center">
+                    <img src="/img/visa.jpg" height="32px" class="img me-2">
+                    <h6 class="mb-0 num" th:text="${card.number}"></h6>
+                  </div>
+                  <!-- Công tắc chuyển đổi -->
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="msgSwitchCheckChecked5"
+                           th:checked="${iterStat.index == 0} ? 'true' : 'false'">
+                    <a th:href="@{'/profile/setting/card?id=' + ${card.id}}" > <i class="bi bi-x-lg"></i></a>
+                  </div>
                 </li>
+
 
               </ul>
 

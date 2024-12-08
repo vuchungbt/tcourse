@@ -42,6 +42,7 @@
             </div>
             <div class="text-center">
               <h5 class="fs-5 mb-0 fw-semibold" th:text="${user.name}"></h5>
+              <h6 class="fs-5 mb-0 fw-semibold text-muted" th:text="${user.title}"></h6>
             </div>
           </div>
         </div>
@@ -169,17 +170,21 @@ backgroundInput.addEventListener('change', (e) => {
   </div>
   <div class="pt-4">
     <a th:href="@{/profile/post}" class="btn btn-primary">Đăng bán khóa học</a>
-    <a type="button" class="btn btn-secondary">Khóa học đã đăng tải</a>
-    <a type="button" class="btn btn-secondary">Khóa học đã mua</a>
+    <a th:href="@{/profile?m=sale}"   class="btn btn-secondary">Khóa học đã đăng tải</a>
+    <a th:href="@{/profile?m=buy}"   class="btn btn-secondary">Khóa học đã mua</a>
   </div>
 
   <!--All-->
-  <div th:replace="~{fragments/post-edit-button :: list_post_all}"></div>
-
-
-  <div th:replace="~{fragments/post-buy :: list_post_all}"></div>
-
-
+  <div  th:if="${m=='sale'}">
+    <div th:replace="~{fragments/post-edit-button :: list_post_all}"></div>
+  </div>
+  <div  th:if="${m=='buy'}">
+    <div   th:replace="~{fragments/post-buy :: list_post_all}"></div>
+  </div>
+  <div  th:if="${m=='ALL'}">
+    <div th:replace="~{fragments/post-edit-button :: list_post_all}"></div>
+    <div   th:replace="~{fragments/post-buy :: list_post_all}"></div>
+  </div>
 </div>
 
 

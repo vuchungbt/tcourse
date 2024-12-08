@@ -46,27 +46,28 @@ public class Post {
     int status ;
 
     @ManyToOne
+    @JoinColumn(name = "created_id", nullable = false)
     User created;
 
-    @ManyToMany
-    Set<Tag> tag ;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Comment> comments;
 
-    @ManyToMany
-    Set<Category> categories ;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Section> sections;
 
-    @OneToMany
-    List<Comment> comments ;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Skill> skills;
 
-    @OneToMany
-    List<Section> sections ;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Discount> discounts;
 
-    @OneToMany
-    Set<Skill> skills ;
-
-    @OneToMany
-    Set<Discount> discounts ;
-
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Vote> votes;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    Set<Tag> tag;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    Set<Category> categories;
 
 }

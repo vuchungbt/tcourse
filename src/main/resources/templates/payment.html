@@ -43,15 +43,21 @@
                     <label class="form-check-label" for="paymentOnline">Thanh toán online</label>
                 </div>
                 <div class="form-check">
-                    <ul class="list-group">
-                        <li class="list-group-item active" aria-current="true">
+                    <ul class="list-group" th:if="${user != null }">
+                        <li th:each="card, iterStat : ${user.cards}"
+                            th:classappend="${iterStat.index == 0} ? 'active'"
+                            class="list-group-item"
+                            th:aria-current="${iterStat.index == 0} ? 'true'">
                             <img src="/img/visa.jpg" height="32px" class="img">
-                            <i class="bi bi-check-circle mx-1"></i> 123132 123131 23132
+                            <i class="bi bi-check-circle mx-1"></i>
+                            <span th:text="${card.number}">123132 123131 23132</span>
                         </li>
-                        <li class="list-group-item" >
-                            <a class="btn btn-secondary" href="/login">Thêm thẻ</a>
+                        <li class="list-group-item" th:if="${user.cards == null || user.cards.size() == 0}">
+                            <a class="btn btn-secondary" th:href="@{/profile/setting}">Thêm thẻ</a>
                         </li>
                     </ul>
+
+
                     <div>
                     </div>
 
@@ -111,8 +117,12 @@
         .then(data => {
             console.log('Phản hồi từ server:', data);
             if (data.success === false) {
-                alert('Đăng nhập trước!');
-                window.location.href = '/login';
+                if (data.login === false) {
+                  alert('Đăng nhập trước!');
+                  window.location.href = '/login';
+                } else {
+                  alert('Vui lòng thêm thẻ thanh toán!');
+                }
             } else {
                 console.log('Thao tác thành công!');
                 alert('Thanh toán thành công!');

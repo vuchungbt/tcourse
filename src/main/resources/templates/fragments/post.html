@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <a th:href="@{'/home/p/' +${post.id}}">
                         <h5 class="card-title" th:text="${post.name}"></h5>
-                        <p class="card-text" th:text="${post.content}">Mô tả ngắn gọn về sản phẩm 1.</p>
+                        <p class="card-text content-full" th:text="${post.description}">Mô tả ngắn gọn về sản phẩm 1.</p>
                     </a>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
@@ -45,6 +45,18 @@
                 </div>
             </div>
         </div>
+        <script>
+
+            const contentFullElements = document.querySelectorAll('.content-full');
+
+            contentFullElements.forEach(element => {
+                const fullText = element.textContent.trim(); // Lấy nội dung
+                if (fullText.length > 100) {
+                    const truncatedText = fullText.substring(0, 100) + '...';
+                    element.textContent = truncatedText;
+                }
+            });
+        </script>
     </div>
     <!-- Nếu không có bài viết -->
     <div th:if="${list_post_all.totalElements == 0}" class="alert alert-warning text-center mt-4">

@@ -22,6 +22,7 @@ import java.util.Map;
 public class PaymentController {
 
     InvoiceService invoiceService;
+    UserService userService;
     @PostMapping("/home/buy")
     public  ResponseEntity<?> createComment(@Valid @RequestBody InvoiceRequest invoiceRequest,
                                 Model model ,
@@ -31,11 +32,19 @@ public class PaymentController {
             return ResponseEntity.ok()
                     .body(Map.of(
                             "success", false,
+                            "login",false,
                             "message", "Please login"
                     ));
         }
         String username = authentication.getName();
-
+        if(userService.getUserByUsername(username).getCards().isEmpty() ) {
+            return ResponseEntity.ok()
+                    .body(Map.of(
+                            "success", false,
+                            "card" , 0 ,
+                            "message", "Bạn chưa thêm thẻ thanh toán"
+                    ));
+        }
         invoiceRequest.setCreateBy(username);
 
         invoiceService.addInvoice(invoiceRequest);

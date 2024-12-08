@@ -64,10 +64,10 @@ public class User {
     @ManyToMany
     Set<Role> roles;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Card> cards;
 
-    @OneToMany(mappedBy = "created")
+    @OneToMany(mappedBy = "created", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Invoice> invoices;
 
 }

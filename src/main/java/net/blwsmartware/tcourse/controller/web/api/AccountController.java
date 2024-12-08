@@ -7,11 +7,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import net.blwsmartware.tcourse.dto.request.account.*;
+import net.blwsmartware.tcourse.dto.request.post.CategoryUpdate;
 import net.blwsmartware.tcourse.dto.request.post.PostRequest;
+import net.blwsmartware.tcourse.dto.response.post.CategoryResponse;
 import net.blwsmartware.tcourse.dto.response.user.UserResponse;
+import net.blwsmartware.tcourse.entity.Category;
 import net.blwsmartware.tcourse.exception.AppRuntimeException;
+import net.blwsmartware.tcourse.service.CategoryService;
 import net.blwsmartware.tcourse.service.RoleService;
 import net.blwsmartware.tcourse.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
@@ -31,10 +36,48 @@ import java.util.Set;
 public class AccountController {
 
     UserService userService;
+    CategoryService categoryService;
+
+    @PostMapping("/users/r/{id}")
+    public ResponseEntity<?> updateUser(
+            @PathVariable Long id,
+            @RequestBody @Valid UserRoleRequest request) {
+        try {
+            userService.updateRoleAndActive(id, request);
+            return ResponseEntity.ok("User updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error updating user");
+        }
+    }
+
 
     @GetMapping("/users/{id}" )
     public UserResponse info(@PathVariable long id){
         return userService.getUserByID(id);
+    }
+    @GetMapping("/category/{id}" )
+    public CategoryResponse category(@PathVariable long id){
+        return categoryService.getCategoryByID(id);
+    }
+    @PutMapping("/category/update/{id}" )
+    public ResponseEntity<?> updateCategory(@Valid @RequestBody CategoryUpdate cate, BindingResult result, Model model ,
+                                            @PathVariable long id,
+                                            @RequestHeader(value = "Referer", required = false) String referer) {
+        try {
+            categoryService.updateCategory(id, cate);
+
+            return ResponseEntity.ok()
+                    .body(Map.of(
+                            "success", true,
+                            "message", "Cate updated successfully"
+                    ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of(
+                            "success", false,
+                            "message", e.getMessage()
+                    ));
+        }
     }
 
     @PostMapping("/users/update/{id}" )

@@ -13,6 +13,7 @@ import net.blwsmartware.tcourse.dto.response.user.UserResponse;
 import net.blwsmartware.tcourse.entity.Card;
 import net.blwsmartware.tcourse.entity.Discount;
 import net.blwsmartware.tcourse.entity.Vote;
+import net.blwsmartware.tcourse.service.CardService;
 import net.blwsmartware.tcourse.service.InvoiceService;
 import net.blwsmartware.tcourse.service.PostService;
 import net.blwsmartware.tcourse.service.UserService;
@@ -33,6 +34,7 @@ public class ProfileController {
 
     PostService postService;
     UserService userService;
+    CardService cardService;
 
     @GetMapping
     public String profile(Authentication authentication, Model model,
@@ -40,6 +42,7 @@ public class ProfileController {
                           @RequestParam(value = "page", defaultValue = "12", required = false) Integer pageSize,
                           @RequestParam(value = "c", defaultValue = "0", required = false) long category,
                           @RequestParam(value = "sortBy",defaultValue = PagePrepare.SORT_BY, required = false) String sortBy,
+                          @RequestParam(value = "m",defaultValue = "ALL", required = false) String m,
                           @RequestParam(value = "v", defaultValue = "", required = false) String pn,
                           @RequestHeader(value = "Referer", required = false) String referer){
 
@@ -102,9 +105,12 @@ public class ProfileController {
 
             model.addAttribute("c_buy",  buy.size());
             model.addAttribute("c_sale",  list.getContent().size());
+            log.info("-----------m:{}", m);
+            model.addAttribute("m",  m);
 
         return "profile";
     }
+
 
     @GetMapping("/post")
     public String post(Authentication authentication, Model model){
@@ -130,6 +136,20 @@ public class ProfileController {
             model.addAttribute("user", userService.getUserByUsername(username));
         }
         return "setting-profile";
+    }
+    @GetMapping("/setting/card")
+    public String deleteCard(Authentication authentication,
+                             @RequestParam("id") long id,
+                             Model model ){
+        if(authentication!=null) {
+            String username = authentication.getName();
+            UserResponse u = userService.getUserByUsername(username);
+            userService.deleteCard(u.getId(),id);
+            cardService.delete(id);
+            model.addAttribute("username", username);
+            model.addAttribute("user",u );
+        }
+        return "redirect:/profile/setting";
     }
     @PostMapping("/add-card")
     public String addCard(@ModelAttribute Card card,

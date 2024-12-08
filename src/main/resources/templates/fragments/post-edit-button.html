@@ -13,14 +13,20 @@
                           th:if="${discount.def && discount.percent>0}" th:text="${discount.percent +'%'}">
                     </div>
                 </div>
+
+                <button th:onclick="'deletePost(' + ${post.id} + ')'"
+                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 me-5">
+                    <i class="bi bi-trash"></i>
+                </button>
                 <a th:href="@{'/post/update/'+${post.id}}" class="btn btn-primary btn-sm position-absolute top-0 end-0 m-2">
                     <i class="bi bi-pencil-square"></i>
                 </a>
+
                 <img th:src="@{'/image/' + ${post.thumbnail}}" class="card-img-top" height="200px" alt="Product 1">
                 <div class="card-body">
                     <a th:href="@{'/home/p/' +${post.id}}">
                         <h5 class="card-title" th:text="${post.name}"></h5>
-                        <p class="card-text" th:text="${post.content}">Mô tả ngắn gọn về sản phẩm 1.</p>
+                        <p class="card-text content-full" th:text="${post.description}">Mô tả ngắn gọn về sản phẩm 1.</p>
                     </a>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
@@ -35,6 +41,36 @@
                 </div>
             </div>
         </div>
+        <script>
+
+            const contentFullElements = document.querySelectorAll('.content-full');
+
+            contentFullElements.forEach(element => {
+                const fullText = element.textContent.trim(); // Lấy nội dung
+                if (fullText.length > 100) {
+                    const truncatedText = fullText.substring(0, 100) + '...';
+                    element.textContent = truncatedText;
+                }
+            });
+            function deletePost(postId) {
+                alert("Bài viết nếu đã được người khác mua thì không được xóa !");
+                if (confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
+                    fetch(`/api/post/delete/${postId}`, {
+                        method: 'POST'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Xóa bài viết thành công!");
+                            location.reload();
+                        } else {
+                            alert("Xóa bài viết thất bại!");
+                        }
+                    })
+                    .catch(error => console.error('Lỗi:', error));
+                }
+            }
+
+        </script>
     </div>
     <!-- Nếu không có bài viết -->
     <div th:if="${list_post_all.totalElements == 0}" class="alert alert-warning text-center mt-4">

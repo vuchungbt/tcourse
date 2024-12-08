@@ -2,6 +2,7 @@ package net.blwsmartware.tcourse.repository;
 
 import net.blwsmartware.tcourse.entity.Category;
 import net.blwsmartware.tcourse.entity.Post;
+import net.blwsmartware.tcourse.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "LOWER(p.content) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Post> searchPosts(@Param("keyword") String keyword , Pageable pageable);
+    void deleteAllByCreatedId(Long created);
 }

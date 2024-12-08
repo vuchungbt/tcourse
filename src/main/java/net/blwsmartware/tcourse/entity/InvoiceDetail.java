@@ -22,9 +22,9 @@ public class InvoiceDetail {
 
     @ManyToOne
     @JoinColumn(name = "invoice_id")
-    private Invoice invoice;
+    Invoice invoice;
 
     @ManyToOne
     @JoinColumn(name = "item_id")
-    private Post item;
+    Post item;
 }

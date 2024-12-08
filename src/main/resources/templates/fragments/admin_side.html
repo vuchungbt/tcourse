@@ -70,10 +70,15 @@
 <!--          Lượt bán-->
 <!--          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>-->
 <!--        </a>-->
+        <a class="nav-link" th:href="@{/admin/cate?bc=ALL}"
+           th:classappend="${param.bc != null ? ' active' : ''}">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
+          Danh mục</a>
         <a class="nav-link" th:href="@{/admin/course?c=ALL}"
            th:classappend="${param.c != null ? ' active' : ''}">
           <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>
           Khóa học</a>
+
 
         <a class="nav-link" th:href="@{/admin/invoice}"
            th:classappend="${param.i != null ? ' active' : ''}">
@@ -81,7 +86,7 @@
           Đã bán</a>
 
         <div class="sb-sidenav-menu-heading">Thêm...</div>
-        <a class="nav-link" th:href="@{/admin/set}">
+        <a class="nav-link" th:href="@{/admin/info}">
           <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
           Cài đặt
         </a>

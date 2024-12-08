@@ -17,7 +17,7 @@
 <div class="container">
 
   <div class="card card-6 mb-2" style="background:white !important;">
-     <form th:action="@{'/post/update/'+post.id}" method="post" enctype="multipart/form-data">
+     <form th:action="@{'/post/update/'+${post.id}}" method="post" enctype="multipart/form-data">
     <div class="card-heading m-2">
       <h2 class="title">Cập nhật thông tin khóa học</h2>
     </div>
@@ -61,7 +61,7 @@
           <div class="col-md-8">
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Giới thiệu</label>
-              <textarea class="form-control" name="content" th:value="${post.content}" required id="exampleFormControlTextarea1" style="height: 264px;" maxlength="1000"></textarea>
+              <textarea class="form-control" name="content" th:value="${post.content}" th:text="${post.content}" required id="exampleFormControlTextarea1" style="height: 264px;" maxlength="1000"></textarea>
             </div>
           </div>
 

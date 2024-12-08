@@ -3,23 +3,24 @@
         <div class="row my-2">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 th:text="${list_teacher.name}">Phổ biến</h4>
-                <a type="button" class="btn btn-sm btn-outline-info" th:href="@{/home/all}" >Tất cả</a>
             </div>
         </div>
-    <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
-        <div th:if="${list_teacher.totalElements > 0}" class="col">
-            <div th:each="teacher : ${list_teacher.content}" class="col">
-                <div class="card h-100 text-center position-relative pt-1">
-                    <img th:src="@{'/image/' + ${teacher.avatar}}"   class="container-fluid card-img-top  rounded-circle w-75"
-                         alt="Teacher">
-                    <div class="card-body">
-<!--                        <a th:href="@{'/profile?v='+ teacher.username}"-->
-                        <h5 class="card-title" th:text="${teacher.name}"> </h5>
-                        <p class="card-text" th:text="${teacher.title}"></p>
+        <div th:if="${list_teacher.totalElements > 0}" >
+            <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+
+                <div th:each="teacher : ${list_teacher.content}" class="col" >
+                    <div class="card h-100 text-center position-relative pt-1">
+                        <img th:src="@{'/image/' + ${teacher.avatar}}"   class="container-fluid card-img-top  rounded-circle w-75"
+                             alt="Teacher">
+                        <div class="card-body">
+    <!--                        <a th:href="@{'/profile?v='+ teacher.username}"-->
+                            <h5 class="card-title" th:text="${teacher.name}"> </h5>
+                            <p class="card-text content-full" th:text="${teacher.title}"></p>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
-    </div>
 </div>

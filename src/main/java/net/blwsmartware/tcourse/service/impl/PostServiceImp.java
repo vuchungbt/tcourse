@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import net.blwsmartware.tcourse.dto.request.post.PostRequest;
 import net.blwsmartware.tcourse.dto.request.post.PostUpdate;
+import net.blwsmartware.tcourse.dto.request.post.PostUpdateRequest;
 import net.blwsmartware.tcourse.dto.request.post.PostUpdateSection;
 import net.blwsmartware.tcourse.dto.response.DataResponse;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
@@ -112,6 +113,18 @@ public class PostServiceImp implements PostService {
         Post old = postRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.POST_NOT_FOUND));
         postMapper.updatePost(update,old);
+        return postMapper.toPostResponse(postRepository.save(old));
+    }
+
+    @Override
+    public PostResponse updatePost(long id, PostUpdateRequest request) {
+        Post old = postRepository.findById(id)
+                .orElseThrow(() -> new AppRuntimeException(ErrorResponse.POST_NOT_FOUND));
+        Set<Skill> skills = request.getSkills().stream()
+                .map(name -> skillRepository.save(Skill.builder().name(name).build()))
+                .collect(Collectors.toSet());
+        postMapper.updatePostRequest(request,old);
+        old.setSkills(skills);
         return postMapper.toPostResponse(postRepository.save(old));
     }
 

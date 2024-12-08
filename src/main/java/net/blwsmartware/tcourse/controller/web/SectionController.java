@@ -43,10 +43,10 @@ public class SectionController {
                              @RequestParam("post_id") long post_id
                              ) {
 
-        Set<Tag> tagSet= new java.util.HashSet<>( );
+
         Set<Section> sectionSet = new java.util.HashSet<>( );
         Set<Category> categories = new java.util.HashSet<>( );
-
+        Set<Tag> tagSet= new java.util.HashSet<>( );
         tags = tags.replace(" ",",");
         String[] tagArray = tags.split(",");
 
