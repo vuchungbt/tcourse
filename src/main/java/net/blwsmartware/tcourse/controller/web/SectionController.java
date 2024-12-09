@@ -8,9 +8,7 @@ import net.blwsmartware.tcourse.dto.request.post.PostUpdateSection;
 import net.blwsmartware.tcourse.dto.request.post.SectionForm;
 import net.blwsmartware.tcourse.dto.response.post.PostResponse;
 import net.blwsmartware.tcourse.entity.Category;
-import net.blwsmartware.tcourse.entity.Post;
 import net.blwsmartware.tcourse.entity.Section;
-import net.blwsmartware.tcourse.entity.Tag;
 import net.blwsmartware.tcourse.mapper.CategoryMapper;
 import net.blwsmartware.tcourse.service.*;
 import org.springframework.security.core.Authentication;
@@ -30,7 +28,6 @@ public class SectionController {
 
     PostService postService;
     UserService userService;
-    TagService tagService ;
     SectionService sectionService ;
     CategoryService categoryService ;
     CategoryMapper categoryMapper ;
@@ -38,7 +35,6 @@ public class SectionController {
     @PostMapping("/section")
     public String addSection(@ModelAttribute SectionForm form ,
                              Authentication authentication, Model model,
-                             @RequestParam("tags") String tags ,
                              @RequestParam("category") long category,
                              @RequestParam("post_id") long post_id
                              ) {
@@ -46,14 +42,7 @@ public class SectionController {
 
         Set<Section> sectionSet = new java.util.HashSet<>( );
         Set<Category> categories = new java.util.HashSet<>( );
-        Set<Tag> tagSet= new java.util.HashSet<>( );
-        tags = tags.replace(" ",",");
-        String[] tagArray = tags.split(",");
 
-        for (String tag : tagArray) {
-            System.out.println("---------Thẻ tag: " + tag);
-            tagSet.add(tagService.create(tag));
-        }
         if(form!=null && !form.getComponents().isEmpty()) {
             form.getComponents().forEach(component -> {
                 sectionSet.add(sectionService.create(component));
@@ -63,7 +52,6 @@ public class SectionController {
         PostUpdateSection postUpdateSection = PostUpdateSection.builder()
                 .sections(sectionSet)
                 .categories(categories)
-                .tags(tagSet)
                 .build();
 
         PostResponse postResponse =  postService.updatePostSection(post_id,postUpdateSection);

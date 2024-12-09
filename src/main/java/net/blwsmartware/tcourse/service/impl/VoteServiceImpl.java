@@ -6,16 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import net.blwsmartware.tcourse.entity.Post;
-import net.blwsmartware.tcourse.entity.Tag;
 import net.blwsmartware.tcourse.entity.User;
 import net.blwsmartware.tcourse.entity.Vote;
 import net.blwsmartware.tcourse.enums.ErrorResponse;
 import net.blwsmartware.tcourse.exception.AppRuntimeException;
 import net.blwsmartware.tcourse.repository.PostRepository;
-import net.blwsmartware.tcourse.repository.TagRepository;
 import net.blwsmartware.tcourse.repository.UserRepository;
 import net.blwsmartware.tcourse.repository.VoteRepository;
-import net.blwsmartware.tcourse.service.TagService;
 import net.blwsmartware.tcourse.service.VoteService;
 import org.springframework.stereotype.Service;
 

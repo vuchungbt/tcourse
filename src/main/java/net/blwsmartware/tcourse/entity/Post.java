@@ -7,7 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -63,9 +62,6 @@ public class Post {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Vote> votes;
-
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    Set<Tag> tag;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     Set<Category> categories;

@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 import net.blwsmartware.tcourse.entity.Category;
 import net.blwsmartware.tcourse.entity.Section;
 import net.blwsmartware.tcourse.entity.Skill;
-import net.blwsmartware.tcourse.entity.Tag;
 
 import java.time.Instant;
 import java.util.Set;
@@ -18,6 +17,6 @@ import java.util.Set;
 public class PostUpdateSection {
 
     Set<Section> sections ;
-    Set<Tag> tags ;
+
     Set<Category> categories ;
 }

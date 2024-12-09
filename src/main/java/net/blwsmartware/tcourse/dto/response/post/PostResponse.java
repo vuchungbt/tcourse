@@ -28,7 +28,6 @@ public class PostResponse {
     int status;
     Set<Skill> skills ;
     List<Section> sections ;
-    Set<Tag> tags ;
     Set<Category> categories ;
     List<Comment> comments ;
     Set<Discount> discounts ;
