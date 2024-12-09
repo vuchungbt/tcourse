@@ -70,7 +70,7 @@ public class PostController {
            BindingResult bindingResult,
            Model model ) throws IOException {
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || postRequest.getDiscount()>100 || postRequest.getDiscount() <0) {
             model.addAttribute("error", "Vui lòng kiểm tra thông tin nhập vào.");
             return "create-step1-post";
         }

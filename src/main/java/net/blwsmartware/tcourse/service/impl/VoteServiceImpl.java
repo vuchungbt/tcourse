@@ -45,7 +45,9 @@ public class VoteServiceImpl implements VoteService {
 
         Optional<Vote> existingVote = voteRepository.findByPostIdAndUser(postId, user);
         if (existingVote.isPresent()) {
-            throw new IllegalStateException("Bạn đã vote bài viết này rồi");
+            Vote v = existingVote.get();
+            v.setStars(stars);
+            return voteRepository.save(v);
         }
         Vote vote = Vote.builder()
                 .stars(stars)
