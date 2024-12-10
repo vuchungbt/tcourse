@@ -120,11 +120,14 @@ public class PostServiceImp implements PostService {
     public PostResponse updatePost(long id, PostUpdateRequest request) {
         Post old = postRepository.findById(id)
                 .orElseThrow(() -> new AppRuntimeException(ErrorResponse.POST_NOT_FOUND));
+
         Set<Skill> skills = request.getSkills().stream()
                 .map(name -> skillRepository.save(Skill.builder().name(name).build()))
                 .collect(Collectors.toSet());
+        old.getSkills().clear();
         postMapper.updatePostRequest(request,old);
-        old.setSkills(skills);
+
+        old.getSkills().addAll(skills);
         return postMapper.toPostResponse(postRepository.save(old));
     }
 

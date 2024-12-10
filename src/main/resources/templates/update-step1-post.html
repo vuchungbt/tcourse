@@ -20,6 +20,7 @@
      <form th:action="@{'/post/update/'+${post.id}}" method="post" enctype="multipart/form-data">
     <div class="card-heading m-2">
       <h2 class="title">Cập nhật thông tin khóa học</h2>
+      <p th:text="${message}" class="text-success" ></p>
     </div>
     <div class="card-body">
       <div class="row">
@@ -58,29 +59,18 @@
       <div class="mb-3">
         <div class="row">
           <!-- Cột bên trái -->
-          <div class="col-md-8">
+          <div class="col-md-12">
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Giới thiệu</label>
               <textarea class="form-control" name="content" th:value="${post.content}" th:text="${post.content}" required id="exampleFormControlTextarea1" style="height: 264px;" maxlength="1000"></textarea>
             </div>
           </div>
 
-          <!-- Cột bên phải -->
-          <div class="col-md-4">
-            <div class="mb-3">
-              <label for="input-file-now-custom-1" class="form-label" >Ảnh thumbnail</label>
-              <input type="file" name="thumbnail_p" data-default-file="/img/template1.jpg" id="input-file-now-custom-1" class="dropify dropify-vn"  data-max-height="500" data-height="250" />
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="mb-3">
-        <label for="input-file-now-custom-2" class="form-label">Ảnh nền</label>
-        <input type="file" id="input-file-now-custom-2" data-default-file="/img/template1.jpg"  name="coverPhoto_p" class="dropify dropify-vn" data-height="450" data-max-height="600" />
       </div>
     </div>
     <div class="card-footer">
-      <button type="submit" class="btn btn-primary mb-3 float-end">Tiếp theo</button>
+      <button type="submit" class="btn btn-primary mb-3 float-end">Xong</button>
     </div>
     </form>
   </div>

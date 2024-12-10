@@ -57,8 +57,8 @@ public class PostController {
 
         PostResponse post = postService.updatePost(Long.parseLong(id),request);
         model.addAttribute("post", post);
-        model.addAttribute("success", "Cập nhật thành công.");
-        return "update-step2-post";
+        model.addAttribute("message", "Cập nhật thành công.");
+        return "update-step1-post";
     }
 
     @PostMapping("/post")
